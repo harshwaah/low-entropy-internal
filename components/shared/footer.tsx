@@ -27,20 +27,20 @@ export function Footer() {
           <div>
             <h4 className="font-bold mb-4 text-brand-light">Product</h4>
             <ul className="space-y-3 text-sm text-brand-light/70 font-medium">
-              <li><Link href="#" className="hover:text-white transition-colors">Patient App</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Caregiver App</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Practitioner Dashboard</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Features</Link></li>
+              <li><Link href="/patient" className="hover:text-white transition-colors">Patient Companion</Link></li>
+              <li><Link href="/caregiver" className="hover:text-white transition-colors">Caregiver Portal</Link></li>
+              <li><Link href="/practitioner" className="hover:text-white transition-colors">Practitioner Dashboard</Link></li>
+              <li><Link href="/#features" className="hover:text-white transition-colors">Core Features</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="font-bold mb-4 text-brand-light">Company</h4>
             <ul className="space-y-3 text-sm text-brand-light/70 font-medium">
-              <li><Link href="#" className="hover:text-white transition-colors">About</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Our Mission</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Our Impact</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Contact</Link></li>
+              <li><Link href="/#about" className="hover:text-white transition-colors">About SmritiSaathi</Link></li>
+              <li><Link href="/#about" className="hover:text-white transition-colors">Our Mission</Link></li>
+              <li><Link href="/#impact" className="hover:text-white transition-colors">Our Impact</Link></li>
+              <li><Link href="/patient" className="hover:text-white transition-colors">Try Experience</Link></li>
             </ul>
           </div>
           

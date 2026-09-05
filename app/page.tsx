@@ -68,10 +68,12 @@ export default function RootHomePage() {
                 An AI-assisted daily companion for dementia patients, supporting memories, routines, well-being and stronger connections with loved ones.
               </p>
               <div className="pt-4 space-y-4">
-                <Button size="lg" className="rounded-full text-lg group">
-                  Choose Your Experience 
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <Link href="#personas" className="inline-block">
+                  <Button size="lg" className="rounded-full text-lg group h-14 px-8 shadow-md hover:scale-105 transition-all">
+                    Choose Your Experience 
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
                 <div className="flex items-center gap-2 text-brand-muted font-medium italic">
                   <Heart className="w-4 h-4 fill-brand-accent-orange text-brand-accent-orange" />
                   Different journeys. A happier tomorrow.
@@ -84,7 +86,9 @@ export default function RootHomePage() {
               <div className="relative w-full aspect-square max-w-lg mx-auto">
                 <Mascot 
                   size="xl" 
+                  state="happy"
                   showSpeechBubble={true} 
+                  speechPosition="top-right"
                   speechText={
                     <>
                       Hello!<br/>
@@ -94,11 +98,11 @@ export default function RootHomePage() {
                 />
                 
                 {/* Floating Pills */}
-                <div className="absolute top-10 right-0 space-y-3 flex flex-col items-end">
+                <div className="absolute top-10 right-0 space-y-3 flex flex-col items-end pointer-events-none">
                   {['Remember', 'Engage', 'Stay Active', 'Feel Connected'].map((text, i) => (
                     <div 
                       key={text} 
-                      className="bg-brand-accent-yellow/80 backdrop-blur-sm px-6 py-3 rounded-full text-brand-dark font-bold shadow-sm transform hover:scale-105 transition-transform"
+                      className="bg-brand-accent-yellow/90 backdrop-blur-sm px-6 py-3 rounded-full text-brand-dark font-bold shadow-sm"
                       style={{ transform: `translateX(${i * 10}px)` }}
                     >
                       {text}
@@ -118,73 +122,82 @@ export default function RootHomePage() {
         </section>
 
         {/* Personas Section */}
-        <section className="bg-brand-light-alt py-12 px-4 sm:px-6 lg:px-8">
+        <section id="personas" className="bg-brand-light-alt py-12 px-4 sm:px-6 lg:px-8 scroll-mt-20">
           <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-6 relative -mt-20">
             {/* Patient Card */}
-            <Card className="bg-brand-light border-none shadow-md hover:shadow-lg transition-shadow rounded-3xl overflow-hidden group">
-              <CardContent className="p-8 h-full flex flex-col justify-between">
-                <div>
-                  <div className="w-full flex justify-end mb-4">
-                    <div className="w-32 h-32 bg-white/50 rounded-full flex items-center justify-center">
-                      <ImagePlaceholder color="text-brand-primary" />
+            <Link href="/patient" className="block group focus:outline-none focus:ring-4 focus:ring-brand-primary/30 rounded-3xl">
+              <Card className="bg-brand-light border-2 border-transparent group-hover:border-brand-primary/40 shadow-md group-hover:shadow-xl transition-all rounded-3xl overflow-hidden h-full">
+                <CardContent className="p-8 h-full flex flex-col justify-between">
+                  <div>
+                    <div className="w-full flex justify-end mb-4">
+                      <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center p-3 shadow-inner group-hover:scale-110 transition-transform">
+                        <Mascot size="sm" state="happy" />
+                      </div>
+                    </div>
+                    <h3 className="text-3xl font-bold text-brand-dark mb-3 leading-tight">
+                      I&apos;m a<br/>Patient
+                    </h3>
+                    <p className="text-brand-muted font-medium text-lg">My companion for a brighter, happier day.</p>
+                  </div>
+                  <div className="mt-8 flex items-center justify-between">
+                    <span className="text-sm font-bold text-brand-primary group-hover:underline">Open Patient Experience</span>
+                    <div className="w-12 h-12 rounded-full bg-brand-dark flex items-center justify-center text-white group-hover:bg-brand-primary transition-colors shadow-sm">
+                      <ArrowRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
                     </div>
                   </div>
-                  <h3 className="text-3xl font-bold text-brand-dark mb-3 leading-tight">
-                    I&apos;m a<br/>Patient
-                  </h3>
-                  <p className="text-brand-muted font-medium text-lg">My companion for a brighter, happier day.</p>
-                </div>
-                <div className="mt-8 flex justify-end">
-                  <div className="w-12 h-12 rounded-full bg-brand-dark flex items-center justify-center text-white group-hover:bg-brand-primary transition-colors">
-                    <ArrowRight className="w-6 h-6" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </Link>
 
             {/* Caregiver Card */}
-            <Card className="bg-brand-accent-orange/20 border-none shadow-md hover:shadow-lg transition-shadow rounded-3xl overflow-hidden group">
-              <CardContent className="p-8 h-full flex flex-col justify-between">
-                <div>
-                  <div className="w-full flex justify-end mb-4">
-                    <div className="w-32 h-32 bg-white/50 rounded-full flex items-center justify-center">
-                       <ImagePlaceholder color="text-brand-accent-orange" />
+            <Link href="/caregiver" className="block group focus:outline-none focus:ring-4 focus:ring-brand-accent-orange/30 rounded-3xl">
+              <Card className="bg-[#FFF1EB] border-2 border-transparent group-hover:border-brand-accent-orange/40 shadow-md group-hover:shadow-xl transition-all rounded-3xl overflow-hidden h-full">
+                <CardContent className="p-8 h-full flex flex-col justify-between">
+                  <div>
+                    <div className="w-full flex justify-end mb-4">
+                      <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-brand-accent-orange shadow-inner group-hover:scale-110 transition-transform">
+                         <Heart className="w-12 h-12 fill-brand-accent-orange text-brand-accent-orange" />
+                      </div>
+                    </div>
+                    <h3 className="text-3xl font-bold text-brand-dark mb-3 leading-tight">
+                      I&apos;m a<br/>Caregiver
+                    </h3>
+                    <p className="text-brand-muted font-medium text-lg">Support, care and stay connected.</p>
+                  </div>
+                  <div className="mt-8 flex items-center justify-between">
+                    <span className="text-sm font-bold text-[#E07A5F] group-hover:underline">Open Caregiver Portal</span>
+                    <div className="w-12 h-12 rounded-full bg-brand-accent-orange flex items-center justify-center text-white group-hover:bg-[#E07A5F] transition-colors shadow-sm">
+                      <ArrowRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
                     </div>
                   </div>
-                  <h3 className="text-3xl font-bold text-brand-dark mb-3 leading-tight">
-                    I&apos;m a<br/>Caregiver
-                  </h3>
-                  <p className="text-brand-muted font-medium text-lg">Support, care and stay connected.</p>
-                </div>
-                <div className="mt-8 flex justify-end">
-                  <div className="w-12 h-12 rounded-full bg-brand-accent-orange flex items-center justify-center text-white group-hover:bg-brand-accent-orange/80 transition-colors">
-                    <ArrowRight className="w-6 h-6" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </Link>
 
             {/* Practitioner Card */}
-            <Card className="bg-brand-accent-blue border-none shadow-md hover:shadow-lg transition-shadow rounded-3xl overflow-hidden group">
-              <CardContent className="p-8 h-full flex flex-col justify-between">
-                <div>
-                  <div className="w-full flex justify-end mb-4">
-                    <div className="w-32 h-32 bg-white/50 rounded-full flex items-center justify-center">
-                       <ImagePlaceholder color="text-blue-500" />
+            <Link href="/practitioner" className="block group focus:outline-none focus:ring-4 focus:ring-blue-400/30 rounded-3xl">
+              <Card className="bg-brand-accent-blue border-2 border-transparent group-hover:border-blue-300 shadow-md group-hover:shadow-xl transition-all rounded-3xl overflow-hidden h-full">
+                <CardContent className="p-8 h-full flex flex-col justify-between">
+                  <div>
+                    <div className="w-full flex justify-end mb-4">
+                      <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-blue-500 shadow-inner group-hover:scale-110 transition-transform">
+                         <Activity className="w-12 h-12" />
+                      </div>
+                    </div>
+                    <h3 className="text-3xl font-bold text-brand-dark mb-3 leading-tight">
+                      Medical<br/>Practitioner
+                    </h3>
+                    <p className="text-brand-muted font-medium text-lg">Insights for better care.</p>
+                  </div>
+                  <div className="mt-8 flex items-center justify-between">
+                    <span className="text-sm font-bold text-blue-700 group-hover:underline">Open Clinical Dashboard</span>
+                    <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white group-hover:bg-blue-600 transition-colors shadow-sm">
+                      <ArrowRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
                     </div>
                   </div>
-                  <h3 className="text-3xl font-bold text-brand-dark mb-3 leading-tight">
-                    Medical<br/>Practitioner
-                  </h3>
-                  <p className="text-brand-muted font-medium text-lg">Insights for better care.</p>
-                </div>
-                <div className="mt-8 flex justify-end">
-                  <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white group-hover:bg-blue-600 transition-colors">
-                    <ArrowRight className="w-6 h-6" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </Link>
           </div>
         </section>
 
@@ -200,7 +213,7 @@ export default function RootHomePage() {
         </section>
 
         {/* Companion Section */}
-        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-brand-background relative">
+        <section id="about" className="py-24 px-4 sm:px-6 lg:px-8 bg-brand-background relative scroll-mt-20">
           <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
               <h2 className="text-4xl md:text-5xl font-extrabold text-brand-dark leading-tight">
@@ -210,9 +223,11 @@ export default function RootHomePage() {
               <p className="text-xl text-brand-muted leading-relaxed font-medium max-w-md">
                 SmritiSaathi brings together memories, meaningful activities and caring support to help people with dementia live fuller, brighter days.
               </p>
-              <Button size="lg" className="rounded-full text-lg">
-                Learn More <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
+              <Link href="/patient" className="inline-block">
+                <Button size="lg" className="rounded-full text-lg h-14 px-8 shadow-sm hover:scale-105 transition-all">
+                  Learn More <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </Link>
             </div>
             
             <div className="relative">
@@ -249,7 +264,7 @@ export default function RootHomePage() {
         </section>
 
         {/* How It Helps Section */}
-        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-brand-background text-center">
+        <section id="features" className="py-24 px-4 sm:px-6 lg:px-8 bg-brand-background text-center scroll-mt-20">
           <div className="max-w-7xl mx-auto space-y-16">
             <SectionHeader 
               badge="How It Helps"
@@ -297,7 +312,7 @@ export default function RootHomePage() {
                   <div className="bg-white rounded-full shadow-lg relative z-10">
                     <Mascot size="md" state="holding-heart" />
                   </div>
-                  <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-white px-4 py-2 rounded-full shadow-md z-20 font-bold text-brand-dark text-center leading-tight">
+                  <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-white px-4 py-2 rounded-full shadow-md z-20 font-bold text-brand-dark text-center leading-tight text-sm">
                     Care<br/>Connects<br/>Us <Heart className="inline w-3 h-3 fill-red-500 text-red-500" />
                   </div>
                </div>
@@ -317,7 +332,7 @@ export default function RootHomePage() {
         </section>
 
         {/* Impact Section */}
-        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-brand-background text-center">
+        <section id="impact" className="py-24 px-4 sm:px-6 lg:px-8 bg-brand-background text-center scroll-mt-20">
           <div className="max-w-5xl mx-auto space-y-16">
             <SectionHeader 
               badge="Our Impact"
@@ -341,6 +356,7 @@ export default function RootHomePage() {
                    size="lg" 
                    state="happy"
                    showSpeechBubble={true}
+                   speechPosition="top-right"
                    speechText={
                      <>Small steps<br/>towards a<br/>happier tomorrow <Heart className="inline w-3 h-3 fill-red-500 text-red-500" /></>
                    }
@@ -354,9 +370,11 @@ export default function RootHomePage() {
                  Join us in creating a more compassionate world for people with dementia and their loved ones.
               </p>
               
-              <Button size="lg" className="rounded-full text-lg group px-10">
-                 Get Started <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <Link href="/patient">
+                <Button size="lg" className="rounded-full text-lg group px-10 h-14 shadow-md hover:scale-105 transition-all">
+                   Get Started <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
            </div>
            
            {/* Decorative Floor SVG */}

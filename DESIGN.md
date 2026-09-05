@@ -62,12 +62,13 @@ SmritiSaathi features a central mascot: a cute, round, white ghost-like/sprout c
 Individuals with dementia experience sensory overload, visual agnosia, and spatial disorientation. The patient interface in SmritiSaathi is therefore engineered under strict cognitive guardrails:
 
 ### 5.1 Cognitive Load Reduction
-- **Single-Column Focus**: The patient interface is constrained to a mobile-first column (`max-w-md`). Multi-column layouts divide peripheral attention and increase anxiety.
+- **Focused Canvas**: The patient interface is constrained to a focused canvas (`max-w-2xl`) that scales comfortably on mobile and tablet without stretching infinitely.
+- **Bottom Navigation**: Primary navigation is firmly anchored at the bottom using a persistent `PatientBottomNav` with oversized, high-contrast touch targets.
 - **Orientation Anchoring**: Every patient view leads with an immutable orientation anchor:
+  - Mascot Welcome and encouragement ("Good Morning, Meera")
   - Time of day (e.g., "Saturday Morning")
   - Date and season
-  - Familiar location context ("At Home")
-- **Chunked Information**: Never display more than one decision-point or instruction at a time.
+- **Chunked Information**: Use highly distinct, large Preview Cards to chunk Daily Reminders, Memories, and Activities. Never display more than one major decision-point inside a card.
 
 ### 5.2 Errorless Learning & Zero Fail States
 - Traditional apps use validation errors, red warnings, and countdown timers. In dementia care, red banners and buzzer sounds induce agitation and catastrophizing.
@@ -84,9 +85,40 @@ Individuals with dementia experience sensory overload, visual agnosia, and spati
 
 ---
 
-## 6. Companion-First Experience
+## 6. Companion-First Experience & Motion Guidelines
 
 SmritiSaathi does not present itself as a medical surveillance tool or clinical test. It is framed as an empathetic, respectful companion:
 - **Non-Infantilizing Language**: Avoid baby talk or condescending prompts. Respect the patient's lived experience and life history.
-- **Preferred Nicknames**: Address the patient by their preferred family title (e.g., "Dad", "Kamal-ji", "Grandpa").
-- **Familiar Voices**: Wherever possible, AI voice prompts should be paired with pre-recorded audio snippets from actual family members.
+- **Preferred Nicknames**: Address the patient by their preferred family title (e.g., "Dad", "Meera-ji", "Grandpa").
+- **Calm, Breathing Motion (Anti-Hyperactivity)**:
+  - **Idle State**: Very subtle vertical floating (2-4px displacement, 6-8 second duration, smooth easing `animate-mascot-idle`). The motion mimics natural, calming diaphragmatic breathing.
+  - **Encouragement State**: Gentle pulse (`animate-mascot-encouraging`, 4.5s period) paired with soft sparkle accents.
+  - **Celebration State**: Soft, joyful tilt (`animate-mascot-celebrating`, 3.5s period) without aggressive bouncing or spinning.
+  - **Thinking State**: Subtle reflective sway (`animate-mascot-thinking`, 5.5s period) signaling contemplation.
+  - **Forbidden**: High-frequency bouncing, spinning, or rapid flashing that could trigger visual anxiety or disorientation.
+
+---
+
+## 7. Speech Bubble System & Positioning Standards
+
+To maintain emotional clarity and legibility without visual occlusion:
+- **Zero Facial Occlusion**: Speech bubbles must NEVER overlap the mascot's eyes, smile, or primary facial features.
+- **Directional Pointer Tails**: Every bubble includes a stylized pointer tail directly connecting the spoken dialogue to the companion.
+- **Responsive Layout**:
+  - `top-right` (Default): Sits above and to the right of the mascot container.
+  - `top-left`: Used when right boundary room is constrained.
+  - `top`: Centered above the character for wide screen banners.
+- **Typographic Comfort**: High-contrast dark text (`text-brand-dark`), rounded 24px-32px bubble borders, soft drop shadows, and maximum line length under 30 characters.
+
+---
+
+## 8. Mascot Usage & Cognitive Reduction Standards
+
+The mascot serves as an emotional anchor, not generic visual filler:
+- **Purposeful Contexts Only**:
+  1. **Welcome Moments**: Onboarding, daily orientation greetings.
+  2. **Encouragement & Reassurance**: Check-ins, medication acknowledgments.
+  3. **Celebrations**: Completing daily routines or finishing games.
+  4. **Memory Introductions**: Gentle framing before nostalgic storytelling.
+- **Avoid Over-Saturation**: Never place the mascot in every nested card or repetitive list item. One primary mascot presence per screen establishes calm focus.
+

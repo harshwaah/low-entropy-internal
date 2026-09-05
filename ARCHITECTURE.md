@@ -1,6 +1,6 @@
 # SmritiSaathi Architecture Specification
 
-**Document Version**: 1.0.0 (Hackathon Architecture Phase)  
+**Document Version**: 1.2.0 (Phase 3.1: Patient Experience Stabilization & Companion Polish)  
 **Author**: Senior Staff Engineer & Solution Architect  
 **Target Platform**: Next.js 15 (App Router), TypeScript, Tailwind CSS, Vercel  
 **Status**: APPROVED BASELINE
@@ -65,14 +65,18 @@ To enable 6 engineers to build at high velocity over a 5-day sprint, the codebas
 
 ```
 [ Client Viewports ]
-  ├── Patient Mobile PWA (/patient)
+  ├── Patient Mobile/Tablet PWA (/patient) — Centered Focused Canvas (max-w-2xl)
   ├── Caregiver Responsive Web (/caregiver)
   └── Practitioner Clinical Desktop (/practitioner)
           │
           ▼
 [ Presentation Layer: Next.js 15 App Router ]
   ├── Route Groups: app/(patient), app/(caregiver), app/(practitioner)
+  │     ├── /patient (Home), /patient/memories, /patient/activities, /patient/profile
+  │     ├── /caregiver (Scaffolded Dashboard)
+  │     └── /practitioner (Scaffolded Clinical Roster)
   ├── Shared Layouts & Experience Portals
+  ├── Mascot & Speech Bubble Engine (components/shared/mascot.tsx)
   └── Atomic UI Primitives (components/ui/)
           │
           ▼

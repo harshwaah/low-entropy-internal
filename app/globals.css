@@ -21,5 +21,84 @@
   html {
     background-color: var(--color-brand-background);
     color: var(--color-brand-text);
+    scroll-behavior: smooth;
   }
 }
+
+/* Companion Gentle Motion Keyframes (Calm & Non-Distracting) */
+@keyframes mascot-float-breathing {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.008);
+  }
+}
+
+@keyframes mascot-gentle-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 0.95;
+  }
+}
+
+@keyframes mascot-gentle-tilt {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  30% {
+    transform: rotate(1.5deg) translateY(-2px);
+  }
+  70% {
+    transform: rotate(-1.5deg) translateY(-2px);
+  }
+}
+
+@keyframes mascot-gentle-sway {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(2deg) translateY(-1px);
+  }
+}
+
+@keyframes sparkle-gentle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+.animate-mascot-idle {
+  animation: mascot-float-breathing 7s ease-in-out infinite;
+}
+
+.animate-mascot-encouraging {
+  animation: mascot-gentle-pulse 4.5s ease-in-out infinite;
+}
+
+.animate-mascot-celebrating {
+  animation: mascot-gentle-tilt 3.5s ease-in-out infinite;
+}
+
+.animate-mascot-thinking {
+  animation: mascot-gentle-sway 5.5s ease-in-out infinite;
+}
+
+.animate-sparkle-gentle {
+  animation: sparkle-gentle 3s ease-in-out infinite;
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+}
+

@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.1] - Phase 3.1: Patient Experience Stabilization & Companion Polish
+
+### Fixed & Audited
+- **Landing Page & Journey CTAs**:
+  - Eliminated all dead buttons across the primary landing page, header, and footer.
+  - Linked "Choose Your Experience" smoothly to the `#personas` section.
+  - Turned the Patient, Caregiver, and Medical Practitioner cards into fully interactive, accessible route links (`/patient`, `/caregiver`, `/practitioner`) with hover elevations.
+  - Connected header and footer navigation links to active routes and section anchors (`#about`, `#features`, `#impact`).
+- **Companion Motion System**:
+  - Replaced aggressive bounces and spins with calibrated, non-distracting CSS animations (`animate-mascot-idle`, `animate-mascot-encouraging`, `animate-mascot-celebrating`, `animate-mascot-thinking`).
+  - Tuned idle motion to a gentle 6-8s breathing loop (2-4px displacement) to instill calm without visual distraction.
+- **Speech Bubble Placement**:
+  - Engineered directional speech bubble positioning (`top-right`, `top-left`, `top`, `right`) with organic pointer tails.
+  - Guaranteed speech bubbles never obscure the mascot's eyes or facial expressions across all viewports.
+- **Patient Journey Routing**:
+  - Implemented accessible sub-routes and calm placeholder views for `/patient/memories`, `/patient/activities`, and `/patient/profile`.
+  - Upgraded `PatientBottomNav` to dynamically track the active pathname with `usePathname()`.
+  - Added interactive medication check-off feedback ("I have taken it") and smooth "Continue Day" progression.
+- **Mobile UX & Accessibility**:
+  - Added safe area padding (`pb-safe`, `pb-28`) to prevent content clipping behind the bottom navigation.
+  - Enforced minimum 56px touch targets on all patient controls.
+
+## [0.3.0] - Phase 3: Patient Home Experience
+
+### Added
+- **Patient Layout Redesign**: Replaced the previous mobile-first testing shell with a clean, centered `max-w-2xl` layout and a persistent `PatientBottomNav`.
+- **Mascot Emotion System**: Expanded the `<Mascot />` component with new dynamic states (`encouraging`, `celebrating`, `thinking`) that use CSS animations and icon overlays on top of the central SVG.
+- **Companion Welcome Card**: Implemented a welcoming hero section in the patient view where the Mascot greets the user and provides encouraging context for the day.
+- **Daily Overview & Previews**: Created large, accessible, high-contrast entry point cards for Memory of the Day, Upcoming Reminders, and Gentle Activities, providing a gentle foundation for future feature expansion.
+- **Accessibility Enhancements**: Applied large typography, oversized touch targets, and generous spacing to support elderly users and those with cognitive decline.
+
 ## [0.2.0] - Phase 2: Design System & Visual Identity
 
 ### Added

@@ -1,9 +1,19 @@
 import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { Heart } from 'lucide-react';
+import { Heart, Sparkles } from 'lucide-react';
 
-export type MascotState = 'default' | 'happy' | 'holding-heart' | 'holding-book' | 'greeting';
+export type MascotState = 
+  | 'default' 
+  | 'happy' 
+  | 'holding-heart' 
+  | 'holding-book' 
+  | 'greeting' 
+  | 'encouraging' 
+  | 'celebrating' 
+  | 'thinking';
+
+export type SpeechBubblePosition = 'top-right' | 'top-left' | 'top' | 'right';
 
 export interface MascotProps {
   state?: MascotState;
@@ -11,6 +21,7 @@ export interface MascotProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   showSpeechBubble?: boolean;
   speechText?: React.ReactNode;
+  speechPosition?: SpeechBubblePosition;
 }
 
 export function Mascot({ 
@@ -18,53 +29,131 @@ export function Mascot({
   className, 
   size = 'md',
   showSpeechBubble = false,
-  speechText
+  speechText,
+  speechPosition = 'top-right'
 }: MascotProps) {
   
   const sizeClasses = {
     sm: 'w-24 h-24',
-    md: 'w-48 h-48',
-    lg: 'w-64 h-64',
+    md: 'w-44 h-44 sm:w-48 sm:h-48',
+    lg: 'w-56 h-56 sm:w-64 sm:h-64',
     xl: 'w-full max-w-lg aspect-square',
   };
 
-  // For the hackathon/design phase, we use the primary hero image or placeholders
-  // In a full implementation, different states would load different optimized WebP assets
-  
+  // Select motion class according to calm animation guidelines
+  const getMotionClass = () => {
+    switch (state) {
+      case 'encouraging':
+      case 'holding-heart':
+        return 'animate-mascot-encouraging';
+      case 'celebrating':
+        return 'animate-mascot-celebrating';
+      case 'thinking':
+        return 'animate-mascot-thinking';
+      case 'default':
+      case 'happy':
+      case 'greeting':
+      case 'holding-book':
+      default:
+        return 'animate-mascot-idle';
+    }
+  };
+
   return (
-    <div className={cn("relative mx-auto", sizeClasses[size], className)}>
-      {/* If it's XL (Hero), we use the actual image */}
+    <div className={cn("relative mx-auto flex items-center justify-center", sizeClasses[size], className)}>
+      
+      {/* If it's XL (Hero on Landing Page), we render the full mascot illustration */}
       {size === 'xl' ? (
-        <Image 
-          src="/assets/images/mascot_hero_1788622498847.jpg" 
-          alt="SmritiSaathi Mascot" 
-          width={500} 
-          height={500} 
-          className="object-contain"
-          referrerPolicy="no-referrer"
-        />
+        <div className={cn("w-full h-full relative flex items-center justify-center", getMotionClass())}>
+          <Image 
+            src="/assets/images/mascot_hero_1788622498847.jpg" 
+            alt="SmritiSaathi Companion" 
+            width={500} 
+            height={500} 
+            priority
+            className="object-contain drop-shadow-sm rounded-full"
+            referrerPolicy="no-referrer"
+          />
+        </div>
       ) : (
-        /* Fallback for other sizes */
-        <div className="w-full h-full bg-white/50 rounded-full flex items-center justify-center relative shadow-inner">
-           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-1/2 h-1/2 text-brand-primary opacity-80">
-             <path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2z"/>
-             <path d="M8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-             <path d="M15.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-             <path d="M15.5 14c-1.5 1.5-5.5 1.5-7 0"/>
-           </svg>
+        /* Vector SVG Companion for UI components */
+        <div className={cn("w-full h-full relative flex items-center justify-center", getMotionClass())}>
+           <Image 
+             src="/icon.svg" 
+             alt={`SmritiSaathi Companion - ${state}`}
+             fill
+             className="object-contain drop-shadow-sm"
+             unoptimized
+             priority={size === 'lg'}
+           />
+
+           {/* Gentle Contextual Accents (Non-intrusive) */}
            {state === 'holding-heart' && (
-             <Heart className="absolute bottom-10 right-10 w-1/3 h-1/3 fill-red-500 text-red-500" />
+             <div className="absolute bottom-[8%] right-[8%] p-1.5 bg-white/90 rounded-full shadow-sm z-10 animate-mascot-encouraging">
+               <Heart className="w-6 h-6 fill-red-500 text-red-500" />
+             </div>
+           )}
+           {state === 'encouraging' && (
+             <div className="absolute top-[8%] right-[8%] p-1.5 bg-white/90 rounded-full shadow-sm z-10 animate-sparkle-gentle">
+               <Sparkles className="w-5 h-5 text-brand-primary" />
+             </div>
+           )}
+           {state === 'celebrating' && (
+             <div className="absolute -top-2 right-4 px-2 py-0.5 bg-brand-accent-yellow text-brand-dark rounded-full text-xs font-bold shadow-sm z-10 animate-sparkle-gentle">
+               🎉 Joy
+             </div>
+           )}
+           {state === 'thinking' && (
+             <div className="absolute -top-2 right-6 w-7 h-7 bg-brand-light-alt border border-brand-border rounded-full flex items-center justify-center text-sm font-bold text-brand-dark shadow-sm z-10">
+               💭
+             </div>
            )}
         </div>
       )}
 
+      {/* Speech Bubble: Positioned securely so it NEVER obscures the mascot's eyes or smile */}
       {showSpeechBubble && speechText && (
-        <div className="absolute top-0 right-0 lg:left-0 lg:right-auto bg-white px-6 py-4 rounded-[2rem] rounded-bl-none shadow-lg transform -rotate-6 z-10">
-          <div className="font-bold text-brand-dark">
+        <div 
+          className={cn(
+            "absolute z-30 transition-all duration-300",
+            // Position mapping relative to container
+            speechPosition === 'top-right' && (
+              size === 'sm' ? "-top-10 -right-20" :
+              size === 'md' ? "-top-14 -right-12 sm:-right-20" :
+              size === 'lg' ? "-top-16 -right-6 sm:-right-16" :
+              "-top-8 right-2 sm:right-6"
+            ),
+            speechPosition === 'top-left' && (
+              size === 'sm' ? "-top-10 -left-20" :
+              size === 'md' ? "-top-14 -left-12 sm:-left-20" :
+              size === 'lg' ? "-top-16 -left-6 sm:-left-16" :
+              "-top-8 left-2 sm:left-6"
+            ),
+            speechPosition === 'top' && (
+              "-top-20 left-1/2 -translate-x-1/2"
+            ),
+            speechPosition === 'right' && (
+              "top-1/2 -translate-y-1/2 -right-28 sm:-right-36"
+            )
+          )}
+        >
+          <div className="relative bg-white border border-brand-border/80 px-5 py-3.5 rounded-3xl shadow-lg text-brand-dark text-sm sm:text-base font-bold whitespace-normal max-w-[240px] sm:max-w-xs leading-relaxed">
             {speechText}
+            
+            {/* Speech Bubble Pointer / Tail connecting to the mascot */}
+            <div 
+              className={cn(
+                "absolute w-3.5 h-3.5 bg-white border-b border-l border-brand-border/80 transform rotate-45",
+                speechPosition === 'top-right' && "bottom-[-7px] left-6",
+                speechPosition === 'top-left' && "bottom-[-7px] right-6",
+                speechPosition === 'top' && "bottom-[-7px] left-1/2 -translate-x-1/2",
+                speechPosition === 'right' && "left-[-7px] top-1/2 -translate-y-1/2 rotate-45"
+              )}
+            />
           </div>
         </div>
       )}
     </div>
   );
 }
+

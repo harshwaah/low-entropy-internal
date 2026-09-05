@@ -12,23 +12,28 @@ function SparkleIcon({ className }: { className?: string }) {
 
 export function Navigation() {
   return (
-    <header className="sticky top-0 z-40 bg-brand-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 bg-brand-background/90 backdrop-blur-md border-b border-brand-border/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="text-2xl font-bold text-brand-dark tracking-tight">SmritiSaathi</span>
-          <SparkleIcon className="w-5 h-5 text-brand-primary" />
+        <Link href="/" className="flex items-center gap-2 group">
+          <span className="text-2xl font-bold text-brand-dark tracking-tight group-hover:text-brand-primary transition-colors">SmritiSaathi</span>
+          <SparkleIcon className="w-5 h-5 text-brand-primary group-hover:rotate-12 transition-transform" />
           <div className="flex flex-col">
              <span className="text-[10px] uppercase font-bold text-brand-primary tracking-wider -mt-1 ml-1">Always with you</span>
           </div>
-        </div>
+        </Link>
         <nav className="hidden md:flex items-center gap-8 font-semibold text-brand-text">
-          <Link href="#" className="hover:text-brand-primary transition-colors">Home</Link>
-          <Link href="#" className="hover:text-brand-primary transition-colors">About</Link>
-          <Link href="#" className="hover:text-brand-primary transition-colors">Features</Link>
-          <Link href="#" className="hover:text-brand-primary transition-colors">Our Impact</Link>
+          <Link href="/" className="hover:text-brand-primary transition-colors">Home</Link>
+          <Link href="#about" className="hover:text-brand-primary transition-colors">About</Link>
+          <Link href="#features" className="hover:text-brand-primary transition-colors">Features</Link>
+          <Link href="#impact" className="hover:text-brand-primary transition-colors">Our Impact</Link>
         </nav>
-        <Button className="rounded-full font-bold">Get Started</Button>
+        <Link href="/patient">
+          <Button className="rounded-full font-bold px-6 shadow-sm hover:scale-105 transition-all">
+            Get Started
+          </Button>
+        </Link>
       </div>
     </header>
   );
 }
+

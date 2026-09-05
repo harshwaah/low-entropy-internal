@@ -27,14 +27,24 @@
 
 | Route | Route Group Folder | Target Persona | Layout Key |
 | :--- | :--- | :--- | :--- |
-| `/` | `app/page.tsx` | Solution Portal / Team Gateway | Root Gateway |
-| `/patient` | `app/(patient)/patient/` | Dementia Patient | Mobile-First (`max-w-md`) |
-| `/caregiver` | `app/(caregiver)/caregiver/` | Family Caregiver | Responsive Shell |
+| `/` | `app/page.tsx` | Solution Portal / Landing Page | Root Gateway |
+| `/patient` | `app/(patient)/patient/` | Dementia Patient | Centered App (`max-w-2xl`), Bottom Nav |
+| `/patient/memories` | `app/(patient)/patient/memories/` | Dementia Patient | Memory Scrapbook (Scaffold) |
+| `/patient/activities` | `app/(patient)/patient/activities/` | Dementia Patient | Gentle Cognitive Activities (Scaffold) |
+| `/patient/profile` | `app/(patient)/patient/profile/` | Dementia Patient | Profile & Caregiver Quick Dial |
+| `/caregiver` | `app/(caregiver)/caregiver/` | Family Caregiver | Responsive Dashboard Shell |
 | `/practitioner` | `app/(practitioner)/practitioner/` | Healthcare Practitioner | Desktop Clinical Sidebar |
 
 ---
 
-## 3. Public API Feature Pattern
+## 3. Companion & Motion Standards
+- **Mascot Presence**: Used intentionally as an empathetic anchor (welcoming, encouraging, celebrating, thinking).
+- **Calm Breathing Animation**: Animations must use the calibrated CSS classes (`animate-mascot-idle`, `animate-mascot-encouraging`, `animate-mascot-celebrating`, `animate-mascot-thinking`). Never implement hyperactive or distracting keyframes.
+- **Speech Bubble Clearance**: Speech bubbles must use directional positioning (`speechPosition="top-right" | "top-left" | "top" | "right"`) and must never overlap the mascot's facial expressions.
+
+---
+
+## 4. Public API Feature Pattern
 
 Every feature in `features/*` has an `index.ts` file acting as a public API barrier:
 
