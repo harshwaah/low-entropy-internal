@@ -487,4 +487,95 @@ Adhering to our bounded context guidelines, the practitioner feature abstracts a
   - `follow_up_prompt`: Suggested questions and clinical tests for family conferences.
 - **Actionable Execution**: Recommendations include immediate "Apply to Plan" state transitions, updating the care protocol optimistically.
 
+---
+
+## 12. Cognitive Activities Domain Architecture (Phase 7 / v0.7.0)
+
+The cognitive activities module (`features/cognition`) delivers errorless, dementia-calibrated cognitive stimulation through interactive mini-games and structured routine exercises.
+
+### 12.1 Bounded Context Directory Structure
+```
+features/cognition/
+├── components/
+│   ├── find-the-object/
+│   │   └── find-the-object-game.tsx
+│   ├── memory-match/
+│   │   └── memory-match-game.tsx
+│   ├── shared/
+│   │   ├── activity-completion-card.tsx
+│   │   ├── activity-encouragement-card.tsx
+│   │   ├── activity-layout.tsx
+│   │   └── activity-progress-card.tsx
+│   ├── what-comes-next/
+│   │   └── what-comes-next-game.tsx
+│   └── index.ts
+├── services/
+│   ├── cognitive.service.ts
+│   └── index.ts
+├── types/
+│   ├── index.ts
+│   └── cognitive.types.ts
+└── index.ts
+```
+
+### 12.2 Domain Data Contracts
+```typescript
+export interface CognitiveActivity {
+  id: string;
+  title: string;
+  category: 'memory' | 'routine' | 'observation' | 'language' | 'creativity';
+  description: string;
+  href: string;
+  symbol: string;
+  estimatedMinutes: string;
+  badgeLabel: string;
+  isRecommended?: boolean;
+}
+
+export interface MemoryCardItem {
+  id: string;
+  pairId: string;
+  title: string;
+  symbol: string;
+  narrativeContext: string;
+  isMatched?: boolean;
+}
+
+export interface RoutineScenario {
+  id: string;
+  title: string;
+  theme: string;
+  storyDescription: string;
+  missingStepPrompt: string;
+  sequenceSteps: RoutineStep[];
+  options: RoutineSequenceOption[];
+}
+
+export interface RecognitionScene {
+  id: string;
+  title: string;
+  roomName: string;
+  sceneBgClass: string;
+  sceneAccentClass: string;
+  objectsToFind: SceneDiscoverableObject[];
+  decorativeElements: SceneDecorativeElement[];
+}
+```
+
+### 12.3 Service Layer Pattern (`CognitiveServiceImpl`)
+The service layer in `features/cognition/services/cognitive.service.ts` encapsulates all activity configuration, deck shuffling, scenario resolution, and scene object generation:
+- `getAllActivities()`: Returns all available cognitive activities.
+- `getCategories()`: Returns categorized groupings with color styling tokens.
+- `getRecommendedActivity()`: Returns the personalized activity of the day.
+- `getMemoryMatchDeck(difficulty)`: Generates randomized, paired decks for 3-pair (6 cards) or 4-pair (8 cards) modes.
+- `getRoutineScenarios()`: Provides multi-step daily sequence challenges with constructive validation nudges.
+- `getRecognitionScenes()`: Supplies cozy illustrated room settings with hidden object coordinates and companion hints.
+- `getProgressSummary()`: Supplies daily participation metrics and gentle positive affirmations.
+
+### 12.4 Shared Component System
+- **`ActivityLayout`**: Provides consistent navigation, oversized touch headers, sticky back controls, active companion message cards, and reassuring bottom footers.
+- **`ActivityCompletionCard`**: Standardized celebration card with animated mascot reactions, stat badges, and one-touch replay buttons.
+- **`ActivityProgressCard`**: Non-judgmental progress trackers with heart icons or milestone badges.
+- **`ActivityEncouragementCard`**: Companion voice bubble component for inline coaching and micro-reassurances.
+
 

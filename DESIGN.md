@@ -210,4 +210,46 @@ The Practitioner Command Center (`/practitioner`) follows a strict four-tiered c
   - *Bedtime Window (20:30 - 22:00)*: Sleep hygiene and restorative winding down routines.
 - **High Visual Contrast & Rapid Scanning**: Data cards emphasize typography step ratios (step >= 1.25), large monospace numerical values, and subtle progress fills.
 
+---
+
+## 14. Gentle Cognitive Activities & Gamification Philosophy (Phase 7 / v0.7.0)
+
+The Cognitive Activities Hub (`/patient/activities`) and mini-games provide therapeutic cognitive stimulation tailored specifically for individuals experiencing Mild Cognitive Impairment (MCI) and early-to-moderate dementia:
+
+### 14.1 The Dignity-First "Errorless Learning" Paradigm
+- **Absolute Elimination of Failure States**:
+  - No buzzer sounds, red failure screens, negative error messages ("Wrong answer"), or penalizing score deductions.
+  - If an incorrect choice is selected in sequencing or matching, the interface presents a gentle constructive nudge (e.g., *"No hurry at all! Let's remember where they are and try another card."*).
+- **No Timers, Countdowns, or Rushing**:
+  - The patient has unlimited time on every interaction.
+  - Eliminating countdown clocks removes sympathetic nervous system arousal and test anxiety, preserving calm cognitive focus.
+
+### 14.2 Positive Reinforcement & Micro-Celebrations
+- **Companion Mascot as Cheerful Co-Explorer**:
+  - Mitron (the companion peacock mascot) participates actively as a warm friend playing alongside the user, not a testing proctor.
+  - Dynamic companion states: `greeting` at game start, `thinking` during deliberation, `encouraging` when exploring, and `celebrating` with heart/star confetti upon match or game completion.
+- **Micro-Token Rewards**:
+  - Milestone tokens, gentle flower petals, and heart counters visually reinforce effort and participation rather than high-score competition.
+- **Replay & Progression Flow**:
+  - Completing any activity presents an affirming celebration card with options to immediately replay the comfortable round or return to the main activities hub.
+
+### 14.3 Cognitive Activity Types & Interaction Design
+1. **Memory Match (`/patient/activities/memory-match`)**:
+   - Focus: Working memory, visual recognition, and spatial orientation.
+   - Design: 120px+ oversized cards, tactile spring physics, high-contrast borders, and culturally comforting icons (Chai, Marigold, Peacock Feather, Mango, Diya, Radio).
+   - Modes: 3 pairs (6 cards) for gentle relaxation; 4 pairs (8 cards) for standard engagement.
+2. **What Comes Next? (`/patient/activities/what-comes-next`)**:
+   - Focus: Episodic executive functioning and daily procedural memory.
+   - Design: Chronological step timeline with visual connectors, narrative context, and clear multi-choice action buttons.
+   - Feedback: Immediate positive validation with descriptive affirmation text.
+3. **Find The Object (`/patient/activities/find-the-object`)**:
+   - Focus: Mindful visual scanning, figure-ground discrimination, and contextual attention.
+   - Design: Illustrated cozy rooms (Kitchen, Veranda, Living Room) with discoverable items embedded into the scenery.
+   - Hint System: On-demand "Need a Hint?" button prompts companion speech with directional guidance and pulsing visual cues without penalty.
+
+### 14.4 Accessibility & Cognitive Ergonomics
+- **Oversized Touch Targets**: Minimum 56px touch height on mobile/tablet, expanding to 120px+ for interactive cards and game buttons.
+- **High Visual Contrast**: Large bold typography, 3px solid active borders, and clear state transitions (`scale-105`, `ring-4`).
+- **Low Cognitive Density**: Single-task focus per screen view with zero extraneous widgets or popups.
+
 

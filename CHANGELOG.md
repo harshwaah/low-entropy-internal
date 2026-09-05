@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.7.0] - Phase 7: Cognitive Activities Foundation
+
+### Added
+- **Activities Hub (`/patient/activities`)**:
+  - Implemented the central gentle cognitive engagement hub designed exclusively for dementia care.
+  - **Companion Greeting & Warm Invitation**: Mitron (the companion peacock mascot) welcomes the patient with gentle conversational prompts ("Would you like to play a quick memory game today?").
+  - **Daily Mindful Progress Overview**: Calm tracker displaying completed activities, positive affirmations, and gentle reward tokens without pressure.
+  - **Featured Recommendation**: Prominently displays comforting, low-friction activities based on time of day and familiarity.
+  - **Category Cards & Activity Directory**: Clear, high-contrast access to Memory Matching, Daily Routine Sequencing, and Mindful Observation.
+- **Memory Match Game (`/patient/activities/memory-match`)**:
+  - Fully playable, gentle card pairing game tailored for older adults with memory loss.
+  - **Accessible Card Grid**: Extra-large touch targets (120px+), high-contrast borders, tactile feedback, and culturally familiar nostalgic imagery (Hot Chai, Marigolds, Auspicious Peacock Feather, Sweet Alphonso Mango, Pooja Diya, Vintage Radio).
+  - **Pacing Selector**: 3-pair (Gentle / 6 cards) and 4-pair (Relaxing / 8 cards) modes.
+  - **Calm Multi-State Lifecycle**: Start State with companion greeting, Play State with zero penalty and supportive companion speech, and Celebration State with celebratory mascot animations and replay controls.
+- **What Comes Next? Routine Sequencing Game (`/patient/activities/what-comes-next`)**:
+  - Episodic routine sequencing activity that strengthens daily functional orientation without test anxiety.
+  - **Multi-Scenario Flow**: Includes Morning Sunshine Ritual (waking -> brushing teeth -> breakfast/chai), Brewing Afternoon Masala Chai, Tending Balcony Garden, and Peaceful Evening Wind-Down.
+  - **Dignified Feedback System**: Gentle affirmation for matching steps and supportive constructive nudges without buzzer sounds, red failure text, or negative counters.
+- **Find The Object Visual Recognition Game (`/patient/activities/find-the-object`)**:
+  - Mindful visual exploration game across cozy, illustrated room environments (Kitchen Counter, Veranda Courtyard, Nostalgic Reading Nook).
+  - **Interactive Scene Canvas**: Large, recognizable item targets embedded organically alongside ambient decorative elements.
+  - **Gentle Companion Hint System**: Companion provides supportive textual and location cues when requested ("Look near the center of the kitchen counter"), accompanied by gentle pulsing animations.
+- **Shared Activity Design System (`features/cognition/components/shared`)**:
+  - `ActivityLayout`: Standardized full-screen patient header with oversized touch targets, companion guidance card, and calming footer reassurance.
+  - `ActivityCompletionCard`: Joyful, validating completion screen with celebratory companion mascot, positive cognitive reinforcement, and large replay buttons.
+  - `ActivityProgressCard`: Heart-based or milestone-based progress indicators showing step accomplishment without countdown clocks or stress.
+  - `ActivityEncouragementCard`: Contextual mascot speech bubble for real-time encouraging prompts.
+- **Cognitive Domain Layer (`features/cognition`)**:
+  - Fully typed data models for activities, categories, routine scenarios, and scene objects.
+  - Scalable service interface (`CognitiveServiceImpl`) providing culturally rich, dementia-optimized activity content.
+
 ## [0.6.0] - Phase 6: Practitioner Dashboard Foundation
 
 ### Added

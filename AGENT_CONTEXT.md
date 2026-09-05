@@ -31,7 +31,10 @@
 | `/patient` | `app/(patient)/patient/` | Dementia Patient | Centered App (`max-w-2xl`), Bottom Nav |
 | `/patient/memories` | `app/(patient)/patient/memories/` | Dementia Patient | Memory Scrapbook Hub |
 | `/patient/memories/[id]` | `app/(patient)/patient/memories/[id]/` | Dementia Patient | Dedicated Memory Detail Experience |
-| `/patient/activities` | `app/(patient)/patient/activities/` | Dementia Patient | Gentle Cognitive Activities (Scaffold) |
+| `/patient/activities` | `app/(patient)/patient/activities/` | Dementia Patient | Gentle Cognitive Activities Hub |
+| `/patient/activities/memory-match` | `app/(patient)/patient/activities/memory-match/` | Dementia Patient | Memory Match Mini-Game |
+| `/patient/activities/what-comes-next` | `app/(patient)/patient/activities/what-comes-next/` | Dementia Patient | Routine Sequencing Mini-Game |
+| `/patient/activities/find-the-object` | `app/(patient)/patient/activities/find-the-object/` | Dementia Patient | Visual Recognition Mini-Game |
 | `/patient/profile` | `app/(patient)/patient/profile/` | Dementia Patient | Profile & Caregiver Quick Dial |
 | `/caregiver` | `app/(caregiver)/caregiver/` | Family Caregiver | Caregiver Command Center |
 | `/caregiver/memories` | `app/(caregiver)/caregiver/memories/` | Family Caregiver | Scrapbook & Keepsake Vault Management |
@@ -122,7 +125,24 @@ import { MemoryItem } from '@/features/memories/types/index';
 
 ---
 
-## 8. Verification Commands
+## 8. Cognitive Activities Architecture & Game Design Rules (Phase 7 / v0.7.0)
+
+1. **Errorless Game Philosophy**:
+   - Never use buzzer sounds, negative scores, red error alerts, or time-out limits.
+   - Every wrong tap receives a reassuring companion nudge (e.g., *"No hurry at all! Let's remember where they are and try another card."*).
+2. **Companion Mascot Integration**:
+   - The companion mascot (`<Mascot />`) must be actively present on every activity screen.
+   - States: `greeting` on start screens, `thinking` during deliberation or hints, `encouraging` during active play, and `celebrating` on success.
+3. **Accessibility Thresholds**:
+   - Touch targets for interactive activity elements must be >= 56px (cards >= 120px).
+   - Card fonts must use high contrast (`text-brand-dark` on `bg-white` or `bg-brand-light-alt`).
+   - Visual hints must pulse with soft ambers (`bg-amber-100`, `border-amber-400`), never aggressive strobe flashes.
+4. **Shared Components**:
+   - Always use `ActivityLayout`, `ActivityCompletionCard`, `ActivityProgressCard`, and `ActivityEncouragementCard` from `@/features/cognition/components` across all mini-games for visual and behavioral consistency.
+
+---
+
+## 9. Verification Commands
 
 Always run these before completing changes:
 ```bash
