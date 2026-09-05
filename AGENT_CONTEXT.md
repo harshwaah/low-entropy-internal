@@ -98,7 +98,31 @@ import { MemoryItem } from '@/features/memories/types/index';
 
 ---
 
-## 7. Verification Commands
+## 7. Practitioner Experience & Clinical Architecture (Phase 6 / v0.6.0)
+
+1. **Professional Yet Approachable Clinical Experience**:
+   - The practitioner portal (`app/(practitioner)/practitioner/*` and `features/practitioner/`) delivers rapid medical oversight for neurologists and memory care specialists.
+   - Distinct from the patient experience (warm/emotional) and caregiver experience (supportive/organized), the practitioner portal is **Professional, Trustworthy, Insightful, and Efficient**, while avoiding feeling cold, overwhelming, hospital-like, or overly administrative.
+2. **Calm Risk Indicators**:
+   - Never use alarming hazard icons or emergency sirens. Use objective, composed risk labels:
+     - `Optimal` (Soft Emerald)
+     - `Mild Variance` (Soft Amber)
+     - `Review Recommended` (Composed Indigo)
+3. **Observation Timeline Standards**:
+   - Observations must be multi-source (`care_note`, `observation`, `family_update`, `significant_event`) to capture both physician clinical notes and companion telemetry.
+   - Fast scanning: short summaries are immediately visible, with expandable rich narratives and action taken indicators.
+4. **Clinical Recommendations Placeholder System**:
+   - UI placeholders for future AI/Gemini clinical decision support.
+   - Divided into 4 clear therapeutic categories: `memory_activity`, `engagement_improvement`, `routine_reinforcement`, and `follow_up_prompt`.
+   - Includes interactive "Apply to Plan" and "Dismiss" actions with state updates.
+5. **Route Mapping**:
+   - `/practitioner`: Central command center, overview cards, cohort analytics, patient roster, recent notes, and recommendation cards.
+   - `/practitioner/observations`: Chronological observation and clinical note timeline with interactive note creation modal.
+   - `/practitioner/patient/[id]`: Individual patient clinical file with 7-day trajectories, medications, nostalgic triggers, observations, and recommendations.
+
+---
+
+## 8. Verification Commands
 
 Always run these before completing changes:
 ```bash

@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.6.0] - Phase 6: Practitioner Dashboard Foundation
+
+### Added
+- **Practitioner Command Center (`/practitioner`)**:
+  - Implemented the central clinical oversight portal for attending neurologists and geriatricians.
+  - **Clinical Overview Cards (`ClinicalOverviewCards`)**: Cohort-level aggregates tracking Active Patients (6), Average Engagement (75.0%), Routine Adherence (81.0%), and Active Clinical Reviews (2).
+  - **Cohort Cognitive & Adherence Analytics (`CohortAnalyticsView`)**:
+    - Interactive 7-day longitudinal stability index with dual-metric bars comparing memory fluency vs. circadian routine execution.
+    - Circadian temporal window distribution tracking morning (94.2%), afternoon (86.5%), dusk sundowning (78.1%), and bedtime routines (88.4%).
+    - Therapeutic modality breakdown for Autobiographical Scrapbooks (42%), Autonomous Daily Routines (34%), and Calming Auditory Therapy (24%).
+  - **Patient Roster & Risk Stratification (`PatientRoster`)**:
+    - Filterable and searchable patient cohort roster supporting search by name, condition, or preferred name.
+    - Dementia stage filtering (All, Mild, Moderate) and calm risk stratification (Optimal, Mild Variance, Review Recommended).
+    - Grid and Table view toggles with individual patient summary cards (`PatientSummaryCard`) linking directly to patient files.
+  - **Recent Observations Feed (`RecentObservationsFeed`)**:
+    - Quick-scanning stream of the latest physician notes, companion telemetry, and family updates.
+  - **Clinical Recommendation Engine (`RecommendationsPanel`)**:
+    - AI-augmented decision support cards categorized into Memory Activities, Engagement Ideas, Routine Reinforcement, and Follow-up Prompts.
+    - Interactive "Apply to Plan" and "Dismiss" workflow controls with optimistic state updates and user feedback.
+- **Observation Timeline & Care Notes (`/practitioner/observations`)**:
+    - Dedicated chronological observation timeline view (`ObservationTimelineView`) displaying care notes, automated telemetry, family updates, and significant clinical events.
+    - Rapid-scanning card anatomy with expandable detail narratives, vital context, and action taken indicators.
+    - Interactive modal dialog (`AddObservationModal`) enabling clinicians to document new care notes and modifications in real time.
+- **Patient Detail Clinical Deep-Dive (`/practitioner/patient/[id]`)**:
+    - Dynamic route providing a comprehensive medical and behavioral profile for individual patients.
+    - Patient hero banner with demographic details, attending physician, days active, and primary caregiver contact card.
+    - Tabbed clinical navigation:
+      - Clinical Deep-Dive & Metrics: 30-day baseline scores, 7-day individual comparative trajectory, active medications with prompt compliance, and autobiographical reminiscence anchors.
+      - Observation History: Chronological clinical notes filtered specifically to the active patient with note recording capability.
+      - Clinical Recommendations: Patient-specific therapeutic recommendations and care plan actions.
+- **Practitioner Sidebar Navigation (`PractitionerSidebar`)**:
+    - Clean clinical sidebar with clinic identification, attending physician context, active route indicators, cohort overview summary, and HIPAA compliance audit notification.
+- **Clinical Domain Layer (`features/practitioner`)**:
+    - Strongly typed models (`ClinicalPatient`, `ClinicalObservation`, `ClinicalRecommendation`, `CohortAnalyticsSummary`).
+    - Comprehensive realistic sample dataset covering 6 diverse dementia/MCI patients, 8 clinical observations, and 6 actionable recommendations.
+    - Asynchronous service interface (`PractitionerServiceImpl`) providing scalable mock data access.
+
 ## [0.5.0] - Phase 5: Caregiver Portal Foundation
 
 ### Added

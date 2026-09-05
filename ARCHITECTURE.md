@@ -362,4 +362,129 @@ export interface CaregiverAlertItem {
 4. `/caregiver/monitoring`: Wellness trend dashboard with `InsightMetricsCards` and 7-day `WeeklyEngagementChart`.
 5. `/caregiver/alerts`: Empathetic notification center with calm language, acknowledging triggers, and active SOS beacon integration.
 
+---
+
+## 11. Practitioner Domain & Clinical Architecture (Phase 6 / v0.6.0)
+
+**Owner**: Contributor 5 (Practitioner Portal Lead)  
+**Package/Module Root**: `features/practitioner/`  
+**Route Group Root**: `app/(practitioner)/practitioner/`  
+
+### 11.1 Domain Entity Architecture
+The practitioner domain introduces structured medical models for dementia care:
+
+```typescript
+// features/practitioner/types/index.ts
+
+export type DementiaStage = 'early' | 'mild' | 'moderate';
+export type ClinicalRiskIndicator = 'optimal' | 'mild_variance' | 'review_recommended';
+
+export interface ClinicalPatient {
+  id: string;
+  name: string;
+  preferredName: string;
+  age: number;
+  gender: 'male' | 'female' | 'other';
+  condition: string;
+  stage: DementiaStage;
+  engagementScore: number;       // 0-100%
+  memoryActivityScore: number;   // 0-100%
+  routineAdherenceScore: number; // 0-100%
+  recentAlertCount: number;
+  lastInteraction: string;
+  daysActive: number;
+  primaryCaregiver: {
+    name: string;
+    relation: string;
+    phone: string;
+    email: string;
+  };
+  attendingPhysician: string;
+  riskIndicator: ClinicalRiskIndicator;
+  riskLabel: string;
+  riskContextNote: string;
+  activeMedications: Array<{
+    name: string;
+    dosage: string;
+    timing: string;
+    adherenceRate: number;
+  }>;
+  primaryNostalgicTriggers: string[];
+  weeklyHistory: Array<{
+    day: string;
+    memory: number;
+    adherence: number;
+  }>;
+}
+
+export interface ClinicalObservation {
+  id: string;
+  patientId: string;
+  patientName: string;
+  timestamp: string;
+  type: 'care_note' | 'observation' | 'family_update' | 'significant_event';
+  title: string;
+  summary: string;
+  detail: string;
+  author: {
+    name: string;
+    role: string;
+    type: 'physician' | 'caregiver' | 'system' | 'specialist';
+  };
+  tags: string[];
+  sentiment: 'positive' | 'neutral' | 'attention_needed';
+  vitalContext?: string;
+  actionTaken?: string;
+}
+
+export interface ClinicalRecommendation {
+  id: string;
+  patientId: string;
+  patientName: string;
+  category: 'memory_activity' | 'engagement_improvement' | 'routine_reinforcement' | 'follow_up_prompt';
+  priority: 'priority' | 'recommended' | 'routine';
+  title: string;
+  rationale: string;
+  suggestedAction: string;
+  status: 'pending' | 'applied' | 'dismissed';
+  createdAt: string;
+}
+
+export interface CohortAnalyticsSummary {
+  activePatients: number;
+  averageEngagement: number;
+  averageMemoryActivity: number;
+  averageRoutineAdherence: number;
+  pendingReviewsCount: number;
+  weeklyTrends: Array<{
+    day: string;
+    memoryScore: number;
+    routineScore: number;
+    engagement: number;
+  }>;
+}
+```
+
+### 11.2 Service Layer Pattern (`PractitionerServiceImpl`)
+Adhering to our bounded context guidelines, the practitioner feature abstracts all data fetching behind `PractitionerService` in `features/practitioner/services/index.ts`. All methods return asynchronous promises, ensuring seamless transition to PostgreSQL or REST API backends:
+- `getPatients(filter?)`: Retrieves roster with optional stage and risk filtering.
+- `getPatientById(id)`: Resolves full clinical record.
+- `getCohortAnalytics()`: Generates aggregated longitudinal statistics and circadian distributions.
+- `getObservations(patientId?, type?)`: Streams chronological multi-author care notes.
+- `getRecommendations(patientId?, category?)`: Returns AI-augmented clinical decision support items.
+
+### 11.3 Analytics Architecture
+- **Circadian Temporal Segmentation**: Evaluates routine compliance across four key dementia biological intervals (Morning, Afternoon, Dusk Sundowning, Bedtime).
+- **Dual-Axis Correlation**: Visualizes memory interaction fluency against circadian routine adherence to assist clinicians in evaluating therapeutic efficacy.
+- **Modality Attribution**: Tracks proportional participation across Autobiographical Scrapbooks (Reminiscence), Autonomous Routines (Circadian), and Sensory Auditory regulation.
+
+### 11.4 Recommendation & Clinical Decision Support Architecture
+- **UI Placeholders for Generative AI**: Designed with clean medical interfaces ready to hook into server-side Gemini endpoints (`/api/practitioner/recommendations`) in future sprints.
+- **Categorization Schema**:
+  - `memory_activity`: Tailored reminiscence exercises using preserved episodic anchors.
+  - `engagement_improvement`: Strategies to combat apathy or withdrawal.
+  - `routine_reinforcement`: Timing adjustments to minimize circadian disruption.
+  - `follow_up_prompt`: Suggested questions and clinical tests for family conferences.
+- **Actionable Execution**: Recommendations include immediate "Apply to Plan" state transitions, updating the care protocol optimistically.
+
 

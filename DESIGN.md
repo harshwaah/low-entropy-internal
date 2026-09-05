@@ -177,4 +177,37 @@ The Caregiver Portal (`/caregiver`) serves as the remote command center and emot
 - **Empathetic Contextual Notes**: Every notice explains the companion's passive observation (e.g., "Papa took a peaceful veranda rest; no distress detected") and suggests gentle, low-pressure next steps.
 - **Safety Beacon Reassurance**: Prominently communicates active sensor status, emergency quick-dials, and geofence health with green trust badges.
 
+---
+
+## 13. Practitioner Experience & Clinical Design Philosophy (Phase 6 / v0.6.0)
+
+The Practitioner Portal (`/practitioner`) provides clinical oversight for neurologists, geriatricians, and neuropsychologists:
+
+### 13.1 Emotional Tone & Clinical Framing
+- **Professional, Trustworthy, Insightful, Efficient**: The experience delivers medical precision and cognitive clarity without degenerating into a cold, hospital-like, or overly administrative legacy EMR.
+- **Warm Consistency with Clinical Differentiation**: While patient views emphasize warm parchment textures and large tactile cards, the practitioner layout adopts clean slate structures (`slate-100` canvas, `slate-200` borders, `blue-700` primary accents) while honoring the SmritiSaathi typography (`Quicksand`) and rounded contours (`rounded-2xl` to `rounded-3xl`).
+- **Calm Risk Indicators Over Alarmism**:
+  - Rather than flashing emergency red tags, risk stratification uses composed, clinically objective tiers:
+    - `Optimal`: Soft emerald pills (`bg-emerald-50`, `text-emerald-800`, `border-emerald-200`) indicating stable cognitive and behavioral engagement.
+    - `Mild Variance`: Soft amber pills (`bg-amber-50`, `text-amber-800`, `border-amber-200`) signaling subtle routine slippage or circadian shifts.
+    - `Review Recommended`: Composed indigo pills (`bg-indigo-50`, `text-indigo-800`, `border-indigo-200`) recommending physician review during the next clinical encounter.
+
+### 13.2 Dashboard Hierarchy & Layout Architecture
+The Practitioner Command Center (`/practitioner`) follows a strict four-tiered clinical hierarchy:
+1. **Tier 1: Clinical Overview Cards**: Immediate cohort-level aggregates (Enrolled Patients, Average Engagement, Circadian Routine Adherence, Pending Reviews).
+2. **Tier 2: Cohort Analytics & Longitudinal Insights**: 7-day dual-metric visual stability indices, circadian window adherence distribution, and therapeutic modality utilization.
+3. **Tier 3: Patient Roster & Stratification**: Interactive patient table/grid with multi-stage filtering, instant name/condition search, and direct drill-down links.
+4. **Tier 4: Action & Decision Support (Two Columns)**:
+   - *Left Column*: Recent chronological clinical observations and companion telemetry.
+   - *Right Column*: AI-augmented clinical recommendations with category filtering and care plan application actions.
+
+### 13.3 Analytics & Data Presentation Standards
+- **Comparative Metric Coupling**: Memory engagement and routine adherence are displayed side-by-side to highlight how circadian stability directly preserves episodic recall.
+- **Circadian Temporal Windows**: Telemetry is grouped into dementia-relevant temporal gates:
+  - *Morning Window (08:00 - 11:00)*: Baseline medication compliance and waking orientation.
+  - *Afternoon Window (12:30 - 15:30)*: Hydration and social/reminiscence engagement.
+  - *Dusk Sundowning Window (17:00 - 19:00)*: High-variance agitation risk zone monitored for audio calming interventions.
+  - *Bedtime Window (20:30 - 22:00)*: Sleep hygiene and restorative winding down routines.
+- **High Visual Contrast & Rapid Scanning**: Data cards emphasize typography step ratios (step >= 1.25), large monospace numerical values, and subtle progress fills.
+
 

@@ -70,9 +70,7 @@ export function CaregiverNav({ unresolvedAlertCount = 2 }: CaregiverNavProps) {
           
           {/* Logo & Patient Context */}
           <div className="flex items-center gap-4 lg:gap-6">
-            <Link href="/caregiver" className="shrink-0">
-              <BrandLogo size="md" showTagline={false} />
-            </Link>
+            <BrandLogo size="md" showTagline={false} href="/caregiver" className="shrink-0" />
 
             <div className="hidden sm:flex items-center gap-2.5 rounded-full bg-emerald-50/90 border border-emerald-200/80 px-3.5 py-1 text-xs font-medium text-emerald-900 shadow-xs">
               <span className="relative flex h-2 w-2">
