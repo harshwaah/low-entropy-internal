@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: 'SmritiSaathi | AI Companion for Dementia Care',
   description:
     'An AI-assisted daily companion for dementia patients that helps preserve memories, maintain routines, encourage cognitive engagement, and strengthen caregiver support.',
+  icons: {
+    icon: '/icon.svg',
+  },
   openGraph: {
     title: 'SmritiSaathi | AI Companion for Dementia Care',
     description:

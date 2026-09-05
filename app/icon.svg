@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- High contrast soft mint/cream circular background to ensure visibility in all browser themes (dark/light tabs) -->
+  <circle cx="256" cy="256" r="240" fill="#EBF6F0" />
+  
+  <!-- Shadow under the mascot body -->
+  <ellipse cx="256" cy="400" rx="120" ry="24" fill="#D2E8DC" opacity="0.8" />
+
+  <!-- Little Red Scarf - Back Part -->
+  <path d="M190 350 C190 350, 160 370, 150 410 C145 430, 175 440, 185 410 C190 395, 200 370, 200 370 Z" fill="#D35400" />
+
+  <!-- Mascot Main Body (Cute, round ghost-like sprout) -->
+  <path d="M256 120 
+           C160 120, 130 180, 130 260 
+           C130 340, 160 380, 256 380 
+           C352 380, 382 340, 382 260 
+           C382 180, 352 120, 256 120 Z" 
+        fill="#FFFFFF" />
+
+  <!-- Left Blush Cheek -->
+  <ellipse cx="185" cy="285" rx="18" ry="12" fill="#FFA5A5" opacity="0.7" />
+
+  <!-- Right Blush Cheek -->
+  <ellipse cx="327" cy="285" rx="18" ry="12" fill="#FFA5A5" opacity="0.7" />
+
+  <!-- Cute Shiny Eyes -->
+  <!-- Left Eye -->
+  <circle cx="205" cy="255" r="14" fill="#2C3E50" />
+  <circle cx="201" cy="251" r="5" fill="#FFFFFF" />
+  
+  <!-- Right Eye -->
+  <circle cx="307" cy="255" r="14" fill="#2C3E50" />
+  <circle cx="303" cy="251" r="5" fill="#FFFFFF" />
+
+  <!-- Little Happy Smile -->
+  <path d="M244 280 Q256 292 268 280" stroke="#2C3E50" stroke-width="6" stroke-linecap="round" fill="none" />
+
+  <!-- Red Scarf wrapped around the neck -->
+  <path d="M165 345 Q256 385 347 345 C355 335, 360 350, 345 365 Q256 405 167 365 C152 350, 157 335, 165 345 Z" fill="#E74C3C" />
+  <!-- Scarf Knot/Fold -->
+  <circle cx="190" cy="365" r="18" fill="#C0392B" />
+
+  <!-- Sprout Stem on Head -->
+  <path d="M256 125 Q256 70 280 60" stroke="#2E7D32" stroke-width="10" stroke-linecap="round" fill="none" />
+  
+  <!-- Cute Green Leaf -->
+  <path d="M276 60 
+           C290 40, 320 35, 330 55 
+           C335 75, 310 90, 280 66 Z" 
+        fill="#4CAF50" />
+  
+  <!-- Dynamic Sparkles around Mascot -->
+  <path d="M120 150 Q120 150 120 140 Q120 150 130 150 Q120 150 120 160 Q120 150 110 150 Z" fill="#F1C40F" />
+  <path d="M380 170 Q380 170 380 163 Q380 170 387 170 Q380 170 380 177 Q380 170 373 170 Z" fill="#F1C40F" />
+</svg>
