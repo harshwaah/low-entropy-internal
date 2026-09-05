@@ -267,3 +267,99 @@ The Memory domain provides clean extension hooks for Contributor 4 (Caregiver Po
 4. **Memory of the Day Scheduling**:
    - Caregivers can schedule specific memories to coincide with anniversaries, birthdays, or high-anxiety evenings (Sundowning management).
 
+---
+
+## 10. Caregiver Portal Foundation Architecture (Phase 5 / v0.5.0)
+
+### 10.1 Subsystem Overview
+Owned by **Contributor 4 (Caregiver Experience)**, the Caregiver Portal Foundation (`features/caregiver`) provides family-oriented oversight, circadian routine orchestration, and scrapbook memory curation without clinical complexity or invasive surveillance.
+
+```
+features/caregiver/
+├── types/              # Domain contracts (CaregiverPatientOverview, CaregiverReminder, CaregiverActivityLog, CaregiverAlertItem, WeeklyEngagementDay)
+├── data/               # Realistic sample data & state fixtures (sample-caregiver-data.ts)
+├── components/         # Caregiver UI building blocks
+│   ├── caregiver-nav.tsx               # Dedicated responsive top navigation with alert counters
+│   ├── patient-overview-card.tsx       # Prominent patient status & telemetry summary card
+│   ├── reminder-overview-card.tsx      # Daily reminders summary with one-tap status toggles
+│   ├── memory-engagement-summary.tsx   # Scrapbook engagement & family note metrics
+│   ├── recent-activity-stream.tsx      # Chronological timeline of check-ins and routines
+│   ├── add-memory-modal.tsx            # Scrapbook keepsake curation modal flow
+│   ├── add-reminder-modal.tsx          # Circadian routine & medication creation modal
+│   ├── edit-reminder-modal.tsx         # Schedule timing & instruction update modal
+│   ├── weekly-engagement-chart.tsx     # 7-day rhythmic harmony bar visualization
+│   ├── insight-metrics-cards.tsx       # 4 core caregiver telemetry metric cards
+│   ├── calm-alert-item.tsx             # Empathetic, non-alarming notification item
+│   └── index.ts                        # Component barrel export
+├── services/           # ICaregiverService abstraction providing asynchronous mock data retrieval
+└── index.ts            # Public feature export barrel
+```
+
+### 10.2 Core Domain Models
+```typescript
+export interface CaregiverPatientOverview {
+  id: string;
+  name: string;
+  preferredName: string;
+  relation: string;
+  age: number;
+  condition: string;
+  currentStatus: string;
+  lastCheckInTime: string;
+  todayEngagement: number; // e.g. 84%
+  lastMemoryViewed: {
+    title: string;
+    era: string;
+    timeAgo: string;
+  };
+  lastActivityCompleted: {
+    title: string;
+    category: string;
+    time: string;
+  };
+  reminderCompletion: {
+    completed: number;
+    total: number;
+    percentage: number;
+  };
+  companionNote: string;
+}
+
+export interface CaregiverReminder {
+  id: string;
+  title: string;
+  category: 'medication' | 'routine' | 'custom';
+  period: 'morning' | 'afternoon' | 'evening' | 'bedtime';
+  timeFormatted: string;
+  instructions: string;
+  recurrence: 'daily' | 'weekdays' | 'weekends' | 'custom';
+  requiresCaregiverValidation: boolean;
+  status: 'completed' | 'upcoming' | 'missed';
+  completedAt?: string;
+  medicationDosageNote?: string;
+  assignedTo: string;
+  iconName?: string;
+}
+
+export interface CaregiverAlertItem {
+  id: string;
+  patientId: string;
+  severity: 'gentle' | 'info' | 'observation';
+  type: 'reminder-missed' | 'routine-deviation' | 'sos-beacon' | 'environmental';
+  title: string;
+  message: string;
+  timestamp: string;
+  acknowledged: boolean;
+  contextNote: string;
+  recommendedAction?: string;
+}
+```
+
+### 10.3 Route Architecture & Separation of Concerns
+1. `/caregiver`: Central Command Center featuring the `PatientOverviewCard`, `ReminderOverviewCard`, `MemoryEngagementSummary`, and `RecentActivityStream`.
+2. `/caregiver/memories`: Comprehensive memory vault management with interactive `AddMemoryModal`, era/location filtering, and family love note inspection.
+3. `/caregiver/reminders`: Circadian schedule management with category filters, one-tap complete toggles, `AddReminderModal`, and `EditReminderModal`.
+4. `/caregiver/monitoring`: Wellness trend dashboard with `InsightMetricsCards` and 7-day `WeeklyEngagementChart`.
+5. `/caregiver/alerts`: Empathetic notification center with calm language, acknowledging triggers, and active SOS beacon integration.
+
+

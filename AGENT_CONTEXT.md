@@ -33,7 +33,11 @@
 | `/patient/memories/[id]` | `app/(patient)/patient/memories/[id]/` | Dementia Patient | Dedicated Memory Detail Experience |
 | `/patient/activities` | `app/(patient)/patient/activities/` | Dementia Patient | Gentle Cognitive Activities (Scaffold) |
 | `/patient/profile` | `app/(patient)/patient/profile/` | Dementia Patient | Profile & Caregiver Quick Dial |
-| `/caregiver` | `app/(caregiver)/caregiver/` | Family Caregiver | Responsive Dashboard Shell |
+| `/caregiver` | `app/(caregiver)/caregiver/` | Family Caregiver | Caregiver Command Center |
+| `/caregiver/memories` | `app/(caregiver)/caregiver/memories/` | Family Caregiver | Scrapbook & Keepsake Vault Management |
+| `/caregiver/reminders` | `app/(caregiver)/caregiver/reminders/` | Family Caregiver | Circadian Routine & Medication Schedule |
+| `/caregiver/monitoring` | `app/(caregiver)/caregiver/monitoring/` | Family Caregiver | Activity Monitoring & Weekly Insights |
+| `/caregiver/alerts` | `app/(caregiver)/caregiver/alerts/` | Family Caregiver | Calm Notification & Safety Beacon Center |
 | `/practitioner` | `app/(practitioner)/practitioner/` | Healthcare Practitioner | Desktop Clinical Sidebar |
 
 ---
@@ -70,6 +74,7 @@ Every feature in `features/*` has an `index.ts` file acting as a public API barr
 ```typescript
 // ✅ Good: Import from feature barrel export
 import { MemoryItem } from '@/features/memories';
+import { CaregiverReminder } from '@/features/caregiver';
 
 // ❌ Bad: Deep-linking into internal files
 import { MemoryItem } from '@/features/memories/types/index';
@@ -77,10 +82,27 @@ import { MemoryItem } from '@/features/memories/types/index';
 
 ---
 
-## 4. Verification Commands
+## 6. Caregiver Experience Architecture (Phase 5 / v0.5.0)
+
+1. **Family-Oriented Empowerment**:
+   - The caregiver portal (`app/(caregiver)/caregiver/*` and `features/caregiver/`) is designed for organized, reassuring, family-centric oversight.
+   - It is strictly NOT a corporate, clinical, or administrative tool.
+2. **Zero-Panic Alerting**:
+   - Alerts avoid harsh red tones or alarm sirens. Use soft ambers, calm blues/teals, and comforting explanations that guide gentle caregiver check-ins without panic.
+3. **Scrapbook Keepsake Curation**:
+   - Caregivers can curate memories for the patient by attaching era annotations, photos, narratives, and warm love notes.
+4. **Circadian Scheduling**:
+   - Daily schedules are partitioned into morning, afternoon, evening, and bedtime routines with explicit caregiver validation toggles for high-importance medications.
+5. **No AI/External Backend in Phase 5**:
+   - Uses the rich, typed sample dataset (`sample-caregiver-data.ts`) and modular service layer (`CaregiverService`). External push notifications, databases, and cognitive games remain out of scope for Phase 5.
+
+---
+
+## 7. Verification Commands
 
 Always run these before completing changes:
 ```bash
 npm run build   # Must compile cleanly with 0 TypeScript/Next.js errors
 npm run lint    # Must pass ESLint
 ```
+

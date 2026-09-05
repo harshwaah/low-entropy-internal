@@ -156,4 +156,25 @@ Every memory card acts as an individual scrapbook leaf:
 - **Companion Warm Framing**: The Mascot sits below or beside the photo in a `holding-book` state, gently introducing the memory with contextual familiarity ("This is your childhood home in Jaipur...").
 - **Family Note Accents**: Family contributions are styled as handwritten greeting cards with sender initials, relationship badges, and affectionate messages, anchoring the patient in safety and love.
 
+---
+
+## 12. Caregiver Experience & Portal Design Philosophy
+
+The Caregiver Portal (`/caregiver`) serves as the remote command center and emotional lifeline for family members and primary caregivers:
+
+### 12.1 Emotional Tone & Framing
+- **Empathetic & Supportive**: The interface must feel like a dependable family organizer, never a sterile hospital telemetry dashboard or corporate EMR.
+- **Dignified Family Terminology**: We refer to the recipient by familial titles ("Papa", "Mother", "Kamal-ji") rather than clinical terminology like "Bed 4" or "Subject 102".
+- **Empowerment Over Anxiety**: Caregivers often experience profound emotional burnout. The UI prioritizes reassuring metrics, highlights positive interactions, and validates their compassionate efforts.
+
+### 12.2 Ergonomics & Information Hierarchy
+- **Organized Structure**: Caregiver views feature a structured multi-column layout with clear informational hierarchy, balanced white space, and scannable indicator cards.
+- **Visual Design Tokens**: Retains the core SmritiSaathi design tokens (`Quicksand` typography, `rounded-3xl` card radii, mint `#E8F3EB`, and warm cream `#FDFBF7` canvas).
+- **Interactive Modals**: Seamless inline dialogs for adding memories and scheduling routines without navigating away from the dashboard context.
+
+### 12.3 Calm Notification & Alert Architecture
+- **Zero Panic Colors**: Avoid stark emergency-red banners, flashing strobe indicators, or buzzer sounds. Alarms are framed as gentle observations (e.g., "Afternoon Hydration Follow-up", "Peaceful Routine Shift").
+- **Empathetic Contextual Notes**: Every notice explains the companion's passive observation (e.g., "Papa took a peaceful veranda rest; no distress detected") and suggests gentle, low-pressure next steps.
+- **Safety Beacon Reassurance**: Prominently communicates active sensor status, emergency quick-dials, and geofence health with green trust badges.
+
 

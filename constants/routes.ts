@@ -15,10 +15,12 @@ export const ROUTES = {
   },
   CAREGIVER: {
     ROOT: '/caregiver',
+    MEMORIES: '/caregiver/memories',
+    REMINDERS: '/caregiver/reminders',
     MONITORING: '/caregiver/monitoring',
-    ROUTINES: '/caregiver/routines',
-    STORIES: '/caregiver/stories',
     ALERTS: '/caregiver/alerts',
+    ROUTINES: '/caregiver/reminders',
+    STORIES: '/caregiver/memories',
     WELLBEING: '/caregiver/wellbeing',
   },
   PRACTITIONER: {

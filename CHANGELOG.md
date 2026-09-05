@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.0] - Phase 5: Caregiver Portal Foundation
+
+### Added
+- **Caregiver Home Command Center (`/caregiver`)**:
+  - Replaced the initial placeholder with a comprehensive, family-oriented command center for remote oversight.
+  - Prominent **Patient Summary Card (`PatientOverviewCard`)**: Displays Kamal Sharma's real-time circadian status, today's harmony engagement percentage (84%), reminder completion progress (3/4), last viewed memory, last activity completed, and a reassuring companion mascot daily note.
+  - **Daily Reminders & Medication Overview (`ReminderOverviewCard`)**: Quick-status overview of scheduled routines and medications with one-tap status completion and direct navigation to detailed schedules.
+  - **Memory Engagement Summary (`MemoryEngagementSummary`)**: Highlights curated keepsakes (12 items), most revisited stories, reminiscence chapter breakdown, and family love notes counters.
+  - **Today's Activity Stream (`RecentActivityStream`)**: Chronological telemetry stream of passive check-ins, routine compliance, and emotional grounding moments with companion feedback.
+  - Quick Caregiver Action Bar with instant modals for adding memories and reminders.
+- **Scrapbook & Memory Vault Management (`/caregiver/memories`)**:
+  - Full memory vault interface allowing caregivers to browse, search, and filter all 12 cherished memories across 6 life chapters.
+  - **Add Memory Modal Flow (`AddMemoryModal`)**: Modal enabling caregivers to upload/select photo placeholders, define memory title, specify approximate era/year, location, narrative story, and attach heartfelt family love notes.
+  - Highlighted "Recently Added & Highlighted Memories" carousel/grid with real-time optimistic client state update.
+- **Circadian Reminder & Medication Management (`/caregiver/reminders`)**:
+  - Dedicated schedule hub organized into Medication, Daily Routine, and Custom Reminder categories.
+  - **Add Reminder Flow (`AddReminderModal`)**: Configures title, time period (morning, afternoon, evening, bedtime), dosage notes, recurrence rules, and caregiver verification flags.
+  - **Edit Reminder Flow (`EditReminderModal`)**: Form for modifying scheduled times, administration instructions, and verification prompts.
+  - One-tap status completion toggle ("Completed" / "Mark Done") and reminder removal with toast feedback.
+- **Activity Monitoring & Trend Insights (`/caregiver/monitoring`)**:
+  - Four key caregiver insight cards (`InsightMetricsCards`): Activities completed today, weekly engagement harmony, memory interactions, and zero-panic missed reminder statistics.
+  - **Weekly Engagement Harmony Chart (`WeeklyEngagementChart`)**: 7-day visual rhythmic bar graph tracking circadian stability, routine completion ratios, and daytime relaxation patterns.
+  - Detailed rhythm telemetry breakdown explaining sundowning vulnerability prevention and auditory nostalgia benefits.
+- **Calm Alert Center (`/caregiver/alerts`)**:
+  - Zero-panic alert notification center avoiding alarming red colors or emergency sirens in favor of supportive, empathetic guidance.
+  - Displays missed reminder follow-ups, peaceful circadian routine deviations, and environmental comfort notes.
+  - **Safety Beacon & SOS Placeholder**: Realistic tactile safety beacon integration showcasing synced bedside pendant status, instant family quick-dial, and signal test simulator.
+  - Filter by pending vs. acknowledged alerts with interactive acknowledge toggles and gentle mascot chime triggers.
+- **Dedicated Caregiver Navigation (`CaregiverNav`)**:
+  - Responsive top navigation bar featuring the SmritiSaathi brand logo, live patient health pill, responsive sub-route links, dynamic alert notification badge, and caregiver profile indicator.
+
 ## [0.4.0] - Phase 4: Memory Scrapbook Experience
 
 ### Added
