@@ -17,9 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Component Updates**:
   - Overhauled `Button` component in `components/ui/button.tsx` with rounded pill shapes, scale animations, and brand colors.
   - Overhauled `Card` component in `components/ui/card.tsx` with soft shadows and large corner radii (removing harsh borders).
+  - Created highly reusable foundational components from the landing page: `FeatureCard`, `HelpCard`, `TimelineNode`, `StatBlock`, `SectionHeader`.
+  - Created global `Navigation` and `Footer` components.
+- **Mascot System**:
+  - Implemented reusable `<Mascot />` component supporting varying emotional states (`happy`, `holding-heart`, `holding-book`) to standardize interactions and empathy across the UI.
 - **Landing Page Implementation**:
   - Rebuilt `app/page.tsx` entirely to match the approved visual identity and structure.
-  - Included a Hero section with mascot placeholder, Persona cards, Feature icons, Companion section, and Impact stats.
+  - Composed the landing page using strictly the new shared component system.
 - **Documentation**:
   - Updated `DESIGN.md`, `AGENT_CONTEXT.md`, and `ARCHITECTURE.md` to reflect the new visual identity.
 

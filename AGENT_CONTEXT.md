@@ -18,6 +18,8 @@
    - MUST use `Quicksand` font (`font-sans`).
    - Cards MUST use `rounded-3xl` and buttons MUST use `rounded-full`.
    - Never use sharp corners or clinical hospital aesthetics. Use warm, pastel colors and soft shadows.
+   - **Shared Components**: MUST use the reusable library located in `components/shared/` (`FeatureCard`, `HelpCard`, `TimelineNode`, `StatBlock`, `SectionHeader`, `Mascot`, `Navigation`, `Footer`) instead of recreating them inline.
+   - **Mascot Interaction**: The `<Mascot />` component must be leveraged to guide the user emotionally across flows.
 
 ---
 

@@ -41,11 +41,21 @@ SmritiSaathi’s visual identity rejects sterile, corporate, or hospital-like ae
 SmritiSaathi features a central mascot: a cute, round, white ghost-like/sprout character with a small green leaf on its head and a red scarf.
 
 - **Purpose**: The mascot acts as the embodiment of the AI companion. It humanizes the interface and provides a friendly focal point.
-- **Usage Rules**:
-  - The mascot should accompany empty states, success messages, and major onboarding flows.
-  - Do not overuse the mascot in dense UI areas (like practitioner dashboards) where it might distract.
-  - The mascot should always convey a positive, empathetic, or gently guiding emotion.
-  - Associated iconography (like the heart or stars) often floats around the mascot.
+- **Component Architecture**: The `<Mascot />` component is highly reusable and supports various sizes (`sm`, `md`, `lg`, `xl`) and states.
+- **Emotional States**:
+  - `default`: Friendly, attentive baseline expression. Used for general presence.
+  - `happy`: Smiling with closed eyes, used for celebration, encouragement, and the CTA/completion screens.
+  - `holding-heart`: Hugging a red heart. Used for sections regarding caregiving, connection, and family bonds.
+  - `holding-book`: Holding a brown "Good Memories" scrapbook. Used for reminiscence therapies and journaling.
+  - `greeting`: Hand waving. Used primarily on the Hero or Dashboard entry points.
+- **Mascot Usage & Placement Rules**:
+  - The mascot should accompany empty states, success messages, and major onboarding flows to provide an emotional anchor.
+  - Do not overuse the mascot in dense UI areas (like practitioner clinical dashboards) where it might distract from objective data.
+  - The mascot must be accompanied by contextual floating elements (e.g., stars, hearts, floating polaroids) to build narrative scenes.
+- **Mascot Interaction Patterns**:
+  - The mascot communicates via an adjacent or overlapping "Speech Bubble" element.
+  - Keep speech text short, utilizing bold keywords and emojis (like ❤️) for scannability.
+  - When responding to user input, transition the mascot's state to match the sentiment (e.g., transitioning to `happy` when a routine is marked complete).
 
 ## 5. The Patient-First Philosophy
 
@@ -63,9 +73,14 @@ Individuals with dementia experience sensory overload, visual agnosia, and spati
 - Traditional apps use validation errors, red warnings, and countdown timers. In dementia care, red banners and buzzer sounds induce agitation and catastrophizing.
 - **Zero Fail States**: Activities and routines never score a "Wrong Answer" or display negative feedback. Unsuccessful attempts are met with gentle positive reinforcement and graceful automated assistance.
 
-### 5.3 Tactile & Visual Ergonomics
-- **Touch Targets**: All interactive elements have a minimum touch target of **56px × 56px** (above the standard 48px).
-- **High Contrast**: Pass WCAG AAA (7:1 contrast ratio) between text and background.
+### 5.3 Tactile & Visual Ergonomics (Accessibility)
+- **Elderly User Optimization**: The interface must prioritize readability and visual comfort over information density.
+- **Touch Targets**: All interactive elements (buttons, cards) have an oversized minimum touch target of **56px × 56px**.
+- **High Contrast**: Pass WCAG AAA (7:1 contrast ratio) between text and background. 
+- **Readability & Visual Comfort**:
+  - `Quicksand` provides highly legible, rounded letterforms that prevent visual crowding.
+  - Generous line-height (`leading-relaxed`) and constrained line widths improve tracking for users with declining visual acuity.
+  - Muted background tones (warm creams and off-whites instead of stark pure-white) prevent photophobia and screen glare.
 
 ---
 
