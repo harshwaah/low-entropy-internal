@@ -25,7 +25,7 @@ export default function PatientActivitiesHubPage() {
   const progress = cognitiveService.getProgressSummary();
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-8 animate-in fade-in duration-300">
+    <div className="p-4 sm:p-6 lg:p-8 pb-28 sm:pb-32 space-y-8 animate-in fade-in duration-300">
       
       {/* 1. Companion Greeting Section */}
       <section

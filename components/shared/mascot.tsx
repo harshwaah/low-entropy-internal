@@ -111,43 +111,43 @@ export function Mascot({
         </div>
       )}
 
-      {/* Speech Bubble: Positioned securely so it NEVER obscures the mascot's eyes or smile */}
+      {/* Speech Bubble: Positioned securely so it NEVER obscures the mascot's eyes or smile and never overflows viewport */}
       {showSpeechBubble && speechText && (
         <div 
           className={cn(
-            "absolute z-30 transition-all duration-300",
+            "absolute z-30 transition-all duration-300 pointer-events-none",
             // Position mapping relative to container
             speechPosition === 'top-right' && (
-              size === 'sm' ? "-top-10 -right-20" :
-              size === 'md' ? "-top-14 -right-12 sm:-right-20" :
-              size === 'lg' ? "-top-16 -right-6 sm:-right-16" :
+              size === 'sm' ? "-top-8 -right-14 sm:-right-20" :
+              size === 'md' ? "-top-12 -right-4 sm:-right-16" :
+              size === 'lg' ? "-top-14 -right-2 sm:-right-10" :
               "-top-8 right-2 sm:right-6"
             ),
             speechPosition === 'top-left' && (
-              size === 'sm' ? "-top-10 -left-20" :
-              size === 'md' ? "-top-14 -left-12 sm:-left-20" :
-              size === 'lg' ? "-top-16 -left-6 sm:-left-16" :
+              size === 'sm' ? "-top-8 -left-14 sm:-left-20" :
+              size === 'md' ? "-top-12 -left-4 sm:-left-16" :
+              size === 'lg' ? "-top-14 -left-2 sm:-left-10" :
               "-top-8 left-2 sm:left-6"
             ),
             speechPosition === 'top' && (
-              "-top-20 left-1/2 -translate-x-1/2"
+              "-top-14 sm:-top-16 left-1/2 -translate-x-1/2"
             ),
             speechPosition === 'right' && (
-              "top-1/2 -translate-y-1/2 -right-28 sm:-right-36"
+              "top-1/2 -translate-y-1/2 -right-24 sm:-right-32"
             )
           )}
         >
-          <div className="relative bg-white border border-brand-border/80 px-5 py-3.5 rounded-3xl shadow-lg text-brand-dark text-sm sm:text-base font-bold whitespace-normal max-w-[240px] sm:max-w-xs leading-relaxed">
+          <div className="relative bg-white border border-brand-border/90 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-2xl sm:rounded-3xl shadow-md text-brand-dark text-xs sm:text-sm font-bold whitespace-normal max-w-[180px] sm:max-w-[220px] leading-snug text-center">
             {speechText}
             
             {/* Speech Bubble Pointer / Tail connecting to the mascot */}
             <div 
               className={cn(
-                "absolute w-3.5 h-3.5 bg-white border-b border-l border-brand-border/80 transform rotate-45",
-                speechPosition === 'top-right' && "bottom-[-7px] left-6",
-                speechPosition === 'top-left' && "bottom-[-7px] right-6",
-                speechPosition === 'top' && "bottom-[-7px] left-1/2 -translate-x-1/2",
-                speechPosition === 'right' && "left-[-7px] top-1/2 -translate-y-1/2 rotate-45"
+                "absolute w-3 h-3 bg-white border-b border-l border-brand-border/90 transform rotate-45",
+                speechPosition === 'top-right' && "bottom-[-6px] left-4 sm:left-6",
+                speechPosition === 'top-left' && "bottom-[-6px] right-4 sm:right-6",
+                speechPosition === 'top' && "bottom-[-6px] left-1/2 -translate-x-1/2",
+                speechPosition === 'right' && "left-[-6px] top-1/2 -translate-y-1/2 rotate-45"
               )}
             />
           </div>

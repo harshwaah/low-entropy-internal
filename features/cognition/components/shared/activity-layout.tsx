@@ -28,7 +28,7 @@ export function ActivityLayout({
   children,
 }: ActivityLayoutProps) {
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-6 animate-in fade-in duration-300">
+    <div className="p-4 sm:p-6 lg:p-8 pb-28 sm:pb-32 space-y-6 animate-in fade-in duration-300">
       {/* Top Header with accessible touch-target back button */}
       <header className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">

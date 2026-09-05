@@ -8,7 +8,7 @@ import { ActivityCompletionCard } from '../shared/activity-completion-card';
 import { ActivityProgressCard } from '../shared/activity-progress-card';
 import { Mascot } from '@/components/shared/mascot';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Heart, Check, RotateCcw } from 'lucide-react';
+import { Sparkles, Heart, Check, RotateCcw, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function MemoryMatchGame() {
@@ -49,7 +49,6 @@ export function MemoryMatchGame() {
   };
 
   const handleCardClick = (index: number) => {
-    // Ignore click if checking pair, already flipped, or matched
     if (isChecking || flippedIndices.includes(index) || cards[index].isMatched) {
       return;
     }
@@ -91,21 +90,21 @@ export function MemoryMatchGame() {
               `Wonderful match! You found both ${firstCard.title}s! 🌼`
             );
           }
-        }, 600);
+        }, 500);
       } else {
-        // NO MATCH - Gentle pause, no penalty
+        // NO MATCH - Gentle pause, zero penalty
         setTimeout(() => {
           setCompanionFeedback(
             `No hurry at all! Let's remember where they are and try another card.`
           );
           setFlippedIndices([]);
           setIsChecking(false);
-        }, 1300);
+        }, 1100);
       }
     }
   };
 
-  // 1. Initial Start State View
+  // 1. Initial Visual Start State View (Clean, scannable, visual preview)
   if (!gameStarted) {
     return (
       <ActivityLayout
@@ -119,21 +118,46 @@ export function MemoryMatchGame() {
             state="greeting"
             showSpeechBubble={true}
             speechPosition="top-right"
-            speechText={<>Hello Meera!<br/>Ready for a peaceful matching game? 🫖✨</>}
-            className="mb-2"
+            speechText={<>Hello Meera!<br/>Let&apos;s match some sweet memories! 🫖✨</>}
+            className="mb-1"
           />
 
-          <div className="max-w-md mx-auto space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-dark">
-              Familiar Pairs to Discover
+          <div className="max-w-md mx-auto space-y-2">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-dark tracking-tight">
+              Gentle Memory Match
             </h2>
             <p className="text-base sm:text-lg text-brand-muted font-medium leading-relaxed">
-              We will turn over gentle cards to match pairs of hot chai, fresh marigolds, sweet mangoes, and cozy lamps. Take all the time you like.
+              Turn over the tiles to pair up familiar treasures.
             </p>
           </div>
 
-          {/* Difficulty Selection */}
-          <div className="bg-brand-light-alt rounded-2xl p-4 max-w-sm mx-auto border border-brand-border space-y-3">
+          {/* Visual Sample Preview of Treasures */}
+          <div className="bg-brand-light-alt/80 rounded-3xl p-4 border border-brand-border/80 max-w-sm mx-auto space-y-2.5">
+            <span className="text-xs font-black uppercase tracking-wider text-brand-primary block">
+              Treasures To Match:
+            </span>
+            <div className="grid grid-cols-4 gap-2">
+              <div className="bg-white p-2 rounded-2xl border border-brand-border/60 text-center shadow-2xs">
+                <span className="text-2xl block">☕</span>
+                <span className="text-[10px] font-bold text-brand-dark block mt-0.5">Hot Chai</span>
+              </div>
+              <div className="bg-white p-2 rounded-2xl border border-brand-border/60 text-center shadow-2xs">
+                <span className="text-2xl block">🌼</span>
+                <span className="text-[10px] font-bold text-brand-dark block mt-0.5">Marigold</span>
+              </div>
+              <div className="bg-white p-2 rounded-2xl border border-brand-border/60 text-center shadow-2xs">
+                <span className="text-2xl block">🥭</span>
+                <span className="text-[10px] font-bold text-brand-dark block mt-0.5">Mango</span>
+              </div>
+              <div className="bg-white p-2 rounded-2xl border border-brand-border/60 text-center shadow-2xs">
+                <span className="text-2xl block">🦚</span>
+                <span className="text-[10px] font-bold text-brand-dark block mt-0.5">Peacock</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Difficulty Pace Selector */}
+          <div className="bg-white rounded-2xl p-3.5 max-w-sm mx-auto border-2 border-brand-border/80 space-y-2">
             <span className="text-xs font-bold text-brand-muted uppercase tracking-wider block">
               Choose your comfortable pace:
             </span>
@@ -142,40 +166,41 @@ export function MemoryMatchGame() {
                 type="button"
                 onClick={() => setDifficulty('gentle')}
                 className={cn(
-                  "p-3 rounded-xl font-bold text-sm transition-all border-2",
+                  "p-3 rounded-2xl font-bold text-sm transition-all border-2 cursor-pointer active:scale-95",
                   difficulty === 'gentle'
                     ? "bg-brand-primary text-white border-brand-primary shadow-sm"
-                    : "bg-white text-brand-dark border-brand-border hover:bg-brand-light"
+                    : "bg-brand-light-alt text-brand-dark border-brand-border hover:bg-white"
                 )}
               >
                 🌸 Gentle
-                <span className="block text-xs font-medium opacity-80 mt-0.5">3 Pairs (6 Cards)</span>
+                <span className="block text-xs font-semibold opacity-90 mt-0.5">3 Pairs (6 Tiles)</span>
               </button>
               <button
                 type="button"
                 onClick={() => setDifficulty('standard')}
                 className={cn(
-                  "p-3 rounded-xl font-bold text-sm transition-all border-2",
+                  "p-3 rounded-2xl font-bold text-sm transition-all border-2 cursor-pointer active:scale-95",
                   difficulty === 'standard'
                     ? "bg-brand-primary text-white border-brand-primary shadow-sm"
-                    : "bg-white text-brand-dark border-brand-border hover:bg-brand-light"
+                    : "bg-brand-light-alt text-brand-dark border-brand-border hover:bg-white"
                 )}
               >
                 🌿 Relaxing
-                <span className="block text-xs font-medium opacity-80 mt-0.5">4 Pairs (8 Cards)</span>
+                <span className="block text-xs font-semibold opacity-90 mt-0.5">4 Pairs (8 Tiles)</span>
               </button>
             </div>
           </div>
 
-          {/* Start Button */}
+          {/* Big Accessible Start Button */}
           <div className="pt-2">
             <Button
               size="lg"
               onClick={handleStartGame}
-              className="w-full sm:w-auto min-w-[240px] h-16 rounded-full text-xl font-bold bg-brand-primary hover:bg-brand-primary/90 text-white shadow-md active:scale-95 transition-all"
+              className="w-full sm:w-auto min-w-[240px] h-16 rounded-full text-xl font-bold bg-brand-primary hover:bg-brand-primary/90 text-white shadow-md active:scale-95 transition-all flex items-center justify-center gap-2 mx-auto"
             >
-              <Sparkles className="mr-2.5 w-6 h-6" />
-              Begin Activity
+              <Sparkles className="w-6 h-6" />
+              <span>Start Matching</span>
+              <ArrowRight className="w-5 h-5 stroke-[2.5]" />
             </Button>
           </div>
         </div>
@@ -206,7 +231,7 @@ export function MemoryMatchGame() {
     );
   }
 
-  // 3. Play State View
+  // 3. Play State View (High-quality Board & Tactile Wooden Keepsake Cards)
   return (
     <ActivityLayout
       title="Memory Match"
@@ -219,7 +244,7 @@ export function MemoryMatchGame() {
           variant="outline"
           size="sm"
           onClick={() => resetGame(difficulty)}
-          className="rounded-full border-brand-border bg-white text-brand-dark hover:bg-brand-light-alt font-bold h-11 px-4 text-sm flex items-center gap-1.5 shadow-sm"
+          className="rounded-full border-brand-border bg-white text-brand-dark hover:bg-brand-light-alt font-bold h-11 px-4 text-sm flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
         >
           <RotateCcw className="w-4 h-4 text-brand-primary" />
           <span>Shuffle</span>
@@ -235,98 +260,106 @@ export function MemoryMatchGame() {
         showHearts={true}
       />
 
-      {/* Card Grid: Accessible, large cards, clear touch targets */}
-      <div
-        className={cn(
-          "grid gap-4 sm:gap-5 justify-center mx-auto",
-          totalPairs === 3
-            ? "grid-cols-2 sm:grid-cols-3 max-w-lg"
-            : "grid-cols-2 sm:grid-cols-4 max-w-xl"
-        )}
-      >
-        {cards.map((card, idx) => {
-          const isFlipped = flippedIndices.includes(idx) || card.isMatched;
-          const isMatched = card.isMatched;
+      {/* Board Presentation Container */}
+      <div className="bg-stone-50/80 p-4 sm:p-6 rounded-[2.5rem] border-2 border-brand-border/80 shadow-inner">
+        {/* Card Grid: Accessible, large tactile cards with rich front and back */}
+        <div
+          className={cn(
+            "grid gap-3.5 sm:gap-5 justify-center mx-auto",
+            totalPairs === 3
+              ? "grid-cols-2 sm:grid-cols-3 max-w-lg"
+              : "grid-cols-2 sm:grid-cols-4 max-w-xl"
+          )}
+        >
+          {cards.map((card, idx) => {
+            const isFlipped = flippedIndices.includes(idx) || card.isMatched;
+            const isMatched = card.isMatched;
 
-          return (
-            <button
-              key={card.id}
-              type="button"
-              onClick={() => handleCardClick(idx)}
-              disabled={isMatched || isChecking}
-              aria-label={
-                isFlipped
-                  ? `${card.title}, ${isMatched ? 'already matched' : 'face up'}`
-                  : `Hidden card ${idx + 1}`
-              }
-              className={cn(
-                "relative aspect-square w-full min-h-[120px] sm:min-h-[140px] rounded-3xl p-3 sm:p-4 text-center transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-brand-primary/40 active:scale-95 flex flex-col items-center justify-center select-none shadow-sm",
-                isMatched
-                  ? "bg-emerald-50 border-2 border-emerald-400 shadow-md ring-2 ring-emerald-200"
-                  : isFlipped
-                  ? "bg-white border-2 border-brand-primary shadow-md scale-[1.02]"
-                  : "bg-gradient-to-br from-brand-primary to-brand-dark border-2 border-brand-dark hover:brightness-105"
-              )}
-            >
-              {isFlipped ? (
-                // Front Face (Content revealed)
-                <div className="flex flex-col items-center justify-center space-y-1.5 animate-in zoom-in-75 duration-200">
-                  <span className="text-4xl sm:text-5xl drop-shadow-sm" role="img" aria-hidden="true">
-                    {card.symbol}
-                  </span>
-                  <p className="text-sm sm:text-base font-extrabold text-brand-dark leading-tight line-clamp-1">
-                    {card.title}
-                  </p>
-                  {isMatched && (
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">
-                      <Check className="w-3 h-3 stroke-[3]" /> Matched
+            return (
+              <button
+                key={card.id}
+                type="button"
+                onClick={() => handleCardClick(idx)}
+                disabled={isMatched || isChecking}
+                aria-label={
+                  isFlipped
+                    ? `${card.title}, ${isMatched ? 'already matched' : 'face up'}`
+                    : `Hidden card ${idx + 1}`
+                }
+                className={cn(
+                  "relative aspect-square w-full min-h-[120px] sm:min-h-[145px] rounded-3xl p-3 text-center transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-brand-primary/40 active:scale-95 flex flex-col items-center justify-center select-none shadow-sm cursor-pointer",
+                  isMatched
+                    ? "bg-gradient-to-b from-emerald-50 to-emerald-100/90 border-3 border-emerald-400 shadow-md ring-4 ring-emerald-200/70"
+                    : isFlipped
+                    ? "bg-white border-3 border-brand-primary shadow-lg scale-[1.03]"
+                    : "bg-gradient-to-br from-brand-primary via-[#366854] to-brand-dark border-3 border-brand-dark/90 hover:brightness-105 shadow-md"
+                )}
+              >
+                {isFlipped ? (
+                  // Front Face (Revealed Artwork)
+                  <div className="flex flex-col items-center justify-center space-y-1 animate-in zoom-in-75 duration-200">
+                    <span className="text-4xl sm:text-5xl drop-shadow-sm select-none" role="img" aria-hidden="true">
+                      {card.symbol}
                     </span>
-                  )}
-                </div>
-              ) : (
-                // Back Face (Pattern)
-                <div className="flex flex-col items-center justify-center text-white/80 space-y-2">
-                  <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center border border-white/20">
-                    <Sparkles className="w-6 h-6 text-brand-accent-yellow" />
+                    <p className="text-xs sm:text-sm font-black text-brand-dark leading-tight line-clamp-1">
+                      {card.title}
+                    </p>
+                    {isMatched ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-black text-emerald-800 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded-full shadow-2xs">
+                        <Check className="w-3 h-3 stroke-[3]" /> Matched
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-semibold text-brand-muted">
+                        Finding Twin...
+                      </span>
+                    )}
                   </div>
-                  <span className="text-xs font-bold text-white/70 tracking-wider uppercase">
-                    Tap
-                  </span>
-                </div>
-              )}
-            </button>
-          );
-        })}
+                ) : (
+                  // Back Face (Embossed Keepsake Motif)
+                  <div className="flex flex-col items-center justify-center text-white space-y-1.5 pointer-events-none">
+                    <div className="w-12 h-12 rounded-2xl bg-white/15 flex items-center justify-center border border-white/30 shadow-inner">
+                      <span className="text-xl">🪷</span>
+                    </div>
+                    <span className="text-[11px] font-black text-white/90 tracking-widest uppercase">
+                      Tap
+                    </span>
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Difficulty Switcher below during play */}
+      {/* Quick Pace Switcher below during active play */}
       <div className="flex items-center justify-center gap-3 pt-2">
-        <span className="text-xs font-bold text-brand-muted">Game Pace:</span>
+        <span className="text-xs font-bold text-brand-muted">Active Mode:</span>
         <button
           type="button"
           onClick={() => handleDifficultyChange('gentle')}
           className={cn(
-            "px-3 py-1 rounded-full text-xs font-bold transition-colors border",
+            "px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors border-2 cursor-pointer",
             difficulty === 'gentle'
-              ? "bg-brand-primary text-white border-brand-primary"
-              : "bg-white text-brand-muted border-brand-border"
+              ? "bg-brand-primary text-white border-brand-primary shadow-xs"
+              : "bg-white text-brand-dark border-brand-border hover:bg-brand-light-alt"
           )}
         >
-          3 Pairs
+          3 Pairs (6 Cards)
         </button>
         <button
           type="button"
           onClick={() => handleDifficultyChange('standard')}
           className={cn(
-            "px-3 py-1 rounded-full text-xs font-bold transition-colors border",
+            "px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors border-2 cursor-pointer",
             difficulty === 'standard'
-              ? "bg-brand-primary text-white border-brand-primary"
-              : "bg-white text-brand-muted border-brand-border"
+              ? "bg-brand-primary text-white border-brand-primary shadow-xs"
+              : "bg-white text-brand-dark border-brand-border hover:bg-brand-light-alt"
           )}
         >
-          4 Pairs
+          4 Pairs (8 Cards)
         </button>
       </div>
     </ActivityLayout>
   );
 }
+
