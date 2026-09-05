@@ -122,3 +122,38 @@ The mascot serves as an emotional anchor, not generic visual filler:
   4. **Memory Introductions**: Gentle framing before nostalgic storytelling.
 - **Avoid Over-Saturation**: Never place the mascot in every nested card or repetitive list item. One primary mascot presence per screen establishes calm focus.
 
+---
+
+## 9. Scrapbook Experience Philosophy
+
+The Memory Scrapbook is the emotional core of SmritiSaathi. It is fundamentally designed as a **family keepsake album**, actively rejecting the conventions of medical databases, clinical dashboards, file managers, or generic social media feeds:
+- **Warm Nostalgic Atmosphere**: The palette centers around warm off-whites (`#FFFDF9`, `#FFF8F0`), parchment textures (`#F0E6D8`), and soft amber accents (`#F59E0B`, `#E07A5F`).
+- **Low Cognitive Load**: No search filter syntax, nested folders, or date-range pickers. Life moments are categorized into 6 universal human chapters (Childhood, Family, School Days, Celebrations, Favorite Places, Cherished Things).
+- **Personalized Dignity**: Memories are not treated as "cognitive recall tests" or pop-quizzes. They are invitations to revisit warm moments, accompanied by love notes from children and grandchildren.
+- **Multi-Sensory Engagement**: Visual photos are paired with companion voice notes and recorded family narrations to stimulate auditory and emotional memory centers simultaneously.
+
+---
+
+## 10. Memory Card Design Guidelines
+
+Every memory card acts as an individual scrapbook leaf:
+- **Polaroid Framing**: 16px-24px outer border with subtle off-white backgrounds (`#FFFDF9`), soft organic corner radius (32px), and a top paper tape accent (`bg-amber-100/80`).
+- **Card Anatomy**:
+  1. **Cover Image**: High-resolution image rendered with 4:3 aspect ratio, covered with a gentle gradient overlay for text readability.
+  2. **Emotional Tag Badge**: Pill anchored in the upper-left (e.g., "Warm Nostalgia", "Pure Joy", "Lifelong Love") with an icon indicator.
+  3. **Voice Note Pill**: Anchored in the upper-right when a family audio narration is present (`Volume2` icon + duration).
+  4. **Date & Location**: High-contrast, semi-transparent pill in the lower-left (`Calendar` + era text, `MapPin` + city).
+  5. **Card Body**: High-contrast title (`text-2xl font-bold text-brand-dark`), short 2-line evocative teaser, and family note count metadata.
+  6. **Interactive Target**: Entire card is a single, accessible anchor (`<Link>`) with a minimum 56px touch footprint and gentle hover scale (`hover:scale-[1.01]`).
+
+---
+
+## 11. Photo Presentation & Reminiscence Standards
+
+- **Large Photo Hierarchy**: In the Memory Detail view (`/patient/memories/[id]`), the photograph is the undisputed visual hero, taking prominent center stage with generous margins and optional companion caption quotes.
+- **No Referrer Restrictions**: All `<Image />` elements enforce `referrerPolicy="no-referrer"` to prevent broken image renders from remote CDNs.
+- **High Visual Contrast**: Captions and companion prompts are rendered with minimum 4.5:1 contrast ratios against parchment backgrounds.
+- **Companion Warm Framing**: The Mascot sits below or beside the photo in a `holding-book` state, gently introducing the memory with contextual familiarity ("This is your childhood home in Jaipur...").
+- **Family Note Accents**: Family contributions are styled as handwritten greeting cards with sender initials, relationship badges, and affectionate messages, anchoring the patient in safety and love.
+
+

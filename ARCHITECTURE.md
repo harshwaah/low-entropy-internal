@@ -196,3 +196,74 @@ import type { UserRole } from '@/types/user';
 2. **Clinical EHR Integration**: Exporting cognitive stability scores via HL7 FHIR standard protocols to Epic/Cerner health records.
 3. **PWA Offline Mode**: Service worker caching of memories and daily routines for uninterrupted access during network outages.
 4. **Wearable Telemetry Sync**: Integrating smartwatch sleep and heart-rate variability data to correlate circadian rhythms with cognitive clarity.
+
+---
+
+## 9. Memory Scrapbook Domain Architecture (Phase 4 / v0.4.0)
+
+### 9.1 Subsystem Overview
+The Memory Scrapbook domain (`features/memories`) is built as a self-contained, patient-first reminiscence subsystem. It operates under strict feature barrier isolation:
+```
+features/memories/
+├── types/              # Domain contracts (MemoryItem, MemoryCategory, FamilyNote, AudioNarration)
+├── data/               # Sample memory repository & category definitions
+├── components/         # Scrapbook UI primitives (MemoryCard, MemoryOfTheDay, MemoryDetailView, MemoryAudioPlayer, CategorySelector)
+├── services/           # IMemoryService repository contract for patient & caregiver views
+└── index.ts            # Public barrel export
+```
+
+### 9.2 Memory Data Structures
+```typescript
+export interface MemoryItem {
+  id: string;
+  patientId: string;
+  title: string;
+  shortDescription: string;
+  story: string[];
+  dateEra: string;
+  yearApproximate?: string;
+  location?: string;
+  category: 'childhood' | 'family' | 'school' | 'celebrations' | 'places' | 'things';
+  emotionalTag: string;
+  emotionalColor?: string;
+  companionIntro: string;
+  coverImage: string;
+  imageAlt: string;
+  imageCaption?: string;
+  familiarPeople: string[];
+  familyNotes: FamilyNote[];
+  audioNarration?: AudioNarration;
+  isMemoryOfTheDay?: boolean;
+  createdAt: string;
+}
+
+export interface FamilyNote {
+  id: string;
+  author: string;
+  relation: string;
+  text: string;
+  date?: string;
+  avatarInitials?: string;
+  avatarBg?: string;
+}
+
+export interface AudioNarration {
+  narrator: string;
+  relation?: string;
+  duration: string;
+  title: string;
+  previewUrl?: string;
+}
+```
+
+### 9.3 Future Caregiver Integration Points
+The Memory domain provides clean extension hooks for Contributor 4 (Caregiver Portal):
+1. **Memory Curation API (`IMemoryService.addMemory(item)`)**:
+   - Caregivers can upload high-resolution family photographs, add era annotations, and tag familiar relatives.
+2. **Family Note Contribution**:
+   - Family members can submit loving notes, voice recordings, and comforting anecdotes that append directly to `memory.familyNotes`.
+3. **Reminiscence Engagement Telemetry**:
+   - Patient visits to memories, audio playback durations, and repeated reviews are logged to trigger caregiver alerts regarding positive reminiscence states without intruding on patient privacy.
+4. **Memory of the Day Scheduling**:
+   - Caregivers can schedule specific memories to coincide with anniversaries, birthdays, or high-anxiety evenings (Sundowning management).
+

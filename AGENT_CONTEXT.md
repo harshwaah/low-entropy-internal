@@ -29,7 +29,8 @@
 | :--- | :--- | :--- | :--- |
 | `/` | `app/page.tsx` | Solution Portal / Landing Page | Root Gateway |
 | `/patient` | `app/(patient)/patient/` | Dementia Patient | Centered App (`max-w-2xl`), Bottom Nav |
-| `/patient/memories` | `app/(patient)/patient/memories/` | Dementia Patient | Memory Scrapbook (Scaffold) |
+| `/patient/memories` | `app/(patient)/patient/memories/` | Dementia Patient | Memory Scrapbook Hub |
+| `/patient/memories/[id]` | `app/(patient)/patient/memories/[id]/` | Dementia Patient | Dedicated Memory Detail Experience |
 | `/patient/activities` | `app/(patient)/patient/activities/` | Dementia Patient | Gentle Cognitive Activities (Scaffold) |
 | `/patient/profile` | `app/(patient)/patient/profile/` | Dementia Patient | Profile & Caregiver Quick Dial |
 | `/caregiver` | `app/(caregiver)/caregiver/` | Family Caregiver | Responsive Dashboard Shell |
@@ -44,7 +45,25 @@
 
 ---
 
-## 4. Public API Feature Pattern
+## 4. Memory Scrapbook Architectural Decisions (Phase 4 / v0.4.0)
+
+1. **Scrapbook vs. Gallery**:
+   - The memory experience is explicitly designed as a warm, tactile family keepsake album.
+   - It is NOT a photo gallery, database, or file manager.
+   - UI styling incorporates Polaroid-style parchment frames, subtle tape accents, emotional tags, and heartfelt love notes from family members.
+2. **Category Model**:
+   - 6 universal human chapters: Childhood (`childhood`), Family (`family`), School Days (`school`), Celebrations (`celebrations`), Favorite Places (`places`), Cherished Things (`things`).
+3. **Memory of the Day**:
+   - Featured on both Patient Home (`/patient`) with a compact card and Memory Hub (`/patient/memories`) with a rich showcase hero.
+4. **Memory Detail Hierarchy**:
+   - Flow: Hero photo → Mascot companion note → Audio narration voice player → Memory narrative story → Family love notes → Gentle sequential navigation.
+5. **No AI/External Backend in Phase 4**:
+   - Uses the typed in-memory sample dataset (`features/memories/data/sample-memories.ts`) with 12 rich memories.
+   - External GenAI summarization, cognitive games, and caregiver editing are deliberately reserved for subsequent phases.
+
+---
+
+## 5. Public API Feature Pattern
 
 Every feature in `features/*` has an `index.ts` file acting as a public API barrier:
 

@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.0] - Phase 4: Memory Scrapbook Experience
+
+### Added
+- **Memory Scrapbook Hub (`/patient/memories`)**:
+  - Replaced the placeholder view with a complete, family scrapbook experience.
+  - Implemented the companion greeting section ("Would you like to revisit a special moment today? ❤️") with the mascot in the `holding-book` state and a speech bubble.
+  - Integrated the featured **Memory of the Day** showcase banner with a nostalgic narrative, era badge, and direct review action.
+  - Built an interactive **Scrapbook Category Selector** with 6 life chapters (🏠 Childhood, 👨‍👩‍👧 Family, 🏫 School Days, 🎂 Celebrations, 🌳 Favorite Places, ❤️ Cherished Things) with immediate visual feedback.
+  - Implemented a responsive grid of Polaroid-framed scrapbook cards with warm cream paper textures, top tape accents, emotional tags, and family notes counters.
+- **Dedicated Memory Detail Page (`/patient/memories/[id]`)**:
+  - Created an immersive memory viewer featuring a large, high-resolution photo with Polaroid framing and photo caption.
+  - Integrated the companion mascot's comforting voice note introducing each memory with personalized context.
+  - Designed the **Story Narrative** section using warm, high-contrast, easily readable typography with drop caps and generous line heights.
+  - Built the **Love Notes from Family** section highlighting messages from children and relatives with avatar badges and timestamps.
+  - Created a sensory **Memory Audio Player** with large play/pause controls, narrator attribution, and calming soundwave visualization.
+  - Added peaceful sequential navigation ("Next Memory", "Explore More Memories") and a gentle not-found recovery page.
+- **Cross-Experience Memory of the Day Integration**:
+  - Integrated `MemoryOfTheDay` across the Patient Home (`/patient`) with a compact card and the Memory Hub (`/patient/memories`) with an expansive hero card.
+- **Sample Nostalgic Dataset**:
+  - Authored 12 realistic, emotionally rich sample memories spanning childhood homes in Jaipur, college graduation at Delhi University, family picnics at Lodi Gardens, wedding days in Agra, monsoon terraces, and baby milestones.
+- **Accessibility & Cognitive Load Architecture**:
+  - Large touch targets (minimum 56px), soothing low-cognitive-load palettes (`#FFFDF9`, `#FFF8F0`), zero timers or test-like pressure, and high-contrast typography.
+
 ## [0.3.1] - Phase 3.1: Patient Experience Stabilization & Companion Polish
 
 ### Fixed & Audited

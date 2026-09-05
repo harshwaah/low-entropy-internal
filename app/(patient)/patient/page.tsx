@@ -5,10 +5,13 @@ import Link from 'next/link';
 import { Mascot } from '@/components/shared/mascot';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Calendar, Image as ImageIcon, Sparkles, CheckCircle2, ChevronRight, Pill, Heart } from 'lucide-react';
+import { Calendar, Image as ImageIcon, Sparkles, CheckCircle2, ChevronRight, Pill, Heart, BookOpen } from 'lucide-react';
+import { MemoryOfTheDay } from '@/features/memories/components/memory-of-the-day';
+import { getMemoryOfTheDay } from '@/features/memories/data/sample-memories';
 
 export default function PatientHomePage() {
   const [medicationTaken, setMedicationTaken] = useState(false);
+  const memoryOfTheDay = getMemoryOfTheDay();
 
   const handleContinueDay = () => {
     const nextSection = document.getElementById('up-next-section');
@@ -119,25 +122,17 @@ export default function PatientHomePage() {
 
       {/* 4. Memory Of The Day Preview */}
       <section>
-        <h3 className="text-2xl font-bold text-brand-dark mb-4 px-2">Memory of the Day</h3>
-        <Link href="/patient/memories" className="block focus:outline-none focus:ring-4 focus:ring-brand-primary/20 rounded-3xl">
-          <Card className="bg-[#FFF8F0] border-0 shadow-sm hover:shadow-md transition-all overflow-hidden group rounded-3xl">
-            <CardContent className="p-0 flex flex-col sm:flex-row items-center">
-              <div className="w-full sm:w-48 h-44 sm:h-48 bg-brand-accent-orange/20 flex items-center justify-center shrink-0">
-                <ImageIcon className="w-16 h-16 text-brand-accent-orange/60 group-hover:scale-110 transition-transform duration-500" />
-              </div>
-              <div className="p-6 sm:p-8 flex-1 flex items-center justify-between w-full">
-                <div>
-                  <h4 className="text-2xl font-bold text-brand-dark mb-2">Diwali 1998</h4>
-                  <p className="text-lg text-brand-muted font-medium">Family gathering at the old house.</p>
-                </div>
-                <div className="bg-white p-3 rounded-full shadow-sm text-brand-accent-orange group-hover:bg-brand-accent-orange group-hover:text-white transition-colors shrink-0 ml-4">
-                  <ChevronRight className="w-8 h-8" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
+        <div className="flex items-center justify-between mb-4 px-2">
+          <h3 className="text-2xl font-bold text-brand-dark">Memory of the Day</h3>
+          <Link 
+            href="/patient/memories" 
+            className="text-sm font-bold text-brand-primary hover:underline flex items-center gap-1"
+          >
+            <span>View All</span>
+            <ChevronRight className="w-4 h-4" />
+          </Link>
+        </div>
+        <MemoryOfTheDay memory={memoryOfTheDay} variant="compact" />
       </section>
 
       {/* 5. Activities Preview */}
