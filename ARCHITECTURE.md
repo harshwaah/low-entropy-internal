@@ -26,6 +26,7 @@ To enable 6 engineers to build at high velocity over a 5-day sprint, the codebas
 2. **Independent Route Groups**: Next.js App Router route groups `(patient)`, `(caregiver)`, and `(practitioner)` allow UI components, navigation, layouts, and error boundaries to evolve without triggering merge conflicts.
 3. **Strict Server-Side Boundary for Secrets**: All future generative AI (Gemini) and sensitive clinical endpoints reside on the server-side (`app/api/*` or Server Actions). Secrets such as `GEMINI_API_KEY` are never exposed to browser bundles.
 4. **Deployability First**: The architecture targets Vercel and Cloud Run containers seamlessly with standalone Next.js compilation, strict typing, and zero hydration mismatches.
+5. **Unified Design System (Phase 2)**: All UI elements strictly adhere to the `Quicksand` font and custom brand colors defined in `app/globals.css`. Components in `components/ui/` act as the single source of truth for the brand's visual identity (soft rounded corners, pastel colors, zero sharp edges).
 
 ---
 

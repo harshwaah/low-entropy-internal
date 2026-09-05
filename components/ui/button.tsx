@@ -3,25 +3,23 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none',
+  'inline-flex items-center justify-center rounded-full text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 select-none active:scale-[0.98]',
   {
     variants: {
       variant: {
-        default: 'bg-emerald-700 text-white hover:bg-emerald-800 shadow-sm focus-visible:ring-emerald-600',
+        default: 'bg-brand-dark text-white hover:bg-brand-dark/90 shadow-sm focus-visible:ring-brand-dark',
         destructive: 'bg-red-600 text-white hover:bg-red-700 shadow-sm focus-visible:ring-red-500',
-        outline: 'border border-slate-200 bg-white hover:bg-slate-50 text-slate-900',
-        secondary: 'bg-slate-100 text-slate-900 hover:bg-slate-200',
-        ghost: 'hover:bg-slate-100 hover:text-slate-900 text-slate-700',
-        link: 'text-emerald-700 underline-offset-4 hover:underline',
-        patient: 'bg-amber-600 text-white hover:bg-amber-700 text-lg font-semibold shadow-md active:scale-98 tracking-wide',
-        clinical: 'bg-blue-800 text-white hover:bg-blue-900 shadow-sm font-medium',
+        outline: 'border-2 border-brand-dark bg-transparent hover:bg-brand-dark hover:text-white text-brand-dark',
+        secondary: 'bg-brand-light text-brand-dark hover:bg-brand-primary hover:text-white',
+        ghost: 'hover:bg-brand-light hover:text-brand-dark text-brand-text',
+        link: 'text-brand-dark underline-offset-4 hover:underline font-semibold',
+        white: 'bg-white text-brand-dark hover:bg-gray-50 shadow-sm',
       },
       size: {
-        default: 'h-10 px-4 py-2',
-        sm: 'h-8 rounded-md px-3 text-xs',
-        lg: 'h-12 rounded-xl px-6 text-base',
-        touch: 'h-14 rounded-2xl px-6 text-lg min-w-[140px]',
-        icon: 'h-10 w-10',
+        default: 'h-11 px-6 py-2.5',
+        sm: 'h-9 px-4 text-xs',
+        lg: 'h-14 px-8 text-base',
+        icon: 'h-11 w-11',
       },
     },
     defaultVariants: {
@@ -51,3 +49,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = 'Button';
 
 export { Button, buttonVariants };
+

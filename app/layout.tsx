@@ -1,5 +1,12 @@
 import type {Metadata} from 'next';
+import { Quicksand } from 'next/font/google';
 import './globals.css'; // Global styles
+
+const quicksand = Quicksand({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'SmritiSaathi | AI Companion for Dementia Care',
@@ -21,8 +28,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning>{children}</body>
+    <html lang="en" className={quicksand.variable}>
+      <body className="antialiased font-sans bg-brand-background text-brand-text min-h-screen selection:bg-brand-primary/20" suppressHydrationWarning>{children}</body>
     </html>
   );
 }

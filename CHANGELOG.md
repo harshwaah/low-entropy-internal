@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.2.0] - Phase 2: Design System & Visual Identity
+
+### Added
+- **Design System Tokens**:
+  - Established core color palette (`brand-dark`, `brand-primary`, `brand-light`, `brand-accent-orange`, `brand-accent-yellow`, `brand-accent-blue`) in `app/globals.css`.
+  - Added `Quicksand` as the primary sans-serif font across the application.
+  - Defined soft corner radii (`rounded-3xl` for cards, `rounded-full` for buttons) to convey approachability and warmth.
+- **Component Updates**:
+  - Overhauled `Button` component in `components/ui/button.tsx` with rounded pill shapes, scale animations, and brand colors.
+  - Overhauled `Card` component in `components/ui/card.tsx` with soft shadows and large corner radii (removing harsh borders).
+- **Landing Page Implementation**:
+  - Rebuilt `app/page.tsx` entirely to match the approved visual identity and structure.
+  - Included a Hero section with mascot placeholder, Persona cards, Feature icons, Companion section, and Impact stats.
+- **Documentation**:
+  - Updated `DESIGN.md`, `AGENT_CONTEXT.md`, and `ARCHITECTURE.md` to reflect the new visual identity.
+
+
 ## [0.1.0] - Phase 1: Architecture & Contributor Enablement Baseline
 
 ### Added

@@ -13,6 +13,11 @@
    - Touch targets must be at least 48px (preferably 56px).
    - High contrast text against warm backgrounds (avoid pure black or pure white glare).
    - Never show negative error states or fail timers to the patient persona.
+5. **Visual Identity Adherence**:
+   - MUST use the defined brand tokens (`brand-dark`, `brand-primary`, `brand-light`, `brand-accent-orange`, `brand-accent-yellow`, `brand-accent-blue`).
+   - MUST use `Quicksand` font (`font-sans`).
+   - Cards MUST use `rounded-3xl` and buttons MUST use `rounded-full`.
+   - Never use sharp corners or clinical hospital aesthetics. Use warm, pastel colors and soft shadows.
 
 ---
 
