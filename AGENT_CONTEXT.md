@@ -31,6 +31,8 @@
 | `/patient` | `app/(patient)/patient/` | Dementia Patient | Centered App (`max-w-2xl`), Bottom Nav |
 | `/patient/memories` | `app/(patient)/patient/memories/` | Dementia Patient | Memory Scrapbook Hub |
 | `/patient/memories/[id]` | `app/(patient)/patient/memories/[id]/` | Dementia Patient | Dedicated Memory Detail Experience |
+| `/patient/memories/[id]/narrate` | `app/(patient)/patient/memories/[id]/narrate/` | Dementia Patient | AI Guided Memory Narration Studio |
+| `/patient/memories/[id]/story` | `app/(patient)/patient/memories/[id]/story/` | Dementia Patient | Treasured Storybook Memoir Page |
 | `/patient/activities` | `app/(patient)/patient/activities/` | Dementia Patient | Gentle Cognitive Activities Hub |
 | `/patient/activities/memory-match` | `app/(patient)/patient/activities/memory-match/` | Dementia Patient | Memory Match Mini-Game |
 | `/patient/activities/what-comes-next` | `app/(patient)/patient/activities/what-comes-next/` | Dementia Patient | Routine Sequencing Mini-Game |
@@ -142,7 +144,26 @@ import { MemoryItem } from '@/features/memories/types/index';
 
 ---
 
-## 9. Verification Commands
+## 9. AI Memory Layer & Reminiscence Story Weaver Rules (Phase 8 / v0.8.0)
+
+1. **Anti-Chatbot Constraint**:
+   - Strictly avoid chat bubbles, chatbot avatars, typing dots, or conversation windows.
+   - Narration is framed as oral history on parchment paper with companion Saathi as a gentle listener.
+2. **Calming Progressive Generation**:
+   - Processing must use human, dignified language: *Listening* → *Understanding* → *Creating Story*.
+   - Never display technical AI terms ("tokens", "parameters", "LLM", "inference").
+3. **Scrapbook Keepsake Aesthetic**:
+   - Woven stories must be presented as physical scrapbook keepsakes: washi tape, drop caps, Polaroid borders, audio waveform visualizers, and family love notes.
+4. **Tri-Persona Flow**:
+   - Patient narrates (`/patient/memories/[id]/narrate`) and views their growing collection (`/patient/memories`).
+   - Caregiver views recent narrations and sends Love Notes (`/caregiver` & `/caregiver/memories`).
+   - Practitioner views non-diagnostic narrative participation telemetry (`/practitioner`).
+5. **Mock Demonstration Readiness**:
+   - Use realistic, pre-populated templates in `sample-stories.ts` and `StoryService` so judges and reviewers can complete the entire narration flow and test memories within seconds without audio setup friction.
+
+---
+
+## 10. Verification Commands
 
 Always run these before completing changes:
 ```bash

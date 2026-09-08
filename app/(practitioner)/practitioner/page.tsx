@@ -6,6 +6,7 @@ import {
   CohortAnalyticsView,
   RecommendationsPanel,
   RecentObservationsFeed,
+  NarrativeEngagementPanel,
 } from '@/features/practitioner';
 import { Stethoscope, ShieldCheck, Download, Plus, Sparkles } from 'lucide-react';
 import Link from 'next/link';
@@ -62,7 +63,12 @@ export default async function PractitionerDashboardPage() {
         <CohortAnalyticsView analytics={analytics} />
       </section>
 
-      {/* 3. Patient Roster & Risk Stratification */}
+      {/* 3. Narrative & Reminiscence Engagement Telemetry (AI Memory Layer) */}
+      <section id="narrative-engagement-telemetry">
+        <NarrativeEngagementPanel />
+      </section>
+
+      {/* 4. Patient Roster & Risk Stratification */}
       <section id="patient-roster">
         <div className="border-b border-slate-200 pb-3 mb-4 flex items-center justify-between">
           <div>

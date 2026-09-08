@@ -5,6 +5,7 @@ import {
   PatientOverviewCard,
   ReminderOverviewCard,
   MemoryEngagementSummary,
+  RecentNarrationsCard,
   RecentActivityStream,
   AddMemoryModal,
   AddReminderModal,
@@ -192,7 +193,12 @@ export default function CaregiverDashboardPage() {
         />
       </section>
 
-      {/* 3. Bottom Two-Column: Today's Activity Stream & Emergency Safety Beacon Info */}
+      {/* 3. Recent Memory Narrations (AI Memory Layer) */}
+      <section aria-label="Recent Memory Narrations">
+        <RecentNarrationsCard maxItems={2} />
+      </section>
+
+      {/* 4. Bottom Two-Column: Today's Activity Stream & Emergency Safety Beacon Info */}
       <section aria-label="Activity and Safety Telemetry" className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <RecentActivityStream activities={activities} />

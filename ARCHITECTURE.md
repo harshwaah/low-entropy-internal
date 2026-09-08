@@ -578,4 +578,88 @@ The service layer in `features/cognition/services/cognitive.service.ts` encapsul
 - **`ActivityProgressCard`**: Non-judgmental progress trackers with heart icons or milestone badges.
 - **`ActivityEncouragementCard`**: Companion voice bubble component for inline coaching and micro-reassurances.
 
+---
+
+## 13. AI Memory Layer Architecture (Phase 8 / v0.8.0)
+
+The AI Memory Layer (`features/memories`) operationalizes autobiographical reminiscence into structured family keepsakes without relying on brittle real-time voice infrastructure during demonstrations.
+
+### 13.1 Architecture Overview
+```
++-------------------------------------------------------------------------------+
+|                       AI MEMORY LAYER ARCHITECTURE                            |
++-------------------------------------------------------------------------------+
+|                                                                               |
+|  [ Patient: Memory Photo ]                                                    |
+|           |                                                                   |
+|           v                                                                   |
+|  [ MemoryNarrationCta ] ----> [ /patient/memories/[id]/narrate ]              |
+|                                       |                                       |
+|                                       +-- NarrationStudio                     |
+|                                       |   * Oversized Tactile Mic             |
+|                                       |   * Streaming Parchment Transcript    |
+|                                       |   * 1-Tap Starter Phrases             |
+|                                       |                                       |
+|                                       v                                       |
+|                      [ Calming Progressive Structuring ]                      |
+|                      * Listening -> Understanding -> Creating                 |
+|                                       |                                       |
+|                                       v                                       |
+|                                [ StoryService ]                               |
+|                                * MemoryStory Model                            |
+|                                * localStorage Sync                            |
+|                                       |                                       |
+|            +--------------------------+-------------------------+             |
+|            |                          |                         |             |
+|            v                          v                         v             |
+|    [ StoryMemoirView ]      [ RecentNarrationsCard ]  [ NarrativeEngagement ] |
+|  (/memories/[id]/story)        (Caregiver Portal)      (Practitioner Portal)  |
+|  * Scrapbook Styling          * Emotional Insights    * Non-Diagnostic        |
+|  * Audio Waveform Player      * Love Note Action      * Observational Pacing  |
+|  * Family Share Action                                                        |
++-------------------------------------------------------------------------------+
+```
+
+### 13.2 Core Data Models (`features/memories/types`)
+```typescript
+export type NarrationStep = 'ready' | 'listening' | 'review' | 'structuring' | 'complete';
+
+export interface MemoryStory {
+  id: string;
+  memoryId: string;
+  memoryTitle: string;
+  storyTitle: string;
+  narratedBy: string;
+  narratedRole: string;
+  recordedAt: string;
+  formattedDate: string;
+  category: MemoryCategoryKey;
+  coverImage: string;
+  location?: string;
+  yearEra?: string;
+  transcriptExcerpt: string;
+  narrativeParagraphs: string[];
+  emotionalTakeaway: string;
+  keyPhrases: string[];
+  peopleMentioned: string[];
+  audioDuration?: string;
+  caregiverNote?: string;
+  practitionerEngagement: {
+    verbalParticipation: 'High' | 'Moderate' | 'Gentle';
+    emotionalResonance: 'Deeply Joyful' | 'Serene' | 'Reflective';
+    sessionDurationSeconds: number;
+    promptResponseLatency: 'Natural' | 'Thoughtful';
+  };
+}
+```
+
+### 13.3 Persistence Strategy (`StoryService`)
+- Singleton service (`storyService`) manages `MemoryStory` lifecycles with transparent fallbacks to rich pre-seeded mock memoirs (`INITIAL_SAMPLE_STORIES`).
+- On new narration submissions, stores records into browser `localStorage` keyed under `smritisaathi_narrated_stories`.
+- Exposes query methods:
+  - `getAllStories()`: Returns all stored memoirs.
+  - `getStoryByMemoryId(memoryId)`: Retrieves or dynamically seeds a memoir for any memory id.
+  - `getCaregiverNarrations()`: Translates story events into caregiver-facing telemetry and emotional insights.
+  - `getPractitionerNarrativeMetrics()`: Aggregates voluntary participation rates, emotional valence, and weekly frequency for clinical oversight.
+
 

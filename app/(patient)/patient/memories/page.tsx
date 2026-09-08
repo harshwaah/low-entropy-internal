@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { 
   MemoryCard, 
   MemoryOfTheDay, 
-  CategorySelector 
+  CategorySelector,
+  MyStoriesSection
 } from '@/features/memories';
 import { 
   getAllMemories, 
@@ -106,7 +107,10 @@ export default function PatientMemoriesHubPage() {
         <MemoryOfTheDay memory={memoryOfTheDay} variant="hub" />
       </section>
 
-      {/* 4. Scrapbook Categories Filter */}
+      {/* 4. My Stories (AI Memory Layer Keepsakes) */}
+      <MyStoriesSection />
+
+      {/* 5. Scrapbook Categories Filter */}
       <section>
         <CategorySelector 
           selectedCategory={selectedCategory}
@@ -114,7 +118,7 @@ export default function PatientMemoriesHubPage() {
         />
       </section>
 
-      {/* 5. Filtered / All Memories Grid */}
+      {/* 6. Filtered / All Memories Grid */}
       <section className="space-y-6">
         <div className="flex items-center justify-between px-1">
           <div>

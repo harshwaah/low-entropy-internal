@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.8.0] - Phase 8: AI Memory Layer (Reminiscence & Story Weaver)
+
+### Added
+- **Guided Memory Narration Studio (`/patient/memories/[id]/narrate`)**:
+  - Implemented the central oral history recording and reminiscence studio for patients.
+  - **Tactile Recording Controls**: Extra-large, high-contrast microphone button with warm pulse animation, active duration counter, and animated soundwave audio visualizer.
+  - **Real-Time Spoken Transcript Display**: Styled like warm handwritten parchment paper with natural word streaming, unhurried typography, and no intimidating technical markers.
+  - **Warm Companion Guidance**: Companion Saathi delivers culturally contextual, comforting prompts tailored to each specific photograph or memory.
+  - **Accessible Starter Phrases**: 1-tap starter reflections ("I remember the marigolds...", "Kamal was smiling...") allowing instant testing, low-friction speech, and immediate demonstration.
+  - **Calming Progressive Story Weaver Experience**: Replaces tech-heavy loading states with a tranquil 3-phase journey (*Listening with warm attention* → *Cherishing the people and feelings* → *Weaving your words into a treasured storybook page*) with zero artificial chatbot tropes.
+- **Treasured Storybook Memoir View (`/patient/memories/[id]/story`)**:
+  - Generates bespoke, emotional memoir chapters presented with a physical scrapbook aesthetic.
+  - **Display Typography & Layout**: High-contrast serif headlines, illuminated drop-caps, washi tape keepsake headers, and Polaroid photo mounting with gentle angle rotation.
+  - **Audio Reflection Player**: Interactive voice playback simulation of the patient's recorded spoken words with audio frequency waveform bars.
+  - **Words From the Heart Pull-Quote**: Highlighted verbatim excerpts celebrating the authentic voice of the patient.
+  - **Emotional Takeaways & Cherished Tags**: Pulls out key emotional phrases, location, era, and familiar family members mentioned.
+  - **Family Share Quick Action**: Enables patients to celebrate and instantly share newly woven memoirs with their care circle.
+- **Scrapbook "My Stories" Keepsakes Grid (`/patient/memories`)**:
+  - Added dedicated "My Stories" section directly in the main patient memory hub.
+  - Showcases all narrated memoirs as growing keepsakes with audio badges, narrative excerpts, and direct access to full memoir pages.
+- **Caregiver Narration Visibility (`/caregiver` & `/caregiver/memories`)**:
+  - Added `RecentNarrationsCard` showing oral histories narrated by the patient, including story titles, dates, audio durations, and AI-synthesized caregiver emotional insights.
+  - Interactive "Love Note" reply feature fostering reciprocal emotional intimacy across the family care circle.
+- **Practitioner Narrative Engagement Telemetry (`/practitioner`)**:
+  - Added `NarrativeEngagementPanel` delivering observational, non-diagnostic engagement indicators:
+    - *Narrative Participation*: Memoir completion counts and voluntary engagement rates.
+    - *Story Engagement*: Affective valence and positive emotional resonance tracking.
+    - *Activity Frequency*: Weekly reminiscence session counts and temporal pacing.
+    - Clinical disclaimer clarifying observational psychosocial documentation without diagnostic overreach.
+- **Data & Architecture Services (`features/memories`)**:
+  - Added `MemoryStory` and `NarrationStep` types.
+  - Created `StoryService` singleton with localStorage persistence and pre-populated sample memoirs for instant, believable demo readiness.
+  - Added rich sample story templates across weddings, historic family homes, and monsoons.
+
 ## [0.7.0] - Phase 7: Cognitive Activities Foundation
 
 ### Added

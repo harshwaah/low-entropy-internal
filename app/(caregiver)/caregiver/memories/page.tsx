@@ -6,7 +6,7 @@ import {
   MEMORY_CATEGORIES,
 } from '@/features/memories/data/sample-memories';
 import { MemoryItem, MemoryCategoryKey } from '@/features/memories/types';
-import { AddMemoryModal } from '@/features/caregiver';
+import { AddMemoryModal, RecentNarrationsCard } from '@/features/caregiver';
 import {
   BookHeart,
   Plus,
@@ -152,6 +152,9 @@ export default function CaregiverMemoriesPage() {
           </div>
         </div>
       </div>
+
+      {/* Recent Memory Narrations (AI Memory Layer) */}
+      <RecentNarrationsCard maxItems={3} />
 
       {/* Recently Added Memories Section */}
       <section aria-label="Recently Added Memories" className="space-y-3">

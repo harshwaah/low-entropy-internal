@@ -68,3 +68,36 @@ export interface MemorySessionState {
   promptStep: number;
 }
 
+/**
+ * AI Memory Story Types (Phase 0.8.0 AI Memory Layer)
+ */
+export interface MemoryStory {
+  id: string;
+  memoryId: string;
+  memoryTitle: string;
+  storyTitle: string;
+  narratedBy: string;
+  narratedRole?: string;
+  recordedAt: string;
+  formattedDate: string;
+  category: MemoryCategoryKey;
+  coverImage: string;
+  location?: string;
+  yearEra?: string;
+  transcriptExcerpt: string;
+  narrativeParagraphs: string[];
+  emotionalTakeaway: string;
+  keyPhrases: string[];
+  peopleMentioned: string[];
+  audioDuration?: string;
+  caregiverNote?: string;
+  practitionerEngagement?: {
+    verbalParticipation: 'High' | 'Moderate' | 'Gentle';
+    emotionalResonance: 'Deeply Joyful' | 'Peaceful' | 'Reflective' | 'Comforting';
+    sessionDurationSeconds: number;
+    promptResponseLatency: 'Natural' | 'Patient & Relaxed';
+  };
+}
+
+export type NarrationStep = 'ready' | 'listening' | 'review' | 'structuring' | 'complete';
+
