@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.8.1] - Phase 8.1: Shared Data Architecture & Firestore Foundation
+
+### Added
+- **Unified Reactive State Engine (`SharedDataProvider`)**:
+  - Implemented a centralized React Context wrapping the root layout, enabling seamless state sharing and unified logic across the **Patient App**, **Caregiver Portal**, and **Practitioner Dashboard**.
+  - Engineered an optimistic state update layer ensuring zero-latency local changes that persist asynchronously to the database.
+  - Created a dynamic bootstrapper that automatically checks the database on initialization and seeds 30+ detailed biographical, circadian, and clinical records if Firestore is empty.
+- **Durable Firestore Service Layer**:
+  - Authored a modular suite of CRUD services mapping types directly to collection patterns:
+    - `patientService`, `memoryService`, `reminderService`, `activityService`, `narrationService`, `observationService`, `caregiverService`, `practitionersService`, `loveNoteService`, and `alertService`.
+  - Implemented error boundaries with graceful console logs and fallback to robust, high-fidelity local state in case of connection dropouts.
+- **Real-Time Cross-Portal Subscriptions**:
+  - Hooked key portal components directly to live Firestore snapshot observers (`onSnapshot`), allowing real-time schedule adjustments, family scrapbook curations, and remote care notes to broadcast instantly.
+- **Bi-Directional Telemetry Loops**:
+  - Bound the Patient's checklist state to Caregiver and Practitioner dashboards: marking a routine task as completed immediately streams an event to the Caregiver's Recent Activities feed and increments Practitioner compliance curves.
+  - Integrated Caregiver-authored Love Notes and curated Memories to pop up on the Patient experience in real time.
+
 ## [0.8.0] - Phase 8: AI Memory Layer (Reminiscence & Story Weaver)
 
 ### Added
