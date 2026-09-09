@@ -8,15 +8,31 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, Image as ImageIcon, Sparkles, CheckCircle2, ChevronRight, Pill, Heart, BookOpen } from 'lucide-react';
 import { MemoryOfTheDay } from '@/features/memories/components/memory-of-the-day';
 import { getMemoryOfTheDay } from '@/features/memories/data/sample-memories';
+import { useSharedData } from '@/services/context/shared-data-context';
 
 export default function PatientHomePage() {
-  const [medicationTaken, setMedicationTaken] = useState(false);
-  const memoryOfTheDay = getMemoryOfTheDay();
+  const { selectedPatient, reminders, markReminderCompleted, memories } = useSharedData();
+  
+  // Find primary morning/medication reminder or first active reminder
+  const morningReminder = reminders.find(
+    (r) => r.category === 'medication' || r.title.toLowerCase().includes('medication')
+  ) || reminders[0];
+
+  const medicationTaken = morningReminder ? morningReminder.status === 'completed' : false;
+  const patientFirstName = selectedPatient?.name ? selectedPatient.name.split(' ')[0] : 'Meera';
+  const memoryOfTheDay = (memories && memories.length > 0) ? (memories[0] as any) : getMemoryOfTheDay();
+  const pendingCount = reminders.filter((r) => r.status !== 'completed').length;
 
   const handleContinueDay = () => {
     const nextSection = document.getElementById('up-next-section');
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleTakeMedication = () => {
+    if (morningReminder) {
+      markReminderCompleted(morningReminder.id, `${selectedPatient?.name || 'Patient'} (Patient App)`);
     }
   };
 
@@ -33,9 +49,9 @@ export default function PatientHomePage() {
             speechPosition="top-right"
             speechText={
               medicationTaken ? (
-                <>Wonderful job, Meera!<br/>You&apos;re doing great today! <Heart className="inline w-4 h-4 fill-red-500 text-red-500" /></>
+                <>Wonderful job, {patientFirstName}!<br/>You&apos;re doing great today! <Heart className="inline w-4 h-4 fill-red-500 text-red-500" /></>
               ) : (
-                <>Good Morning, Meera.<br/>I&apos;m so glad to see you! <Heart className="inline w-4 h-4 fill-brand-accent-orange text-brand-accent-orange" /></>
+                <>Good Morning, {patientFirstName}.<br/>I&apos;m so glad to see you! <Heart className="inline w-4 h-4 fill-brand-accent-orange text-brand-accent-orange" /></>
               )
             }
           />
@@ -72,7 +88,7 @@ export default function PatientHomePage() {
             </div>
             <div className="hidden sm:flex flex-col items-center justify-center bg-brand-light-alt rounded-2xl p-4 min-w-[120px]">
               <span className="text-3xl font-black text-brand-dark">
-                {medicationTaken ? '2' : '3'}
+                {pendingCount}
               </span>
               <span className="text-sm font-bold text-brand-muted text-center leading-tight mt-1">
                 Gentle<br/>Items
@@ -92,11 +108,11 @@ export default function PatientHomePage() {
                 <Pill className="w-8 h-8" />
               </div>
               <div className="flex-1">
-                <p className="text-xl font-bold text-blue-950 mb-1">Morning Medication</p>
-                <p className="text-blue-700 font-medium text-base">Take with a warm glass of water.</p>
+                <p className="text-xl font-bold text-blue-950 mb-1">{morningReminder?.title || 'Morning Medication'}</p>
+                <p className="text-blue-700 font-medium text-base">{morningReminder?.description || 'Take with a warm glass of water.'}</p>
               </div>
               <div className="text-right shrink-0">
-                <p className="text-2xl font-black text-blue-950">9:30</p>
+                <p className="text-2xl font-black text-blue-950">{morningReminder?.time || '9:30'}</p>
                 <p className="text-blue-700 font-bold uppercase text-xs">AM</p>
               </div>
             </div>
@@ -104,12 +120,12 @@ export default function PatientHomePage() {
             {medicationTaken ? (
               <div className="w-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-lg h-16 rounded-2xl flex items-center justify-center font-bold gap-3 shadow-inner">
                 <CheckCircle2 className="w-7 h-7 text-emerald-600" />
-                Completed! Great job, Meera ❤️
+                Completed! Great job, {patientFirstName} ❤️
               </div>
             ) : (
               <Button 
                 size="lg" 
-                onClick={() => setMedicationTaken(true)}
+                onClick={handleTakeMedication}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xl h-16 rounded-2xl shadow-sm font-bold active:scale-[0.99] transition-transform"
               >
                 <CheckCircle2 className="mr-3 w-7 h-7" />

@@ -24,13 +24,39 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Mascot } from '@/components/shared/mascot';
+import { useSharedData } from '@/services/context/shared-data-context';
 
 export default function CaregiverRemindersPage() {
-  const [reminders, setReminders] = useState<CaregiverReminder[]>(INITIAL_CAREGIVER_REMINDERS);
+  const {
+    selectedPatient,
+    reminders: sharedReminders,
+    toggleReminderStatus,
+    createReminder,
+    updateReminder,
+    deleteReminder,
+  } = useSharedData();
+
   const [activeCategory, setActiveCategory] = useState<'all' | ReminderCategory>('all');
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editingReminder, setEditingReminder] = useState<CaregiverReminder | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Map shared reminders into CaregiverReminder shape for UI
+  const reminders: CaregiverReminder[] = sharedReminders.map((r) => ({
+    id: r.id,
+    title: r.title,
+    category: r.category === 'medication' ? 'medication' : r.category === 'custom' ? 'custom' : 'routine',
+    period: r.period || 'morning',
+    timeFormatted: r.timeFormatted || r.time || '9:00 AM',
+    instructions: r.instructions || r.description || '',
+    recurrence: (r.recurrence as any) || 'daily',
+    requiresCaregiverValidation: false,
+    status: r.status,
+    completedAt: r.completedAt,
+    assignedTo: r.assignedTo || 'Priya Sharma',
+    iconName: r.iconName,
+    medicationDosageNote: r.medicationDosageNote || r.dosage,
+  }));
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -38,40 +64,49 @@ export default function CaregiverRemindersPage() {
   };
 
   const handleToggleStatus = (id: string) => {
-    setReminders((prev) =>
-      prev.map((r) => {
-        if (r.id === id) {
-          const isDone = r.status !== 'completed';
-          return {
-            ...r,
-            status: isDone ? 'completed' : 'upcoming',
-            completedAt: isDone ? new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : undefined,
-          };
-        }
-        return r;
-      })
-    );
+    const rem = reminders.find((r) => r.id === id);
+    const newStatus = rem?.status === 'completed' ? 'upcoming' : 'completed';
+    toggleReminderStatus(id, newStatus, 'Priya Sharma (Caregiver Portal)');
     showToast('Updated reminder status');
   };
 
   const handleAddReminder = (newRem: Omit<CaregiverReminder, 'id' | 'status'>) => {
-    const item: CaregiverReminder = {
-      ...newRem,
+    const item = {
       id: `rem-custom-${Date.now()}`,
-      status: 'upcoming',
+      patientId: selectedPatient?.id || 'p-101',
+      title: newRem.title,
+      timeFormatted: newRem.timeFormatted,
+      time: newRem.timeFormatted,
+      category: newRem.category,
+      period: newRem.period,
+      status: 'upcoming' as const,
+      instructions: newRem.instructions,
+      recurrence: newRem.recurrence,
+      assignedTo: newRem.assignedTo,
+      requiresCaregiverValidation: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
-    setReminders((prev) => [...prev, item]);
+    createReminder(item);
     showToast(`Added reminder: "${item.title}"`);
   };
 
   const handleSaveEditedReminder = (updated: CaregiverReminder) => {
-    setReminders((prev) => prev.map((r) => (r.id === updated.id ? updated : r)));
+    updateReminder(updated.id, {
+      title: updated.title,
+      time: updated.timeFormatted,
+      category: updated.category,
+      period: updated.period,
+      instructions: updated.instructions,
+      recurrence: updated.recurrence,
+      assignedTo: updated.assignedTo,
+    });
     setEditingReminder(null);
     showToast(`Saved changes to "${updated.title}"`);
   };
 
   const handleDeleteReminder = (id: string) => {
-    setReminders((prev) => prev.filter((r) => r.id !== id));
+    deleteReminder(id);
     showToast('Reminder removed from schedule');
   };
 

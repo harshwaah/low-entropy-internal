@@ -15,7 +15,8 @@ import {
   INITIAL_CAREGIVER_REMINDERS,
   SAMPLE_ACTIVITY_LOGS,
 } from '@/features/caregiver/data/sample-caregiver-data';
-import { CaregiverReminder } from '@/features/caregiver/types';
+import { CaregiverReminder, CaregiverActivityLog } from '@/features/caregiver/types';
+import { useSharedData } from '@/services/context/shared-data-context';
 import {
   Heart,
   Plus,
@@ -30,12 +31,72 @@ import {
 import Link from 'next/link';
 
 export default function CaregiverDashboardPage() {
-  const [patient, setPatient] = useState(SAMPLE_PATIENT_OVERVIEW);
-  const [reminders, setReminders] = useState<CaregiverReminder[]>(INITIAL_CAREGIVER_REMINDERS);
-  const [activities, setActivities] = useState(SAMPLE_ACTIVITY_LOGS);
+  const {
+    selectedPatient,
+    reminders: sharedReminders,
+    activities: sharedActivities,
+    toggleReminderStatus,
+    createReminder,
+    addMemory,
+    logActivity,
+  } = useSharedData();
+
   const [isAddMemoryOpen, setIsAddMemoryOpen] = useState(false);
   const [isAddReminderOpen, setIsAddReminderOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // Map shared reminders into CaregiverReminder shape for UI
+  const reminders: CaregiverReminder[] = sharedReminders.map((r) => ({
+    id: r.id,
+    title: r.title,
+    category: r.category === 'medication' ? 'medication' : r.category === 'custom' ? 'custom' : 'routine',
+    period: r.period || 'morning',
+    timeFormatted: r.timeFormatted || r.time || '9:00 AM',
+    instructions: r.instructions || r.description || '',
+    recurrence: (r.recurrence as any) || 'daily',
+    requiresCaregiverValidation: false,
+    status: r.status,
+    completedAt: r.completedAt,
+    assignedTo: r.assignedTo || 'Priya Sharma',
+    iconName: r.iconName,
+    medicationDosageNote: r.medicationDosageNote || r.dosage,
+  }));
+
+  // Patient overview calculated from shared state
+  const completedCount = reminders.filter((r) => r.status === 'completed').length;
+  const totalCount = reminders.length || 1;
+  const patient = {
+    ...SAMPLE_PATIENT_OVERVIEW,
+    id: selectedPatient?.id || SAMPLE_PATIENT_OVERVIEW.id,
+    name: selectedPatient?.name || SAMPLE_PATIENT_OVERVIEW.name,
+    preferredName: selectedPatient?.preferredName || SAMPLE_PATIENT_OVERVIEW.preferredName,
+    age: selectedPatient?.age || SAMPLE_PATIENT_OVERVIEW.age,
+    condition: selectedPatient?.stage ? `${selectedPatient.stage} Dementia` : SAMPLE_PATIENT_OVERVIEW.condition,
+    reminderCompletion: {
+      completed: completedCount,
+      total: totalCount,
+      percentage: Math.round((completedCount / totalCount) * 100),
+    },
+  };
+
+  // Activities from shared state
+  const activities: CaregiverActivityLog[] = sharedActivities.map((a) => {
+    let cat: CaregiverActivityLog['category'] = 'routine';
+    if (a.category === 'memory' || a.type === 'reminiscence') cat = 'memory';
+    else if (a.category === 'hydration') cat = 'hydration';
+    else if (a.category === 'movement') cat = 'movement';
+    else if (a.category === 'social') cat = 'social';
+
+    return {
+      id: a.id,
+      title: a.title,
+      category: cat,
+      time: a.time || 'Today',
+      status: (a.status === 'scheduled' ? 'scheduled' : 'completed') as CaregiverActivityLog['status'],
+      description: a.description || '',
+      companionFeedback: a.companionFeedback,
+    };
+  });
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -43,48 +104,30 @@ export default function CaregiverDashboardPage() {
   };
 
   const handleToggleReminder = (id: string) => {
-    setReminders((prev) =>
-      prev.map((r) => {
-        if (r.id === id) {
-          const newStatus = r.status === 'completed' ? 'upcoming' : 'completed';
-          const isDone = newStatus === 'completed';
-          return {
-            ...r,
-            status: newStatus,
-            completedAt: isDone ? new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : undefined,
-          };
-        }
-        return r;
-      })
-    );
-
-    // Update patient completion stats
-    setPatient((prev) => {
-      const updatedReminders = reminders.map((r) =>
-        r.id === id ? { ...r, status: r.status === 'completed' ? 'upcoming' : 'completed' } : r
-      );
-      const completed = updatedReminders.filter((r) => r.status === 'completed').length;
-      const total = updatedReminders.length;
-      return {
-        ...prev,
-        reminderCompletion: {
-          completed,
-          total,
-          percentage: Math.round((completed / total) * 100),
-        },
-      };
-    });
-
+    const rem = reminders.find((r) => r.id === id);
+    const newStatus = rem?.status === 'completed' ? 'upcoming' : 'completed';
+    toggleReminderStatus(id, newStatus, 'Priya Sharma (Caregiver Portal)');
     showToast('Reminder status updated successfully');
   };
 
   const handleAddReminder = (newRem: Omit<CaregiverReminder, 'id' | 'status'>) => {
-    const item: CaregiverReminder = {
-      ...newRem,
+    const item = {
       id: `rem-${Date.now()}`,
-      status: 'upcoming',
+      patientId: selectedPatient?.id || 'p-101',
+      title: newRem.title,
+      timeFormatted: newRem.timeFormatted,
+      time: newRem.timeFormatted,
+      category: newRem.category,
+      period: newRem.period,
+      status: 'upcoming' as const,
+      instructions: newRem.instructions,
+      recurrence: newRem.recurrence,
+      assignedTo: newRem.assignedTo,
+      requiresCaregiverValidation: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
-    setReminders((prev) => [...prev, item]);
+    createReminder(item);
     showToast(`Added reminder: "${item.title}"`);
   };
 
@@ -97,20 +140,39 @@ export default function CaregiverDashboardPage() {
     familyNote: any;
     coverImage: string;
   }) => {
+    const memId = `mem-${Date.now()}`;
+    addMemory({
+      id: memId,
+      patientId: selectedPatient?.id || 'p-101',
+      title: newMem.title,
+      shortDescription: newMem.story.slice(0, 120),
+      category: newMem.category || 'Family',
+      dateEra: newMem.dateEra || 'Family Heirloom',
+      location: newMem.location || '',
+      story: [newMem.story],
+      emotionalTag: 'Warm & Cherished',
+      familiarPeople: ['Family'],
+      coverImage: newMem.coverImage || 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&auto=format&fit=crop&q=80',
+      familyNotes: newMem.familyNote ? [newMem.familyNote] : [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    });
+
+    logActivity({
+      id: `act-${Date.now()}`,
+      patientId: selectedPatient?.id || 'p-101',
+      type: 'reminiscence',
+      title: `Curated New Memory: ${newMem.title}`,
+      category: 'Memory Reminiscence',
+      time: 'Just now',
+      timestamp: new Date().toISOString(),
+      status: 'completed',
+      description: `Added by Priya for Papa's afternoon reminiscence.`,
+      companionFeedback: 'Memory ready for companion introduction.',
+      createdAt: new Date().toISOString(),
+    });
+
     showToast(`Added cherished memory: "${newMem.title}" to scrapbook`);
-    // Add an activity log entry
-    setActivities((prev) => [
-      {
-        id: `act-${Date.now()}`,
-        title: `Curated New Memory: ${newMem.title}`,
-        category: 'memory',
-        time: 'Just now',
-        status: 'completed',
-        description: `Added by Priya for Papa's afternoon reminiscence.`,
-        companionFeedback: 'Memory ready for companion introduction.',
-      },
-      ...prev,
-    ]);
   };
 
   return (
