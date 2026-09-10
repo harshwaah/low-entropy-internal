@@ -10,7 +10,7 @@
  *
  * Owned by: music-system branch
  * Phase 1: Foundation — engine, preferences, catalog, types
- * Phase 2: Will add MusicProvider, useMusicEngine hook, MusicRouteController
+ * Phase 2: MusicProvider, useMusic hook, and MusicRouteController
  * Phase 3: Will add real audio assets and Firestore preference sync
  */
 
@@ -58,3 +58,12 @@ export {
   MUSIC_PREFERENCES_STORAGE_KEY,
   MUSIC_STORAGE_NAMESPACE,
 } from './constants/storage';
+
+// â”€â”€ React Integration â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+export { MusicProvider } from './context/music-provider';
+export type { MusicContextValue } from './context/music-provider';
+export { useMusic } from './hooks/use-music';
+export {
+  MusicRouteController,
+  getMusicModeForPathname,
+} from './components/music-route-controller';
