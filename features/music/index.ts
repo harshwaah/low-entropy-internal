@@ -2,19 +2,19 @@
  * Feature Barrier: Music
  *
  * This is the ONLY file other features should import from when consuming
- * music system functionality.  Do NOT import directly from internal paths
- * like features/music/services/music-engine or features/music/types.
+ * music system functionality.
  *
- * Usage:
- *   import { musicEngine, MusicMode, ... } from '@/features/music';
+ * Do NOT import directly from internal paths such as:
+ * features/music/services/music-engine
+ * features/music/types
  *
- * Owned by: music-system branch
- * Phase 1: Foundation — engine, preferences, catalog, types
- * Phase 2: MusicProvider, useMusic hook, and MusicRouteController
- * Phase 3: Will add real audio assets and Firestore preference sync
+ * Phase 1: Music engine, preferences, catalog, and types
+ * Phase 2: MusicProvider, useMusic, and route controller
+ * Phase 3: Patient layout integration
+ * Phase 4: Dementia-friendly music controls
  */
 
-// ── Types (public surface) ────────────────────────────────────────────────
+// Types
 export type {
   MusicMode,
   MusicTrack,
@@ -29,10 +29,10 @@ export type {
 
 export { MUSIC_PREFERENCES_VERSION } from './types';
 
-// ── Engine (singleton + class) ────────────────────────────────────────────
+// Engine
 export { musicEngine, MusicEngine, getAvailableTracks } from './services/music-engine';
 
-// ── Preference Storage ────────────────────────────────────────────────────
+// Preference Storage
 export {
   DEFAULT_MUSIC_PREFERENCES,
   loadMusicPreferences,
@@ -41,7 +41,7 @@ export {
   clearMusicPreferences,
 } from './services/music-preferences-storage';
 
-// ── Track Catalog ─────────────────────────────────────────────────────────
+// Track Catalog
 export {
   CALM_TRACKS,
   COGNITIVE_TRACKS,
@@ -53,13 +53,13 @@ export {
   getTracksForMode,
 } from './constants/track-catalog';
 
-// ── Storage Constants ─────────────────────────────────────────────────────
+// Storage Constants
 export {
   MUSIC_PREFERENCES_STORAGE_KEY,
   MUSIC_STORAGE_NAMESPACE,
 } from './constants/storage';
 
-// â”€â”€ React Integration â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// React Integration
 export { MusicProvider } from './context/music-provider';
 export type { MusicContextValue } from './context/music-provider';
 export { useMusic } from './hooks/use-music';
@@ -67,3 +67,4 @@ export {
   MusicRouteController,
   getMusicModeForPathname,
 } from './components/music-route-controller';
+export { MusicControls } from './components/music-controls';
