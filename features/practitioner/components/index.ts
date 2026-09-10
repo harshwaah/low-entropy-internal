@@ -14,4 +14,6 @@ export * from './add-observation-modal';
 export * from './patient-detail-view';
 export * from './recent-observations-feed';
 export * from './practitioner-sidebar';
+export * from './practitioner-topbar';
+export * from './clinical-metric-card';
 export * from './narrative-engagement-panel';

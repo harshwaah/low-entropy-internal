@@ -171,3 +171,9 @@ npm run build   # Must compile cleanly with 0 TypeScript/Next.js errors
 npm run lint    # Must pass ESLint
 ```
 
+
+## 10. Practitioner Dashboard Redesign Rules (Phase 10 / v0.10.0)
+
+1. **Clinical Aesthetic (Green-Tinted):** Use `#f7fbf9` for backgrounds, `#134e36` for primary text and active elements, and `#dcebdd` for soft borders.
+2. **Professional Triage:** Never use overly playful elements in the Practitioner portal. Use standard clinical alert colors (red for high priority, amber for medium, emerald for stable).
+3. **Data Fetching:** Always fetch real data using `practitionerService` and pass it down to client components (`PractitionerDashboardClient`) for interactive rendering.

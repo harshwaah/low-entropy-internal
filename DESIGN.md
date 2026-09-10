@@ -292,3 +292,13 @@ Treasured Keepsake Book Grows & Family Connects
 - **Practitioner**: Accesses lightweight, non-diagnostic participation metrics (Narrative Participation, Story Emotional Valence, Activity Frequency) documenting voluntary psychosocial wellness without clinical diagnostic claims.
 
 
+
+## 16. Practitioner Dashboard Redesign (Phase 10 / v0.10.0)
+
+**Aesthetic Paradigm:** Clean, highly professional, green-tinted clinical aesthetic (`#f7fbf9` background, `#134e36` primary text).
+
+**Design System Updates:**
+- **Sidebar & Navigation:** Left-aligned, persistent clinical navigation with distinct active states (dark green `bg-[#134e36]`) and red alert indicators.
+- **Top Bar:** Modern, clean top navigation featuring search, alerts, and profile access without heavy horizontal bounding boxes.
+- **Metric Cards:** Crisp white cards (`rounded-2xl`) with subtle green and red alert indicators for rapid triage.
+- **Data Visualization:** Clean, minimalist Recharts implementations for cognitive performance tracking, removing axis clutter for faster scanning.

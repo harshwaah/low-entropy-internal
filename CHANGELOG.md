@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.10.0] - Phase 10: Practitioner Clinical Dashboard Redesign
+
+### Changed
+- **Practitioner Dashboard Redesign (`/practitioner`)**:
+  - Replaced the previous blue-themed command center with a clean, highly professional, green-tinted clinical aesthetic (`#f7fbf9` background, `#134e36` primary text).
+  - Built a new `PractitionerSidebar` featuring a clean navigation menu with alert indicators, active states, and a bottom user profile section.
+  - Built a new reusable `PractitionerTopbar` with a prominent search bar, notification bell, and doctor profile snippet.
+  - Built a new reusable `ClinicalMetricCard` for displaying high-level cohort statistics (Active Patients, Requires Attention, Stable, Improving) with custom trend icons and status badges.
+  - Implemented the `PractitionerDashboardClient` component for rendering dynamic clinical widgets.
+  - Integrated `recharts` to render a responsive "Average Cognitive Performance" longitudinal line chart.
+  - Redesigned the "Care Insights" decision-support module highlighting patients requiring immediate review.
+  - Redesigned the "Recent Alerts" triage feed and "Attention Focus" patient risk stratification lists for improved clinical scanning efficiency.
+- **Documentation**:
+  - Bumped version to `v0.10.0`.
+
+## [0.9.0] - Phase 9: Version Bump
+
 ## [0.8.1] - Phase 8.1: Shared Data Architecture & Firestore Foundation
 
 ### Added
