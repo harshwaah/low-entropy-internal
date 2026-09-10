@@ -5,6 +5,7 @@ import {
   Music2,
   Pause,
   Play,
+  SkipBack,
   SkipForward,
   Volume2,
   VolumeX,
@@ -78,6 +79,17 @@ export function MusicControls() {
     await selectTrack(playableTracks[nextIndex].id);
   };
 
+  const handlePreviousTrack = async () => {
+    if (!hasPlayableTracks) return;
+
+    const previousIndex =
+      currentTrackIndex < 0
+        ? playableTracks.length - 1
+        : (currentTrackIndex - 1 + playableTracks.length) % playableTracks.length;
+
+    await selectTrack(playableTracks[previousIndex].id);
+  };
+
   const handleVolumeChange = (event: ChangeEvent<HTMLInputElement>) => {
     const nextPercent = Number(event.currentTarget.value);
     if (!Number.isFinite(nextPercent)) return;
@@ -95,21 +107,21 @@ export function MusicControls() {
   return (
     <section
       aria-labelledby="patient-music-title"
-      className="rounded-3xl border-2 border-brand-border bg-brand-light-alt p-4 text-brand-dark shadow-sm sm:p-5"
+      className="rounded-2xl border-2 border-brand-border bg-brand-light-alt/95 p-3 text-brand-dark shadow-xl backdrop-blur-md"
     >
       <div className="flex items-center gap-3">
         <div
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-primary text-white"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-primary text-white"
           aria-hidden="true"
         >
-          <Music2 className="h-6 w-6" />
+          <Music2 className="h-5 w-5" />
         </div>
 
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-bold text-brand-primary">{modeLabel}</p>
+          <p className="text-xs font-bold text-brand-primary">{modeLabel}</p>
           <h2
             id="patient-music-title"
-            className="truncate text-lg font-extrabold text-brand-dark"
+            className="truncate text-base font-extrabold text-brand-dark"
           >
             {trackTitle}
           </h2>
@@ -122,19 +134,32 @@ export function MusicControls() {
         </p>
       )}
 
-      <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3">
+      <div className="mt-3 grid grid-cols-4 gap-2">
+        <Button
+          type="button"
+          variant="secondary"
+          size="lg"
+          onClick={() => void handlePreviousTrack()}
+          disabled={!hasPlayableTracks || isLoading}
+          aria-label="Play previous music track"
+          className="h-14 min-w-0 gap-1 px-2 text-xs sm:text-sm"
+        >
+          <SkipBack className="h-5 w-5 shrink-0" aria-hidden="true" />
+          <span className="truncate">Previous</span>
+        </Button>
+
         <Button
           type="button"
           size="lg"
           onClick={() => void handlePlayPause()}
           disabled={!hasPlayableTracks || isLoading}
           aria-label={playLabel}
-          className="h-14 min-w-0 px-3"
+          className="h-14 min-w-0 gap-1 px-2 text-xs sm:text-sm"
         >
           {isPlaying ? (
-            <Pause className="mr-2 h-6 w-6 fill-current" aria-hidden="true" />
+            <Pause className="h-5 w-5 shrink-0 fill-current" aria-hidden="true" />
           ) : (
-            <Play className="mr-2 h-6 w-6 fill-current" aria-hidden="true" />
+            <Play className="h-5 w-5 shrink-0 fill-current" aria-hidden="true" />
           )}
           <span className="truncate">{autoplayBlocked ? 'Tap to Play' : playLabel}</span>
         </Button>
@@ -146,10 +171,10 @@ export function MusicControls() {
           onClick={() => void handleNextTrack()}
           disabled={!hasPlayableTracks || isLoading}
           aria-label="Play next music track"
-          className="h-14 min-w-0 px-3"
+          className="h-14 min-w-0 gap-1 px-2 text-xs sm:text-sm"
         >
-          <SkipForward className="mr-2 h-6 w-6" aria-hidden="true" />
-          <span>Next</span>
+          <SkipForward className="h-5 w-5 shrink-0" aria-hidden="true" />
+          <span className="truncate">Next</span>
         </Button>
 
         <Button
@@ -159,29 +184,21 @@ export function MusicControls() {
           onClick={toggleMute}
           aria-pressed={muted}
           aria-label={muted ? 'Unmute music' : 'Mute music'}
-          className="h-14 min-w-0 px-3"
+          className="h-14 min-w-0 gap-1 px-2 text-xs sm:text-sm"
         >
           {muted ? (
-            <VolumeX className="mr-2 h-6 w-6" aria-hidden="true" />
+            <VolumeX className="h-5 w-5 shrink-0" aria-hidden="true" />
           ) : (
-            <Volume2 className="mr-2 h-6 w-6" aria-hidden="true" />
+            <Volume2 className="h-5 w-5 shrink-0" aria-hidden="true" />
           )}
-          <span>{muted ? 'Unmute' : 'Mute'}</span>
+          <span className="truncate">{muted ? 'Unmute' : 'Mute'}</span>
         </Button>
       </div>
 
-      <div className="mt-4 rounded-2xl bg-white px-4 py-3">
-        <div className="mb-1 flex items-center justify-between gap-3">
-          <label htmlFor="patient-music-volume" className="text-base font-bold">
-            Volume
-          </label>
-          <output
-            htmlFor="patient-music-volume"
-            className="text-base font-extrabold text-brand-primary"
-          >
-            {volumePercent}%
-          </output>
-        </div>
+      <div className="mt-2 flex items-center gap-3 rounded-xl bg-white px-3 py-1">
+        <label htmlFor="patient-music-volume" className="shrink-0 text-sm font-bold">
+          Volume
+        </label>
 
         <input
           id="patient-music-volume"
@@ -192,18 +209,25 @@ export function MusicControls() {
           value={volumePercent}
           onChange={handleVolumeChange}
           aria-label={`Music volume, ${volumePercent} percent`}
-          className="h-12 w-full cursor-pointer accent-brand-primary disabled:cursor-not-allowed"
+          className="h-10 min-w-0 flex-1 cursor-pointer accent-brand-primary disabled:cursor-not-allowed"
         />
+
+        <output
+          htmlFor="patient-music-volume"
+          className="w-10 shrink-0 text-right text-sm font-extrabold text-brand-primary"
+        >
+          {volumePercent}%
+        </output>
       </div>
 
-      <div className="mt-2 min-h-6 text-center" aria-live="polite">
+      <div className="text-center" aria-live="polite">
         {autoplayBlocked && hasPlayableTracks && (
-          <p className="text-sm font-bold text-brand-primary">
+          <p className="mt-1 text-xs font-bold text-brand-primary">
             Tap Play to start the music.
           </p>
         )}
         {status === 'error' && (
-          <p className="text-sm font-bold text-brand-muted">
+          <p className="mt-1 text-xs font-bold text-brand-muted">
             Music could not play. Please try again.
           </p>
         )}

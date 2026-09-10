@@ -502,6 +502,7 @@ export class MusicEngine {
     await this._fadeIn(myGeneration);
 
     if (this._transitionGeneration === myGeneration) {
+      this._status = 'playing';
       this._isTransitioning = false;
       this._notify();
     }
