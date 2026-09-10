@@ -78,7 +78,7 @@ export function MemoryAudioPlayer({ narration, title }: MemoryAudioPlayerProps) 
               {narration.duration}
             </span>
           </div>
-          
+
           <p className="text-sm font-medium text-brand-muted mb-3 flex items-center justify-center sm:justify-start gap-1.5">
             <span>Spoken by</span>
             <span className="font-bold text-brand-dark">{narration.narrator}</span>
@@ -91,7 +91,7 @@ export function MemoryAudioPlayer({ narration, title }: MemoryAudioPlayerProps) 
 
           {/* Calming Soundwave Visualizer */}
           <div className="w-full bg-[#F4EDE2] h-2.5 rounded-full overflow-hidden mb-2 relative">
-            <div 
+            <div
               className="bg-brand-primary h-full rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />

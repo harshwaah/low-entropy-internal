@@ -115,7 +115,7 @@ export function WhatComesNextGame() {
 
       {/* Routine Timeline Card: Tangible Story Journal */}
       <div className="bg-white rounded-[2.5rem] p-5 sm:p-7 border-2 border-brand-border/70 shadow-sm space-y-6">
-        
+
         {/* Story Journal Header */}
         <div className="bg-gradient-to-r from-amber-50/90 via-orange-50/40 to-brand-light-alt rounded-3xl p-4 sm:p-5 border border-amber-200/80 space-y-1.5">
           <div className="flex items-center gap-2">
@@ -229,8 +229,8 @@ export function WhatComesNextGame() {
                       isSelected && option.isCorrect
                         ? "bg-emerald-50 border-emerald-400 shadow-md ring-2 ring-emerald-200"
                         : isSelected && !option.isCorrect
-                        ? "bg-amber-50 border-amber-300 shadow-sm"
-                        : "bg-white border-brand-border hover:bg-brand-light-alt hover:border-brand-primary/50 shadow-xs"
+                          ? "bg-amber-50 border-amber-300 shadow-sm"
+                          : "bg-white border-brand-border hover:bg-brand-light-alt hover:border-brand-primary/50 shadow-xs"
                     )}
                   >
                     <div className="w-14 h-14 rounded-2xl bg-brand-light-alt border border-brand-border/80 flex items-center justify-center text-3xl shrink-0 shadow-2xs select-none">

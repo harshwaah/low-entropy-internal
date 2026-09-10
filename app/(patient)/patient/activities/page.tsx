@@ -107,45 +107,72 @@ export default function PatientActivitiesHubPage() {
         </div>
       </section>
 
-      {/* 3. Recommended Activity Section */}
-      <section aria-label="Recommended Activity">
-        <div className="flex items-center justify-between mb-3 px-1">
-          <span className="text-xs font-black uppercase tracking-wider text-brand-primary">
-            Recommended For You
-          </span>
-          <span className="text-xs font-bold text-brand-muted">
-            {recommended.estimatedMinutes}
-          </span>
-        </div>
-
+      {/* Featured Quick Pick Trail Game Banner */}
+      <section aria-label="Quick Pick Trail Feature">
         <Link
-          href={recommended.href}
-          className="block group focus:outline-none focus:ring-4 focus:ring-brand-primary/30 rounded-[2.5rem]"
+          href="/patient/activities/quick-pick-trail"
+          className="block group focus:outline-none focus:ring-4 focus:ring-[#2C5545]/30 rounded-[2.5rem]"
         >
-          <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-brand-light-alt border-2 border-emerald-200 group-hover:border-brand-primary transition-all p-6 sm:p-7 rounded-[2.5rem] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="bg-gradient-to-r from-[#FAF3EB] via-[#FFF9F2] to-[#FCE7F3] border-2 border-[#F2DFCD] group-hover:border-[#2C5545] transition-all p-6 sm:p-7 rounded-[2.5rem] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div className="flex items-start sm:items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-white text-emerald-700 border border-emerald-200 flex items-center justify-center text-3xl shadow-sm shrink-0 group-hover:scale-105 transition-transform">
-                ☕
+              <div className="w-16 h-16 rounded-2xl bg-white text-[#2C5545] border border-[#E8D7C3] flex items-center justify-center text-3xl shadow-xs shrink-0 group-hover:scale-105 transition-transform">
+                🐍
               </div>
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-emerald-200/60 text-emerald-900 rounded-full text-xs font-black uppercase tracking-wide">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Featured Favorite</span>
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-[#8D4935] text-white rounded-full text-xs font-black uppercase tracking-wide">
+                  <Sparkles className="w-3.5 h-3.5 fill-white" />
+                  <span>Adaptive Cognitive Game</span>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-black text-brand-dark group-hover:text-brand-primary transition-colors">
-                  {recommended.title}
+                <h3 className="text-2xl sm:text-3xl font-black text-[#2C5545] group-hover:text-[#4A8B71] transition-colors">
+                  Quick Pick Trail
                 </h3>
-                <p className="text-sm sm:text-base text-brand-muted font-medium max-w-md">
-                  {recommended.description}
+                <p className="text-sm sm:text-base text-[#5C7065] font-medium max-w-md">
+                  Guide your cute friend to collect apples with the right answers! Math, Colors, Objects & Patterns.
                 </p>
               </div>
             </div>
 
             <Button
               size="lg"
-              className="w-full sm:w-auto h-14 px-7 rounded-full text-base sm:text-lg font-bold bg-brand-primary hover:bg-brand-primary/90 text-white shadow-md group-hover:scale-105 transition-all shrink-0 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto h-14 px-7 rounded-full text-base sm:text-lg font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md group-hover:scale-105 transition-all shrink-0 flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Play Now</span>
+              <ArrowRight className="w-5 h-5 stroke-[2.5]" />
+            </Button>
+          </div>
+        </Link>
+      </section>
+
+      {/* Featured My Memory Trail Feature Banner */}
+      <section aria-label="My Memory Trail Feature">
+        <Link
+          href="/patient/activities/memory-trail"
+          className="block group focus:outline-none focus:ring-4 focus:ring-[#2C5545]/30 rounded-[2.5rem]"
+        >
+          <div className="bg-gradient-to-r from-[#E8F3EB] via-[#F3F8F5] to-[#E2EFE6] border-2 border-[#4A8B71]/40 group-hover:border-[#2C5545] transition-all p-6 sm:p-7 rounded-[2.5rem] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <div className="flex items-start sm:items-center gap-4">
+              <div className="w-16 h-16 rounded-2xl bg-white text-[#2C5545] border border-[#DCE5E0] flex items-center justify-center text-3xl shadow-xs shrink-0 group-hover:scale-105 transition-transform">
+                🌱
+              </div>
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-[#4A8B71] text-white rounded-full text-xs font-black uppercase tracking-wide">
+                  <Sparkles className="w-3.5 h-3.5 fill-white" />
+                  <span>Autobiographical Memory Trail</span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-[#2C5545] group-hover:text-[#4A8B71] transition-colors">
+                  My Memory Trail
+                </h3>
+                <p className="text-sm sm:text-base text-[#5C7065] font-medium max-w-md">
+                  Revisit childhood home, school, market, and family stories through photos, songs, and gentle voice recording.
+                </p>
+              </div>
+            </div>
+
+            <Button
+              size="lg"
+              className="w-full sm:w-auto h-14 px-7 rounded-full text-base sm:text-lg font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md group-hover:scale-105 transition-all shrink-0 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Start My Journey</span>
               <ArrowRight className="w-5 h-5 stroke-[2.5]" />
             </Button>
           </div>

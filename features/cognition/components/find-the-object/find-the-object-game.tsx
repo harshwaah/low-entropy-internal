@@ -92,7 +92,7 @@ export function FindTheObjectGame() {
           activityTitle="Find The Object"
           celebrationTitle="Sharp & Observant, Meera!"
           celebrationMessage="You discovered all 12 comforting keepsakes across the kitchen, sunny veranda, and reading nook. Your mindful focus brings so much warmth."
-          companionSpeech={<>You found every sweet treasure!<br/>You have such a sharp, caring eye! 🌟</>}
+          companionSpeech={<>You found every sweet treasure!<br />You have such a sharp, caring eye! 🌟</>}
           statBadgeText="All 3 Cozy Rooms Explored"
           onReplay={handleResetGame}
           replayLabel="Play Another Round"
@@ -155,8 +155,8 @@ export function FindTheObjectGame() {
                   isFound
                     ? "bg-emerald-50 border-emerald-300 text-emerald-950 font-bold shadow-xs scale-[1.02]"
                     : isHinted
-                    ? "bg-amber-100/90 border-amber-400 text-amber-950 font-bold animate-pulse shadow-sm ring-2 ring-amber-300"
-                    : "bg-brand-light-alt border-brand-border/70 text-brand-dark"
+                      ? "bg-amber-100/90 border-amber-400 text-amber-950 font-bold animate-pulse shadow-sm ring-2 ring-amber-300"
+                      : "bg-brand-light-alt border-brand-border/70 text-brand-dark"
                 )}
               >
                 <div className={cn(
@@ -193,7 +193,7 @@ export function FindTheObjectGame() {
       {/* Interactive Illustrated Room Stage: Real Scene Composition with Depth, Layering & Shadows */}
       <div className="relative">
         <div className="relative w-full h-[400px] sm:h-[460px] rounded-[2.5rem] border-3 border-brand-border/80 shadow-md overflow-hidden select-none bg-stone-100">
-          
+
           {/* Room Header Overlay Badge */}
           <div className="absolute top-4 left-4 z-20 bg-white/95 backdrop-blur-xs px-4 py-1.5 rounded-full border border-brand-border/80 shadow-sm flex items-center gap-2">
             <span className="text-sm font-extrabold text-brand-dark">
@@ -213,7 +213,7 @@ export function FindTheObjectGame() {
               {/* Layer 1: Kitchen Wall & Cream Ceramic Tiles */}
               <div className="absolute inset-0 bg-gradient-to-b from-amber-50/90 via-amber-100/40 to-amber-200/50">
                 {/* Tile Grid Lines */}
-                <div 
+                <div
                   className="absolute inset-0 opacity-15"
                   style={{
                     backgroundImage: 'linear-gradient(to right, #78350f 1px, transparent 1px), linear-gradient(to bottom, #78350f 1px, transparent 1px)',
@@ -397,8 +397,8 @@ export function FindTheObjectGame() {
                   isFound
                     ? "bg-white/95 border-2 border-emerald-400 shadow-lg ring-4 ring-emerald-200/80 scale-105"
                     : isHinted
-                    ? "bg-amber-100 border-3 border-amber-500 shadow-2xl ring-4 ring-amber-300 scale-125 animate-pulse"
-                    : "bg-white/90 hover:bg-white hover:scale-115 border-2 border-brand-border/80 shadow-md"
+                      ? "bg-amber-100 border-3 border-amber-500 shadow-2xl ring-4 ring-amber-300 scale-125 animate-pulse"
+                      : "bg-white/90 hover:bg-white hover:scale-115 border-2 border-brand-border/80 shadow-md"
                 )}
               >
                 {/* Object Realistic Soft Cast Shadow Base */}
