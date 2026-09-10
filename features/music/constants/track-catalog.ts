@@ -1,10 +1,10 @@
 /**
  * Music Track Catalog — SmritiSaathi
  *
- * ⚠️  PLACEHOLDER CATALOG ⚠️
+ * MIXED ASSET CATALOG
  *
- * All tracks listed here are METADATA ONLY.  No audio files exist yet.
- * Every entry has isPlaceholder: true and src: "".
+ * Playable calm and cognitive tracks are backed by files under public/assets.
+ * Entries without a verified local asset remain placeholders with an empty src.
  *
  * When real assets are added to the repository they must be placed under:
  *   public/assets/audio/music/calm/       → calm mode tracks
@@ -36,30 +36,31 @@ import type { MusicTrack } from '../types';
 export const CALM_TRACKS: MusicTrack[] = [
   {
     id: 'calm-gentle-instrumental-01',
-    title: 'Morning Raga — Soft Sitar',
-    description: 'A gentle sitar-based instrumental inspired by early-morning ragas.',
+    title: 'Raga Yaman - Sitar',
+    description: 'A sitar performance of Raga Yaman by Tito Dutta.',
     mode: 'calm',
-    // PLACEHOLDER: Replace with actual path when asset is added.
-    src: '',
-    isPlaceholder: true,
+    src: '/assets/audio/music/calm/raga-yaman-sitar.mp3',
+    isPlaceholder: false,
     attribution: {
-      artist: '[To be determined]',
-      license: '[To be confirmed — CC BY or royalty-free required]',
+      artist: 'Tito Dutta',
+      source: 'https://commons.wikimedia.org/wiki/File:Sitar_sample_yaman.ogg',
+      license: 'CC BY-SA 3.0',
+      year: 2011,
     },
   },
   {
     id: 'calm-gentle-instrumental-02',
-    title: 'Dusk Flute — Raga Yaman',
-    description:
-      'A slow bansuri flute piece in Raga Yaman, traditionally played at dusk. ' +
-      'Clinically noted in seed data as beneficial for sundowning mitigation.',
+    title: 'Basuri Flute Melodies',
+    description: 'A long-form flute recording by Learnerktm.',
     mode: 'calm',
-    // PLACEHOLDER: Replace with actual path when asset is added.
-    src: '',
-    isPlaceholder: true,
+    src: '/assets/audio/music/calm/basuri-flute.mp3',
+    isPlaceholder: false,
     attribution: {
-      artist: '[To be determined]',
-      license: '[To be confirmed — CC BY or royalty-free required]',
+      artist: 'Learnerktm',
+      source:
+        'https://commons.wikimedia.org/wiki/File:%E0%A4%AC%E0%A4%BE%E0%A4%81%E0%A4%B8%E0%A5%81%E0%A4%B0%E0%A5%80%E0%A4%95%E0%A5%8B_%E0%A4%A7%E0%A5%81%E0%A4%A8_Basuri.ogg',
+      license: 'CC0 1.0',
+      year: 2014,
     },
   },
   {
@@ -128,14 +129,31 @@ export const COGNITIVE_TRACKS: MusicTrack[] = [
   },
   {
     id: 'cognitive-positive-game-01',
-    title: 'Gentle Xylophone Loop',
-    description:
-      'Simple, repeating xylophone melody. Culturally neutral fallback for users ' +
-      'who find Indian classical music unfamiliar.',
+    title: 'Bali Gamelan Xylophone',
+    description: 'A gamelan xylophone performance recorded in Bali.',
     mode: 'cognitive',
-    // PLACEHOLDER: Replace with actual path when asset is added.
-    src: '',
-    isPlaceholder: true,
+    src: '/assets/audio/music/cognitive/bali-gamelan-xylophone.mp3',
+    isPlaceholder: false,
+    attribution: {
+      artist: 'thedialogueproject',
+      source: 'https://commons.wikimedia.org/wiki/File:Bali_xylophone.ogg',
+      license: 'CC0 1.0',
+      year: 2014,
+    },
+  },
+  {
+    id: 'cognitive-chimes-01',
+    title: 'Goettingen Chimes',
+    description: 'A recording of house chimes in central Goettingen.',
+    mode: 'cognitive',
+    src: '/assets/audio/music/cognitive/goettingen-chimes.mp3',
+    isPlaceholder: false,
+    attribution: {
+      artist: 'Ramessos',
+      source: 'https://commons.wikimedia.org/wiki/File:GlockenspielGoe.ogg',
+      license: 'Public domain (PD-self)',
+      year: 2010,
+    },
   },
 ];
 
@@ -377,7 +395,7 @@ export const DEFAULT_CALM_TRACK_ID: string = CALM_TRACKS[0].id;
 /**
  * Default track used for cognitive mode when no user preference is stored.
  */
-export const DEFAULT_COGNITIVE_TRACK_ID: string = COGNITIVE_TRACKS[0].id;
+export const DEFAULT_COGNITIVE_TRACK_ID: string = 'cognitive-positive-game-01';
 
 /**
  * Resolve a track by its stable ID.
