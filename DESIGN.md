@@ -291,4 +291,30 @@ Treasured Keepsake Book Grows & Family Connects
 - **Caregiver**: Receives real-time visibility into recent narrations, audio durations, and AI-synthesized emotional insights on Papa's mood and engagement, with a 1-tap "Love Note" reply action.
 - **Practitioner**: Accesses lightweight, non-diagnostic participation metrics (Narrative Participation, Story Emotional Valence, Activity Frequency) documenting voluntary psychosocial wellness without clinical diagnostic claims.
 
+---
+
+## 16. Persona Onboarding System & First Impressions (Phase 9 / v0.9.0)
+
+The Onboarding System introduces new users to SmritiSaathi with immediate warmth, role clarity, and personalized configuration while rigorously avoiding forms-heavy or clinical presentations.
+
+### 16.1 Design Principles
+1. **Dignity & Accessibility First**:
+   - Every tap target is at least 56px in height (`min-h-[56px]`).
+   - Generous contrast ratios with soft brand neutrals avoiding stark white glare (`#FDFBF7` canvas).
+   - High legibility font pairings with step indicators that never pressure the user.
+2. **Minimalist Text & High Emotional Resonance**:
+   - Text is limited to 1-2 friendly sentences per screen.
+   - Information capture is driven by tactile choice cards with emojis and clear selection rings rather than complex dropdowns.
+3. **Mascot Anchor & Emotional Feedback**:
+   - The companion mascot Saathi acts as the primary visual anchor in Patient onboarding.
+   - Transitions between mascot states (`greeting` → `happy` → `celebrating`) reflect the user's progress.
+4. **Role Tailoring**:
+   - **Patient (5 screens)**: Centered entirely on comfort, warmth, favorite memories, and personal joys (Family, Music, Festivals).
+   - **Caregiver (5 screens)**: Communicates immediate value across Memories, Routines, and Clinical Support without overwhelm.
+   - **Practitioner (4 screens)**: Professional orientation highlighting longitudinal adherence curves and objective cognitive signals.
+5. **Persistent & Re-runnable**:
+   - Onboarding runs only once on first visit per portal.
+   - Can be reset and replayed at any time via the discreet **"Restart Introduction"** action located in Patient Profile, Caregiver Settings, and Practitioner Settings.
+
+
 

@@ -32,8 +32,11 @@ import Link from 'next/link';
 
 import { MemoryTrailProgressReportModal } from '@/features/memory-trail/components/MemoryTrailProgressReportModal';
 import { QuickPickProgressReportModal } from '@/features/quick-pick-trail/components/QuickPickProgressReportModal';
+import { useOnboarding } from '@/hooks/use-onboarding';
+import { CaregiverOnboarding } from '@/components/onboarding';
 
 export default function CaregiverDashboardPage() {
+  const { isCompleted: isOnboardingComplete, isLoading: isOnboardingLoading } = useOnboarding('caregiver');
   const {
     selectedPatient,
     reminders: sharedReminders,
@@ -49,6 +52,10 @@ export default function CaregiverDashboardPage() {
   const [isMemoryTrailReportOpen, setIsMemoryTrailReportOpen] = useState(false);
   const [isQuickPickReportOpen, setIsQuickPickReportOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  if (!isOnboardingLoading && !isOnboardingComplete) {
+    return <CaregiverOnboarding />;
+  }
 
   // Map shared reminders into CaregiverReminder shape for UI
   const reminders: CaregiverReminder[] = sharedReminders.map((r) => ({

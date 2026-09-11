@@ -23,13 +23,15 @@ This repository represents the **Phase 1 Architecture & Foundation** for a 5-day
 
 ---
 
-## 2. The Three Experience Portals
+## 2. The Three Experience Portals & Onboarding
 
-| Experience | Route | Primary Persona | Layout Archetype | UX Focus |
+| Experience | Route | Primary Persona | Layout Archetype | First-Time Onboarding Flow |
 | :--- | :--- | :--- | :--- | :--- |
-| **Patient Companion** | `/patient` | Patient living with mild-to-moderate dementia | **Mobile-First** (`max-w-md`) | Calming colors, high contrast, minimal clutter, large touch targets (≥48px), orientation anchors, single-touch caregiver call. |
-| **Caregiver Oversight** | `/caregiver` | Family member / Primary home caregiver | **Responsive** (Mobile & Desktop) | Real-time status, routine schedules, memory vault uploads, alert notifications, and caregiver respite check-ins. |
-| **Clinical Dashboard** | `/practitioner` | Neurologist, Geriatrician, Care Coordinator | **Desktop Dashboard** | Clinical density, patient cohort roster, longitudinal cognitive progression metrics, compliance audit trails. |
+| **Patient Companion** | `/patient` | Patient living with mild-to-moderate dementia | **Mobile-First** (`max-w-md`) | 5-step companion welcome, call name capture, personal joy discovery, and support area priorities. |
+| **Caregiver Oversight** | `/caregiver` | Family member / Primary home caregiver | **Responsive** (Mobile & Desktop) | 5-step setup covering core care pillars (Memories, Routines, Support), relationship, loved one identity, and management focus. |
+| **Clinical Dashboard** | `/practitioner` | Neurologist, Geriatrician, Care Coordinator | **Desktop Dashboard** | 4-step clinical workstation orientation covering longitudinal telemetry, physician profile, and clinical telemetry priorities. |
+
+*Note: Onboarding is shown once on first entry, persists locally, and can be re-run at any time via "Restart Introduction" in Patient Profile, Caregiver Settings, or Practitioner Settings.*
 
 ---
 
