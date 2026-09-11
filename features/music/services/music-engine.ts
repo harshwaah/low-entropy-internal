@@ -160,6 +160,7 @@ export class MusicEngine {
    */
   public dispose(): void {
     this._clearFadeInterval();
+    this._duckingSources.clear();
 
     if (this._audio) {
       this._audio.removeEventListener('canplay', this._onCanPlay);
