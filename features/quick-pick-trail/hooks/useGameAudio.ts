@@ -1,8 +1,33 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 import { AudioSettings } from '../types';
+import { useMusic } from '@/features/music';
+
+const DUCK_SOURCE_ID = 'patient-tts';
 
 export function useGameAudio(settings: AudioSettings) {
+  const { duck, releaseDuck } = useMusic();
   const audioCtxRef = useRef<AudioContext | null>(null);
+  const isDuckedRef = useRef(false);
+  const activeUtteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  // Cleanup speech & release ducking on unmount or route change
+  useEffect(() => {
+    return () => {
+      if (activeUtteranceRef.current) {
+        activeUtteranceRef.current.onstart = null;
+        activeUtteranceRef.current.onend = null;
+        activeUtteranceRef.current.onerror = null;
+        activeUtteranceRef.current = null;
+      }
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      if (isDuckedRef.current) {
+        releaseDuck(DUCK_SOURCE_ID);
+        isDuckedRef.current = false;
+      }
+    };
+  }, [releaseDuck]);
 
   const getAudioContext = useCallback(() => {
     if (typeof window === 'undefined') return null;
@@ -118,19 +143,55 @@ export function useGameAudio(settings: AudioSettings) {
     });
   }, [settings.sfxOn, getAudioContext]);
 
-  // Character Voice Encouragement using SpeechSynthesis
+  // Character Voice Encouragement using SpeechSynthesis & Audio Ducking
   const speakPhrase = useCallback(
     (text: string) => {
       if (!settings.characterVoiceOn || typeof window === 'undefined') return;
       if ('speechSynthesis' in window) {
+        // Clear listeners from any currently active utterance before cancelling
+        // so its cancellation events do not prematurely release ducking.
+        if (activeUtteranceRef.current) {
+          activeUtteranceRef.current.onstart = null;
+          activeUtteranceRef.current.onend = null;
+          activeUtteranceRef.current.onerror = null;
+          activeUtteranceRef.current = null;
+        }
+
         window.speechSynthesis.cancel(); // cancel ongoing speech
+
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.rate = 0.85; // slow & clear for elderly patients
         utterance.pitch = 1.1; // warm & friendly
-        window.speechSynthesis.speak(utterance);
+
+        // Immediately duck music before speech output begins
+        if (!isDuckedRef.current) {
+          duck(DUCK_SOURCE_ID);
+          isDuckedRef.current = true;
+        }
+
+        const handleFinish = () => {
+          if (activeUtteranceRef.current === utterance) {
+            activeUtteranceRef.current = null;
+            if (isDuckedRef.current) {
+              releaseDuck(DUCK_SOURCE_ID);
+              isDuckedRef.current = false;
+            }
+          }
+        };
+
+        utterance.onend = handleFinish;
+        utterance.onerror = handleFinish;
+
+        activeUtteranceRef.current = utterance;
+        try {
+          window.speechSynthesis.speak(utterance);
+        } catch (error) {
+          handleFinish();
+          console.error('Failed to start speech synthesis:', error);
+        }
       }
     },
-    [settings.characterVoiceOn]
+    [settings.characterVoiceOn, duck, releaseDuck]
   );
 
   return {
