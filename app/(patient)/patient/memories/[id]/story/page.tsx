@@ -10,11 +10,13 @@ import { StoryMemoirView } from '@/features/memories/components/story-memoir-vie
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, BookOpen, Mic } from 'lucide-react';
 import Link from 'next/link';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 export default function MemoryStoryPage() {
   const params = useParams();
   const router = useRouter();
   const id = params?.id as string;
+  const { t } = usePatientTranslation();
   
   const [story] = useState<MemoryStory | null>(() => {
     if (!id) return null;
@@ -60,12 +62,12 @@ export default function MemoryStoryPage() {
   if (!story) {
     return (
       <div className="p-8 max-w-xl mx-auto text-center space-y-4">
-        <h2 className="text-2xl font-bold text-brand-dark">No story recorded for this memory yet.</h2>
-        <p className="text-brand-muted">You can share your reflections and create a personal memoir anytime.</p>
+        <h2 className="text-2xl font-bold text-brand-dark">{t('memories.noStoryTitle')}</h2>
+        <p className="text-brand-muted">{t('memories.noStoryDesc')}</p>
         <Link href={`/patient/memories/${id}/narrate`}>
           <Button className="rounded-full bg-brand-primary text-white font-bold px-6 py-3">
             <Mic className="w-4 h-4 mr-2" />
-            <span>Tell Me About This Memory</span>
+            <span>{t('memories.tellMeAboutThisMemory')}</span>
           </Button>
         </Link>
       </div>

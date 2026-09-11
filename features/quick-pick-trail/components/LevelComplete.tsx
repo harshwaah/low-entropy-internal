@@ -4,6 +4,7 @@ import React from 'react';
 import { GameCharacter, GameDifficulty } from '../types';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Trophy, Clock, CheckCircle2, Home } from 'lucide-react';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface LevelCompleteProps {
   character: GameCharacter;
@@ -24,12 +25,14 @@ export function LevelComplete({
   onNextLevel,
   onHome,
 }: LevelCompleteProps) {
+  const { t } = usePatientTranslation();
+
   const minutes = Math.floor(durationSeconds / 60);
   const seconds = durationSeconds % 60;
-  const formattedTime = `${minutes > 0 ? `${minutes} min ` : ''}${seconds} sec`;
+  const formattedTime = `${minutes > 0 ? `${t('common.minutes', { min: minutes })} ` : ''}${seconds} s`;
 
   const paceEmoji = difficulty === 'gentle' ? '🐢' : difficulty === 'comfortable' ? '🐍' : '🦋';
-  const paceTitle = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+  const paceTitleKey = difficulty === 'gentle' ? 'quickPick.gentleTitle' : difficulty === 'comfortable' ? 'quickPick.comfortableTitle' : 'quickPick.activeTitle';
 
   return (
     <div className="min-h-[85vh] flex flex-col justify-between px-4 sm:px-6 py-8 bg-[#FDFBF7] text-[#2C5545] text-center animate-in fade-in duration-300">
@@ -40,11 +43,11 @@ export function LevelComplete({
         {/* Confetti & Heading */}
         <div className="space-y-2">
           <div className="inline-flex items-center gap-2 text-3xl sm:text-4xl font-black text-[#2C5545]">
-            <span>Level Complete!</span>
+            <span>{t('quickPick.levelCompleteTitle')}</span>
             <span>🎉</span>
           </div>
           <p className="text-base sm:text-lg text-[#5C7065] font-bold">
-            You solved 5 questions! Amazing effort!
+            {t('quickPick.solvedQuestions')}
           </p>
         </div>
 
@@ -60,24 +63,24 @@ export function LevelComplete({
         <div className="bg-white border-2 border-[#E8F3EB] rounded-3xl p-5 shadow-sm space-y-3 text-left">
           <div className="flex items-center justify-between py-2 border-b border-stone-100">
             <span className="text-sm font-bold text-[#5C7065] flex items-center gap-2">
-              <Clock className="w-4 h-4 text-[#4A8B71]" /> Time Taken
+              <Clock className="w-4 h-4 text-[#4A8B71]" /> {t('quickPick.timeTaken')}
             </span>
             <span className="text-base font-extrabold text-[#2C5545]">{formattedTime}</span>
           </div>
 
           <div className="flex items-center justify-between py-2 border-b border-stone-100">
             <span className="text-sm font-bold text-[#5C7065] flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#4A8B71]" /> Correct Answers
+              <CheckCircle2 className="w-4 h-4 text-[#4A8B71]" /> {t('quickPick.correctAnswers')}
             </span>
             <span className="text-base font-extrabold text-[#2C5545]">5 / 5</span>
           </div>
 
           <div className="flex items-center justify-between py-2">
             <span className="text-sm font-bold text-[#5C7065] flex items-center gap-2">
-              <Trophy className="w-4 h-4 text-[#4A8B71]" /> Your Pace
+              <Trophy className="w-4 h-4 text-[#4A8B71]" /> {t('quickPick.yourPace')}
             </span>
             <span className="text-base font-extrabold text-[#2C5545] flex items-center gap-1">
-              <span>{paceEmoji}</span> <span>{paceTitle}</span>
+              <span>{paceEmoji}</span> <span>{t(paceTitleKey)}</span>
             </span>
           </div>
         </div>
@@ -90,7 +93,7 @@ export function LevelComplete({
           onClick={onNextLevel}
           className="w-full h-16 rounded-full text-xl font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md flex items-center justify-center gap-3 cursor-pointer"
         >
-          <span>Next Level</span>
+          <span>{t('quickPick.nextLevel')}</span>
           <ArrowRight className="w-6 h-6 stroke-[2.5]" />
         </Button>
 
@@ -100,7 +103,7 @@ export function LevelComplete({
           className="w-full h-14 rounded-full text-lg font-bold border-2 border-[#4A8B71] text-[#2C5545] hover:bg-[#E8F3EB] flex items-center justify-center gap-2 cursor-pointer"
         >
           <Home className="w-5 h-5 text-[#4A8B71]" />
-          <span>Back to Home</span>
+          <span>{t('quickPick.backToHome')}</span>
         </Button>
       </div>
 

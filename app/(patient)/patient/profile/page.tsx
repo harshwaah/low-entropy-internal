@@ -1,10 +1,15 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { Mascot } from '@/components/shared/mascot';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, User, Heart, Phone } from 'lucide-react';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 export default function PatientProfilePage() {
+  const { t } = usePatientTranslation();
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-8 animate-in fade-in duration-300">
       
@@ -16,8 +21,8 @@ export default function PatientProfilePage() {
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-extrabold text-brand-dark">My Profile</h1>
-          <p className="text-brand-muted font-medium text-lg">Your care team and preferences</p>
+          <h1 className="text-3xl font-extrabold text-brand-dark">{t('profile.title')}</h1>
+          <p className="text-brand-muted font-medium text-lg">{t('profile.subtitle')}</p>
         </div>
       </div>
 
@@ -28,23 +33,23 @@ export default function PatientProfilePage() {
         </div>
         <div className="flex-1">
           <h2 className="text-2xl font-bold text-brand-dark">Meera Sharma</h2>
-          <p className="text-brand-muted font-medium">New Delhi, India • Daily Companion Active</p>
+          <p className="text-brand-muted font-medium">New Delhi, India • {t('profile.dailyCompanionActive')}</p>
         </div>
       </section>
 
       {/* Caregiver Quick Contact */}
       <section className="bg-brand-light-alt rounded-3xl p-6 sm:p-8 border border-brand-border/60">
         <h3 className="text-xl font-bold text-brand-dark mb-4 flex items-center gap-2">
-          <Heart className="w-5 h-5 fill-red-500 text-red-500" /> My Primary Caregiver
+          <Heart className="w-5 h-5 fill-red-500 text-red-500" /> {t('profile.primaryCaregiver')}
         </h3>
         <div className="bg-white p-5 rounded-2xl border border-brand-border/60 flex items-center justify-between">
           <div>
-            <h4 className="text-lg font-bold text-brand-dark">Rohan Sharma (Son)</h4>
-            <p className="text-brand-muted font-medium text-sm">Always available for a call</p>
+            <h4 className="text-lg font-bold text-brand-dark">Rohan Sharma</h4>
+            <p className="text-brand-muted font-medium text-sm">{t('profile.alwaysAvailable')}</p>
           </div>
           <a href="tel:+919876543210" className="inline-block">
             <Button size="lg" className="rounded-full bg-brand-primary text-white font-bold h-12 px-6 shadow-sm">
-              <Phone className="w-4 h-4 mr-2" /> Call Rohan
+              <Phone className="w-4 h-4 mr-2" /> {t('profile.callCaregiver', { name: 'Rohan' })}
             </Button>
           </a>
         </div>
@@ -53,8 +58,8 @@ export default function PatientProfilePage() {
       {/* Companion Message */}
       <section className="bg-[#FFF8F0] rounded-3xl p-6 text-center flex flex-col items-center">
         <Mascot size="sm" state="holding-heart" className="mb-3" />
-        <p className="text-brand-dark font-bold text-lg">You are safe and surrounded by love.</p>
-        <p className="text-brand-muted font-medium text-sm mt-1">Your family updates your schedule daily.</p>
+        <p className="text-brand-dark font-bold text-lg">{t('profile.reassuranceTitle')}</p>
+        <p className="text-brand-muted font-medium text-sm mt-1">{t('profile.reassuranceSub')}</p>
       </section>
 
     </div>

@@ -4,6 +4,7 @@ import React from 'react';
 import { GameCharacter } from '../types';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface CorrectFeedbackProps {
   character: GameCharacter;
@@ -16,6 +17,8 @@ export function CorrectFeedback({
   correctAnswer,
   onNextQuestion,
 }: CorrectFeedbackProps) {
+  const { t } = usePatientTranslation();
+
   return (
     <div className="min-h-[85vh] flex flex-col justify-between px-4 sm:px-6 py-8 bg-[#FDFBF7] text-[#2C5545] text-center animate-in fade-in duration-300">
       
@@ -27,13 +30,13 @@ export function CorrectFeedback({
         <div className="bg-white border-2 border-[#4A8B71] rounded-3xl p-5 shadow-md relative max-w-xs mx-auto animate-bounce duration-1000">
           <div className="flex items-center justify-center gap-1.5 text-amber-500 mb-1">
             <Sparkles className="w-5 h-5 fill-amber-400" />
-            <span className="text-xs font-black uppercase tracking-wider">Spot On!</span>
+            <span className="text-xs font-black uppercase tracking-wider">{t('quickPick.spotOn')}</span>
           </div>
           <h2 className="text-3xl font-extrabold text-[#2C5545]">
-            Wonderful!
+            {t('quickPick.correctTitle')}
           </h2>
           <p className="text-base text-[#5C7065] font-bold mt-1">
-            That&apos;s the right answer!
+            {t('quickPick.thatsRightAnswer')}
           </p>
           <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-5 h-5 bg-white border-b-2 border-r-2 border-[#4A8B71] rotate-45" />
         </div>
@@ -63,7 +66,7 @@ export function CorrectFeedback({
           onClick={onNextQuestion}
           className="w-full h-16 rounded-full text-xl font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md flex items-center justify-center gap-3 cursor-pointer"
         >
-          <span>Great job! Let&apos;s try another one</span>
+          <span>{t('quickPick.greatJobTryAnother')}</span>
           <ArrowRight className="w-6 h-6 stroke-[2.5]" />
         </Button>
       </div>

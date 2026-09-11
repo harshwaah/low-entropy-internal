@@ -1,9 +1,10 @@
 'use client';
 
 import React from 'react';
-import { ArrowLeft, RotateCw, ArrowRight } from 'lucide-react';
+import { ArrowLeft, RotateCw, ArrowRight, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Mascot } from '@/components/shared/mascot';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface GentleQuestionProps {
   question: string;
@@ -30,9 +31,15 @@ export function GentleQuestion({
   onBack,
   onNext,
 }: GentleQuestionProps) {
+  const { t, speakPrompt, isSpeaking, voiceNotice } = usePatientTranslation();
+
   const handlePromptClick = (prompt: string) => {
     onSelectPrompt(prompt);
     onNext();
+  };
+
+  const handleListen = () => {
+    speakPrompt(question);
   };
 
   return (
@@ -46,7 +53,7 @@ export function GentleQuestion({
             size="icon"
             onClick={onBack}
             className="w-12 h-12 rounded-full bg-white shadow-xs border border-[#DCE5E0] hover:bg-[#F3F8F5]"
-            aria-label="Go back"
+            aria-label={t('common.back')}
           >
             <ArrowLeft className="w-6 h-6 text-[#2C5545]" />
           </Button>
@@ -62,16 +69,46 @@ export function GentleQuestion({
         </div>
 
         {/* Mascot + Speech Bubble */}
-        <div className="flex items-center gap-4 bg-[#F3F8F5] border border-[#DCE5E0] rounded-3xl p-5 shadow-xs">
-          <Mascot size="sm" state="encouraging" className="shrink-0" />
-          
-          <div className="relative bg-white border border-[#DCE5E0] rounded-3xl p-4 shadow-xs flex-1">
-            {/* Speech bubble pointer */}
-            <div className="absolute top-1/2 -left-2 -translate-y-1/2 w-4 h-4 bg-white border-l border-b border-[#DCE5E0] rotate-45" />
-            <p className="text-xl sm:text-2xl font-extrabold text-[#2C5545] leading-snug relative z-10">
-              {question}
-            </p>
+        <div className="flex flex-col gap-3 bg-[#F3F8F5] border border-[#DCE5E0] rounded-3xl p-5 shadow-xs">
+          <div className="flex items-center gap-4">
+            <Mascot size="sm" state="encouraging" className="shrink-0" />
+
+            <div className="relative bg-white border border-[#DCE5E0] rounded-3xl p-4 shadow-xs flex-1">
+
+              {/* Speech bubble pointer */}
+              <div className="absolute top-1/2 -left-2 -translate-y-1/2 w-4 h-4 bg-white border-l border-b border-[#DCE5E0] rotate-45" />
+              <p className="text-xl sm:text-2xl font-extrabold text-[#2C5545] leading-snug relative z-10">
+                {question}
+              </p>
+            </div>
           </div>
+
+
+          {/* 🔊 LISTEN TO PROMPT BUTTON */}
+          <div className="flex items-center justify-between pt-1">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={handleListen}
+              className={`rounded-full h-12 px-5 font-bold text-base border-2 border-[#4A8B71] text-[#2C5545] bg-white hover:bg-[#E8F3EB] shadow-xs flex items-center gap-2 transition-transform active:scale-95 ${
+                isSpeaking ? 'ring-4 ring-[#4A8B71]/30 bg-[#E8F3EB]' : ''
+              }`}
+            >
+              <Volume2 className={`w-5 h-5 text-[#4A8B71] ${isSpeaking ? 'animate-bounce' : ''}`} />
+              <span>🔊 {t('memoryTrail.listen')}</span>
+            </Button>
+            {isSpeaking && (
+              <span className="text-xs font-bold text-[#4A8B71] animate-pulse">
+                {t('speech.speaking')}
+              </span>
+            )}
+          </div>
+
+          {voiceNotice && (
+            <p className="text-xs font-semibold text-amber-700 bg-amber-50 p-2.5 rounded-xl border border-amber-200">
+              {voiceNotice}
+            </p>
+          )}
         </div>
 
         {/* Vertical List of Prompt Cards */}
@@ -103,7 +140,7 @@ export function GentleQuestion({
           className="w-full h-14 rounded-full text-lg font-bold border-2 border-[#4A8B71] text-[#2C5545] hover:bg-[#E8F3EB] flex items-center justify-center gap-2 cursor-pointer"
         >
           <RotateCw className="w-5 h-5 text-[#4A8B71]" />
-          <span>Ask Me Another Question</span>
+          <span>{t('memoryTrail.askAnother')}</span>
         </Button>
 
         <Button
@@ -111,7 +148,7 @@ export function GentleQuestion({
           onClick={onNext}
           className="w-full h-16 rounded-full text-xl font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md flex items-center justify-center gap-2 cursor-pointer"
         >
-          <span>Continue</span>
+          <span>{t('common.continue')}</span>
           <ArrowRight className="w-6 h-6 stroke-[2.5]" />
         </Button>
       </div>

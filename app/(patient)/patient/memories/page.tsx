@@ -17,9 +17,11 @@ import {
 import { Mascot } from '@/components/shared/mascot';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, BookOpen, Heart, Sparkles } from 'lucide-react';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 export default function PatientMemoriesHubPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const { t } = usePatientTranslation();
   
   const allMemories = getAllMemories();
   const memoryOfTheDay = getMemoryOfTheDay();
@@ -48,17 +50,17 @@ export default function PatientMemoriesHubPage() {
           <div>
             <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary">
               <BookOpen className="w-3.5 h-3.5" />
-              <span>Family Scrapbook</span>
+              <span>{t('memories.scrapbookTag')}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-dark tracking-tight">
-              Memory Scrapbook
+              {t('memories.scrapbookTitle')}
             </h1>
           </div>
         </div>
 
         <div className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#FFF8F0] border border-amber-200 text-xs font-bold text-amber-900">
           <Heart className="w-3.5 h-3.5 fill-red-500 text-red-500" />
-          <span>{allMemories.length} Cherished Moments</span>
+          <span>{t('memories.cherishedMoments', { count: allMemories.length })}</span>
         </div>
       </header>
 
@@ -67,13 +69,13 @@ export default function PatientMemoriesHubPage() {
         <div className="relative z-10 text-center sm:text-left space-y-2 max-w-md">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-primary bg-white px-3 py-1 rounded-full border border-amber-200/60 shadow-xs">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Gentle Reminiscence</span>
+            <span>{t('memories.reminiscenceTag')}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-brand-dark leading-tight">
-            Your Life in Beautiful Moments
+            {t('memories.reminiscenceTitle')}
           </h2>
           <p className="text-base sm:text-lg text-brand-muted font-medium leading-relaxed">
-            Every photo holds a warm story of laughter, family love, and milestones you created with care.
+            {t('memories.reminiscenceDesc')}
           </p>
         </div>
 
@@ -84,7 +86,7 @@ export default function PatientMemoriesHubPage() {
             showSpeechBubble={true}
             speechPosition="top-right"
             speechText={
-              <>Would you like to revisit<br/>a special moment today? <Heart className="inline w-3.5 h-3.5 fill-red-500 text-red-500" /></>
+              <>{t('memories.revisitPrompt')} <Heart className="inline w-3.5 h-3.5 fill-red-500 text-red-500" /></>
             }
           />
         </div>
@@ -96,11 +98,11 @@ export default function PatientMemoriesHubPage() {
           <div className="flex items-center gap-2">
             <span className="text-2xl">⭐</span>
             <h2 className="text-2xl font-extrabold text-brand-dark">
-              Featured Today
+              {t('memories.featuredToday')}
             </h2>
           </div>
           <span className="text-xs sm:text-sm font-semibold text-brand-muted">
-            Chosen with your family
+            {t('memories.chosenWithFamily')}
           </span>
         </div>
 
@@ -126,16 +128,16 @@ export default function PatientMemoriesHubPage() {
               {activeCategoryInfo ? (
                 <span className="flex items-center gap-2">
                   <span>{activeCategoryInfo.emoji}</span>
-                  <span>{activeCategoryInfo.label} Moments</span>
+                  <span>{t('memories.momentsCategory', { category: activeCategoryInfo.label })}</span>
                 </span>
               ) : (
-                'All Cherished Memories'
+                t('memories.allMoments')
               )}
             </h2>
             <p className="text-sm font-medium text-brand-muted mt-0.5">
               {activeCategoryInfo 
                 ? activeCategoryInfo.description 
-                : 'Browse all family stories and life milestones'}
+                : t('memories.reminiscenceDesc')}
             </p>
           </div>
 
@@ -144,7 +146,7 @@ export default function PatientMemoriesHubPage() {
               onClick={() => setSelectedCategory('all')}
               className="text-sm font-bold text-brand-primary hover:underline"
             >
-              Show all ({allMemories.length})
+              {t('common.showAll', { count: allMemories.length })}
             </button>
           )}
         </div>
@@ -161,14 +163,14 @@ export default function PatientMemoriesHubPage() {
 
         {filteredMemories.length === 0 && (
           <div className="text-center py-16 bg-white rounded-3xl border-2 border-dashed border-[#EFE5D5] p-8">
-            <p className="text-xl font-bold text-brand-dark mb-2">No memories in this category yet</p>
-            <p className="text-brand-muted font-medium mb-4">Your family is preparing new stories for you.</p>
+            <p className="text-xl font-bold text-brand-dark mb-2">{t('memories.noMemoriesTitle')}</p>
+            <p className="text-brand-muted font-medium mb-4">{t('memories.noMemoriesDesc')}</p>
             <Button 
               variant="outline" 
               onClick={() => setSelectedCategory('all')}
               className="rounded-full"
             >
-              View All Memories
+              {t('memories.viewAllMemories')}
             </Button>
           </div>
         )}

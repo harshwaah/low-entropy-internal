@@ -3,6 +3,7 @@
 import React from 'react';
 import { X, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface HowToPlayModalProps {
   isOpen: boolean;
@@ -10,6 +11,8 @@ interface HowToPlayModalProps {
 }
 
 export function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps) {
+  const { t } = usePatientTranslation();
+
   if (!isOpen) return null;
 
   return (
@@ -19,7 +22,7 @@ export function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps) {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#DCE5E0] pb-4">
           <h3 className="text-2xl font-extrabold text-[#2C5545]">
-            How to Play
+            {t('quickPick.howToPlayTitle')}
           </h3>
           <Button
             variant="ghost"
@@ -39,9 +42,9 @@ export function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps) {
               1
             </div>
             <div>
-              <h4 className="text-base font-extrabold text-[#2C5545]">Look at the Question</h4>
+              <h4 className="text-base font-extrabold text-[#2C5545]">{t('quickPick.step1Title')}</h4>
               <p className="text-xs text-[#5C7065] font-medium mt-0.5">
-                Check the top wooden card (e.g., 5 + 3 = ?).
+                {t('quickPick.step1Desc')}
               </p>
             </div>
           </div>
@@ -51,9 +54,9 @@ export function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps) {
               2
             </div>
             <div>
-              <h4 className="text-base font-extrabold text-[#2C5545]">Find the Correct Apple</h4>
+              <h4 className="text-base font-extrabold text-[#2C5545]">{t('quickPick.step2Title')}</h4>
               <p className="text-xs text-[#5C7065] font-medium mt-0.5">
-                Look around the grassy field for the matching answer (🍎 8).
+                {t('quickPick.step2Desc')}
               </p>
             </div>
           </div>
@@ -63,9 +66,9 @@ export function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps) {
               3
             </div>
             <div>
-              <h4 className="text-base font-extrabold text-[#2C5545]">Guide Your Friend</h4>
+              <h4 className="text-base font-extrabold text-[#2C5545]">{t('quickPick.step3Title')}</h4>
               <p className="text-xs text-[#5C7065] font-medium mt-0.5">
-                Swipe or tap direction arrows to guide Sprout to the apple.
+                {t('quickPick.step3Desc')}
               </p>
             </div>
           </div>
@@ -75,9 +78,9 @@ export function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps) {
               4
             </div>
             <div>
-              <h4 className="text-base font-extrabold text-[#2C5545]">Keep Going & Have Fun</h4>
+              <h4 className="text-base font-extrabold text-[#2C5545]">{t('quickPick.step4Title')}</h4>
               <p className="text-xs text-[#5C7065] font-medium mt-0.5">
-                No timers or wrong answers! Take all the time you need.
+                {t('quickPick.step4Desc')}
               </p>
             </div>
           </div>
@@ -89,7 +92,7 @@ export function HowToPlayModal({ isOpen, onClose }: HowToPlayModalProps) {
           onClick={onClose}
           className="w-full h-14 rounded-full text-lg font-bold bg-[#2C5545] text-white shadow-md flex items-center justify-center gap-2 cursor-pointer"
         >
-          <span>Let&apos;s Play!</span>
+          <span>{t('quickPick.letsPlay')}</span>
           <ArrowRight className="w-5 h-5 stroke-[2.5]" />
         </Button>
 

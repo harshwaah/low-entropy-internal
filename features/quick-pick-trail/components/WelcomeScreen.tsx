@@ -4,6 +4,7 @@ import React from 'react';
 import { GameCharacter } from '../types';
 import { ArrowRight, Music, Settings, HelpCircle, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface WelcomeScreenProps {
   character: GameCharacter;
@@ -18,6 +19,8 @@ export function WelcomeScreen({
   onOpenSettings,
   onOpenHowToPlay,
 }: WelcomeScreenProps) {
+  const { t } = usePatientTranslation();
+
   return (
     <div className="min-h-[85vh] flex flex-col justify-between px-4 sm:px-6 py-6 bg-[#FDFBF7] text-[#2C5545] animate-in fade-in duration-300">
       
@@ -28,11 +31,11 @@ export function WelcomeScreen({
         </div>
 
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#2C5545] tracking-tight">
-          Quick Pick Trail
+          {t('quickPick.welcomeTitle')}
         </h1>
         
         <p className="text-base sm:text-lg text-[#5C7065] font-medium leading-relaxed max-w-sm mx-auto">
-          &ldquo;Little questions. Big confidence.&rdquo;
+          &ldquo;{t('quickPick.welcomeSubtitle')}&rdquo;
         </p>
       </div>
 
@@ -42,7 +45,7 @@ export function WelcomeScreen({
         {/* Speech Bubble */}
         <div className="mb-4 relative bg-white border-2 border-[#DCE5E0] px-4 py-3 rounded-3xl shadow-xs text-center max-w-xs z-10 animate-bounce duration-1000">
           <p className="text-sm sm:text-base font-bold text-[#2C5545] leading-snug">
-            Let&apos;s have some fun and give your brain a little workout! ✨
+            {t('quickPick.welcomeGreeting', { name: character.name })} ✨
           </p>
           <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white border-b-2 border-r-2 border-[#DCE5E0] rotate-45" />
         </div>
@@ -77,7 +80,7 @@ export function WelcomeScreen({
           onClick={onStart}
           className="w-full h-16 rounded-full text-xl font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md hover:shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-3 cursor-pointer"
         >
-          <span>Start Playing</span>
+          <span>{t('quickPick.startAdventure')}</span>
           <ArrowRight className="w-6 h-6 stroke-[2.5]" />
         </Button>
 
@@ -88,7 +91,7 @@ export function WelcomeScreen({
             className="flex flex-col items-center text-xs font-bold text-[#5C7065] hover:text-[#2C5545] transition-colors cursor-pointer"
           >
             <Music className="w-6 h-6 text-[#4A8B71] mb-0.5" />
-            <span>Music</span>
+            <span>{t('music.title')}</span>
           </button>
 
           <button
@@ -96,7 +99,7 @@ export function WelcomeScreen({
             className="flex flex-col items-center text-xs font-bold text-[#5C7065] hover:text-[#2C5545] transition-colors cursor-pointer"
           >
             <Settings className="w-6 h-6 text-[#4A8B71] mb-0.5" />
-            <span>Settings</span>
+            <span>{t('nav.profile')}</span>
           </button>
 
           <button
@@ -104,7 +107,7 @@ export function WelcomeScreen({
             className="flex flex-col items-center text-xs font-bold text-[#5C7065] hover:text-[#2C5545] transition-colors cursor-pointer"
           >
             <HelpCircle className="w-6 h-6 text-[#4A8B71] mb-0.5" />
-            <span>How to Play</span>
+            <span>{t('quickPick.howToPlay')}</span>
           </button>
         </div>
       </div>

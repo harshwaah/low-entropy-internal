@@ -21,13 +21,18 @@ export function QuickPickProgressReportModal({
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    let isMounted = true;
     if (isOpen) {
-      setLoading(true);
       quickPickReportService.generateReport(patientId).then((rep) => {
-        setReport(rep);
-        setLoading(false);
+        if (isMounted) {
+          setReport(rep);
+          setLoading(false);
+        }
       });
     }
+    return () => {
+      isMounted = false;
+    };
   }, [isOpen, patientId]);
 
   if (!isOpen) return null;

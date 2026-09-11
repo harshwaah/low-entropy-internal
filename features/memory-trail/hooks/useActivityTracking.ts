@@ -4,7 +4,7 @@ import { calculateEngagement, progressReportService } from '../services/progress
 
 export function useActivityTracking(patientId: string = 'patient-1') {
   const [sessionId] = useState<string>(() => `sess-${Date.now()}`);
-  const startTimeRef = useRef<number>(Date.now());
+  const [startTime] = useState<number>(() => Date.now());
   const eventsRef = useRef<ActivityEvent[]>([]);
 
   const trackEvent = useCallback(
@@ -37,7 +37,7 @@ export function useActivityTracking(patientId: string = 'patient-1') {
       familyContentInteracted?: boolean;
     }): Promise<ActivityProgress> => {
       const now = Date.now();
-      const durationSeconds = Math.max(1, Math.round((now - startTimeRef.current) / 1000));
+      const durationSeconds = Math.max(1, Math.round((now - startTime) / 1000));
 
       const engagementLevel: EngagementLevel = calculateEngagement({
         familyContentViewed: params.familyContentViewed,
@@ -56,7 +56,7 @@ export function useActivityTracking(patientId: string = 'patient-1') {
         locationId: params.locationId,
         locationName: params.locationName,
         sessionId,
-        startedAt: new Date(startTimeRef.current).toISOString(),
+        startedAt: new Date(startTime).toISOString(),
         completedAt: new Date(now).toISOString(),
         durationSeconds,
         questionAsked: params.questionAsked,
@@ -75,13 +75,15 @@ export function useActivityTracking(patientId: string = 'patient-1') {
       await progressReportService.saveProgress(progressRecord);
       return progressRecord;
     },
-    [sessionId, patientId]
+    [sessionId, patientId, startTime]
   );
+
+  const getEvents = useCallback(() => eventsRef.current, []);
 
   return {
     sessionId,
     trackEvent,
     saveProgressRecord,
-    events: eventsRef.current,
+    getEvents,
   };
 }

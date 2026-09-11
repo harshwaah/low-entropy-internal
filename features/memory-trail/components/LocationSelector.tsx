@@ -4,6 +4,7 @@ import React from 'react';
 import { MemoryLocation } from '../types';
 import { Leaf, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface LocationSelectorProps {
   locations: MemoryLocation[];
@@ -18,6 +19,8 @@ export function LocationSelector({
   onSelectLocation,
   onBack,
 }: LocationSelectorProps) {
+  const { t } = usePatientTranslation();
+
   return (
     <div className="p-4 sm:p-6 space-y-6 bg-[#FDFBF7] min-h-[85vh] flex flex-col justify-between animate-in fade-in duration-300">
       
@@ -30,7 +33,7 @@ export function LocationSelector({
               size="icon"
               onClick={onBack}
               className="w-12 h-12 rounded-full bg-white shadow-xs border border-[#DCE5E0] hover:bg-[#F3F8F5]"
-              aria-label="Go back"
+              aria-label={t('common.back')}
             >
               <ArrowLeft className="w-6 h-6 text-[#2C5545]" />
             </Button>
@@ -39,7 +42,7 @@ export function LocationSelector({
 
         <div className="text-center px-2">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#2C5545] tracking-tight">
-            Which place would you like to visit today?
+            {t('memoryTrail.selectLocationTitle')}
           </h2>
         </div>
 
@@ -57,7 +60,7 @@ export function LocationSelector({
                 {/* Visited Badge (Soft indication, NOT locked!) */}
                 {isVisited && (
                   <div className="absolute top-3 right-3 bg-[#2C5545] text-white text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full shadow-xs flex items-center gap-1">
-                    ✓ Visited
+                    {t('memoryTrail.visitedBadge')}
                   </div>
                 )}
 
@@ -84,8 +87,8 @@ export function LocationSelector({
           <Leaf className="w-6 h-6" />
         </div>
         <p className="text-sm sm:text-base font-bold text-[#2C5545] leading-snug">
-          Every place holds a story.<br />
-          <span className="text-[#5C7065] font-medium">Take your time.</span>
+          {t('memoryTrail.everyPlaceHoldsStory')}<br />
+          <span className="text-[#5C7065] font-medium">{t('memoryTrail.takeYourTimeStory')}</span>
         </p>
       </div>
 

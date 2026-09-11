@@ -3,7 +3,8 @@
 import React from 'react';
 import { GameCharacter } from '../types';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Home, Heart } from 'lucide-react';
+import { ArrowRight, Home } from 'lucide-react';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface EndScreenProps {
   character: GameCharacter;
@@ -12,6 +13,8 @@ interface EndScreenProps {
 }
 
 export function EndScreen({ character, onPlayAgain, onHome }: EndScreenProps) {
+  const { t } = usePatientTranslation();
+
   return (
     <div className="min-h-[85vh] flex flex-col justify-between px-4 sm:px-6 py-8 bg-[#FDFBF7] text-[#2C5545] text-center animate-in fade-in duration-300">
       
@@ -29,11 +32,11 @@ export function EndScreen({ character, onPlayAgain, onHome }: EndScreenProps) {
         {/* Message */}
         <div className="space-y-2">
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#2C5545]">
-            Every Little Step Counts!
+            {t('quickPick.everyStepCounts')}
           </h2>
           <p className="text-base sm:text-lg text-[#5C7065] font-medium leading-relaxed">
-            Thank you for playing today.<br />
-            <span className="font-bold text-[#2C5545]">A brighter mind is a happier you.</span>
+            {t('quickPick.thankYouPlaying')}<br />
+            <span className="font-bold text-[#2C5545]">{t('quickPick.brighterMind')}</span>
           </p>
         </div>
       </div>
@@ -45,7 +48,7 @@ export function EndScreen({ character, onPlayAgain, onHome }: EndScreenProps) {
           onClick={onPlayAgain}
           className="w-full h-16 rounded-full text-xl font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md flex items-center justify-center gap-3 cursor-pointer"
         >
-          <span>Play Again</span>
+          <span>{t('quickPick.playAgain')}</span>
           <ArrowRight className="w-6 h-6 stroke-[2.5]" />
         </Button>
 
@@ -55,7 +58,7 @@ export function EndScreen({ character, onPlayAgain, onHome }: EndScreenProps) {
           className="w-full h-14 rounded-full text-lg font-bold border-2 border-[#4A8B71] text-[#2C5545] hover:bg-[#E8F3EB] flex items-center justify-center gap-2 cursor-pointer"
         >
           <Home className="w-5 h-5 text-[#4A8B71]" />
-          <span>Back to Home</span>
+          <span>{t('quickPick.backToHome')}</span>
         </Button>
       </div>
 

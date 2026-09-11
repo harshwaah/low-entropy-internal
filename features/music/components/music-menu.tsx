@@ -4,10 +4,12 @@ import React, { useState } from 'react';
 import { Music, X, Play, Pause, Volume2, VolumeX, Info, Check, Sparkles, Mountain, Disc } from 'lucide-react';
 import { useMusic } from '../hooks/use-music';
 import type { MusicPreferenceCategory } from '../types';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 export function MusicMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<MusicPreferenceCategory>('calm');
+  const { t } = usePatientTranslation();
 
   const {
     status,
@@ -48,7 +50,7 @@ export function MusicMenu() {
         <button
           onClick={() => setIsOpen(true)}
           className="w-12 h-12 rounded-full bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-lg border-2 border-white/90 flex items-center justify-center transition-all cursor-pointer active:scale-95 relative focus:outline-none focus:ring-4 focus:ring-[#4A8B71]/30"
-          aria-label="Open music menu"
+          aria-label={t('music.openMenu')}
         >
           <Music className="w-6 h-6 text-white" />
 
@@ -80,10 +82,10 @@ export function MusicMenu() {
                 </div>
                 <div>
                   <h2 id="music-popup-title" className="text-xl font-extrabold text-[#2C5545]">
-                    Music
+                    {t('music.title')}
                   </h2>
                   <p className="text-xs font-bold text-[#5C7065]">
-                    Soothing sounds for a better day
+                    {t('music.subtitle')}
                   </p>
                 </div>
               </div>
@@ -91,7 +93,7 @@ export function MusicMenu() {
               <button
                 onClick={() => setIsOpen(false)}
                 className="w-10 h-10 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center text-stone-600 transition-colors cursor-pointer"
-                aria-label="Close music menu"
+                aria-label={t('music.closeMenu')}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -105,7 +107,7 @@ export function MusicMenu() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <span className="text-xs font-bold uppercase tracking-wider text-[#4A8B71]">
-                    Current Music
+                    {t('music.currentMusic')}
                   </span>
                   <h3 className="text-base font-extrabold text-[#2C5545] truncate">
                     {currentTrack?.title || 'Raga Yaman - Sitar'}
@@ -129,12 +131,12 @@ export function MusicMenu() {
               {isPlaying ? (
                 <>
                   <Pause className="w-6 h-6 fill-white" />
-                  <span>Music On (Tap to Pause)</span>
+                  <span>{t('music.musicOn')}</span>
                 </>
               ) : (
                 <>
                   <Play className="w-6 h-6 fill-[#4A8B71]" />
-                  <span>Music Off (Tap to Play)</span>
+                  <span>{t('music.musicOff')}</span>
                 </>
               )}
             </button>
@@ -142,14 +144,14 @@ export function MusicMenu() {
             {/* Volume Control */}
             <div className="space-y-2 pt-1">
               <div className="flex items-center justify-between text-xs font-extrabold text-[#2C5545]">
-                <span>Volume</span>
+                <span>{t('music.volume')}</span>
                 <span>{Math.round((muted ? 0 : volume) * 100)}%</span>
               </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={toggleMute}
                   className="p-2 rounded-xl bg-white border border-[#DCE5E0] text-[#2C5545] hover:bg-[#F3F8F5] cursor-pointer"
-                  aria-label={muted ? 'Unmute music' : 'Mute music'}
+                  aria-label={muted ? t('music.unmute') : t('music.mute')}
                 >
                   {muted || volume === 0 ? (
                     <VolumeX className="w-5 h-5 text-red-500" />
@@ -173,7 +175,7 @@ export function MusicMenu() {
             {/* Music Preference Categories */}
             <div className="space-y-3 pt-2">
               <h4 className="text-sm font-extrabold text-[#2C5545]">
-                My Music Preference
+                {t('music.myPreference')}
               </h4>
 
               <div className="space-y-2.5">
@@ -189,16 +191,16 @@ export function MusicMenu() {
                   <div className="flex items-center gap-3">
                     <Sparkles className="w-5 h-5 text-[#4A8B71] shrink-0" />
                     <div>
-                      <p className="text-sm font-extrabold">Calm Instrumental</p>
+                      <p className="text-sm font-extrabold">{t('music.calmTitle')}</p>
                       <p className="text-xs font-bold text-[#5C7065]">
-                        Soothing sitar &amp; flute melodies
+                        {t('music.calmDesc')}
                       </p>
                     </div>
                   </div>
                   {selectedCategory === 'calm' && (
                     <span className="text-xs font-extrabold px-2.5 py-1 rounded-full bg-[#4A8B71] text-white flex items-center gap-1">
                       <Check className="w-3.5 h-3.5" />
-                      Active
+                      {t('music.active')}
                     </span>
                   )}
                 </div>
@@ -209,15 +211,15 @@ export function MusicMenu() {
                     <Disc className="w-5 h-5 text-amber-600 shrink-0" />
                     <div>
                       <p className="text-sm font-extrabold text-stone-700">
-                        Classic Hindi Songs
+                        {t('music.hindiTitle')}
                       </p>
                       <p className="text-xs font-bold text-stone-500">
-                        Kishore Kumar &amp; familiar favourites
+                        {t('music.hindiDesc')}
                       </p>
                     </div>
                   </div>
                   <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-stone-200 text-stone-600 shrink-0">
-                    Coming soon
+                    {t('music.comingSoon')}
                   </span>
                 </div>
 
@@ -227,15 +229,15 @@ export function MusicMenu() {
                     <Mountain className="w-5 h-5 text-emerald-600 shrink-0" />
                     <div>
                       <p className="text-sm font-extrabold text-stone-700">
-                        North-East Music
+                        {t('music.neTitle')}
                       </p>
                       <p className="text-xs font-bold text-stone-500">
-                        Authentic regional melodies
+                        {t('music.neDesc')}
                       </p>
                     </div>
                   </div>
                   <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-stone-200 text-stone-600 shrink-0">
-                    Coming soon
+                    {t('music.comingSoon')}
                   </span>
                 </div>
               </div>
@@ -244,7 +246,7 @@ export function MusicMenu() {
             {/* Footer Explanation Note */}
             <div className="bg-[#E8F3EB] border border-[#DCE5E0] rounded-2xl p-3 flex items-center gap-2.5 text-xs font-bold text-[#2C5545]">
               <Info className="w-4 h-4 text-[#4A8B71] shrink-0" />
-              <span>Music changes gently based on what you are doing.</span>
+              <span>{t('music.footerInfo')}</span>
             </div>
           </div>
         </div>

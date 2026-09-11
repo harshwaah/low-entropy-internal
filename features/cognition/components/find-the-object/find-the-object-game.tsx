@@ -9,8 +9,10 @@ import { ActivityProgressCard } from '../shared/activity-progress-card';
 import { Button } from '@/components/ui/button';
 import { Check, Lightbulb, Sparkles, ChevronRight, RotateCcw, Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 export function FindTheObjectGame() {
+  const { t } = usePatientTranslation();
   const scenes = cognitiveService.getRecognitionScenes();
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   const [foundObjectIds, setFoundObjectIds] = useState<string[]>([]);
@@ -84,20 +86,20 @@ export function FindTheObjectGame() {
   if (isCompleted) {
     return (
       <ActivityLayout
-        title="Find The Object"
-        subtitle="Spot comforting treasures in cozy rooms"
-        categoryName="Mindful Observation"
+        title={t('cognition.findTheObjectTitle')}
+        subtitle={t('cognition.findTheObjectDesc')}
+        categoryName={t('home.gentleActivities')}
       >
         <ActivityCompletionCard
-          activityTitle="Find The Object"
-          celebrationTitle="Sharp & Observant, Meera!"
-          celebrationMessage="You discovered all 12 comforting keepsakes across the kitchen, sunny veranda, and reading nook. Your mindful focus brings so much warmth."
-          companionSpeech={<>You found every sweet treasure!<br />You have such a sharp, caring eye! 🌟</>}
-          statBadgeText="All 3 Cozy Rooms Explored"
+          activityTitle={t('cognition.findTheObjectTitle')}
+          celebrationTitle={t('cognition.wellDone')}
+          celebrationMessage={t('cognition.keepGoing')}
+          companionSpeech={<>{t('cognition.wellDone')}<br />{t('cognition.keepGoing')} 🌟</>}
+          statBadgeText={t('cognition.activityCompleted')}
           onReplay={handleResetGame}
-          replayLabel="Play Another Round"
+          replayLabel={t('quickPick.playAgain')}
           nextActivityHref="/patient/activities"
-          nextActivityLabel="Back to Activities"
+          nextActivityLabel={t('quickPick.backToActivities')}
         />
       </ActivityLayout>
     );
@@ -105,9 +107,9 @@ export function FindTheObjectGame() {
 
   return (
     <ActivityLayout
-      title="Find The Object"
+      title={t('cognition.findTheObjectTitle')}
       subtitle={currentScene.title}
-      categoryName="Mindful Observation"
+      categoryName={t('home.gentleActivities')}
       companionState={isSceneFullyDiscovered ? 'celebrating' : highlightedHintId ? 'thinking' : 'encouraging'}
       companionMessage={companionFeedback}
       actionButton={
@@ -119,7 +121,7 @@ export function FindTheObjectGame() {
           className="rounded-full border-amber-300 bg-amber-50 text-amber-900 hover:bg-amber-100 font-bold h-11 px-4 text-sm flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
         >
           <Lightbulb className="w-4 h-4 text-amber-600 fill-amber-300" />
-          <span>Need a Hint?</span>
+          <span>{t('cognition.clue', { hint: '?' })}</span>
         </Button>
       }
     >
@@ -127,7 +129,7 @@ export function FindTheObjectGame() {
       <ActivityProgressCard
         currentStep={foundInSceneCount}
         totalSteps={totalInScene}
-        label="Treasures Discovered"
+        label={t('cognition.foundCount', { found: foundInSceneCount, total: totalInScene })}
         stepName={`${foundInSceneCount} of ${totalInScene} found in ${currentScene.roomName}`}
         showHearts={true}
       />
@@ -136,10 +138,10 @@ export function FindTheObjectGame() {
       <div className="bg-white rounded-3xl p-4 sm:p-5 border-2 border-brand-border/70 shadow-sm space-y-2.5">
         <div className="flex items-center justify-between px-1">
           <span className="text-xs font-black text-brand-dark uppercase tracking-wider">
-            Treasures to spot in {currentScene.roomName}:
+            {currentScene.roomName}:
           </span>
           <span className="text-xs font-bold text-brand-muted">
-            Tap on the room image below
+            {t('cognition.findTheObjectDesc')}
           </span>
         </div>
 
@@ -442,8 +444,8 @@ export function FindTheObjectGame() {
             <Sparkles className="w-6 h-6" />
             <span>
               {currentSceneIndex + 1 < scenes.length
-                ? `Explore Next Room (${scenes[currentSceneIndex + 1].roomName})`
-                : 'Complete Activity'}
+                ? t('common.continue')
+                : t('cognition.wellDone')}
             </span>
             <ChevronRight className="w-6 h-6 stroke-[2.5]" />
           </Button>
@@ -452,4 +454,3 @@ export function FindTheObjectGame() {
     </ActivityLayout>
   );
 }
-

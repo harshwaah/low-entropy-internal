@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { Home, Image as ImageIcon, Sparkles, UserCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+import { usePatientTranslation } from '@/features/patient-i18n';
+
 interface NavItemProps {
   href: string;
   icon: React.ReactNode;
@@ -37,6 +39,7 @@ function NavItem({ href, icon, label, isActive }: NavItemProps) {
 
 export function PatientBottomNav({ activeTab }: { activeTab?: 'home' | 'memories' | 'activities' | 'profile' }) {
   const pathname = usePathname();
+  const { t } = usePatientTranslation();
 
   const isHome = activeTab ? activeTab === 'home' : pathname === '/patient';
   const isMemories = activeTab ? activeTab === 'memories' : pathname?.startsWith('/patient/memories');
@@ -52,29 +55,28 @@ export function PatientBottomNav({ activeTab }: { activeTab?: 'home' | 'memories
         <NavItem
           href="/patient"
           icon={<Home size={26} className={isHome ? 'fill-brand-primary/20 stroke-[2.5]' : 'stroke-2'} />}
-          label="Home"
+          label={t('nav.home')}
           isActive={Boolean(isHome)}
         />
         <NavItem
           href="/patient/memories"
           icon={<ImageIcon size={26} className={isMemories ? 'fill-brand-primary/20 stroke-[2.5]' : 'stroke-2'} />}
-          label="Memories"
+          label={t('nav.memories')}
           isActive={Boolean(isMemories)}
         />
         <NavItem
           href="/patient/activities"
           icon={<Sparkles size={26} className={isActivities ? 'fill-brand-primary/20 stroke-[2.5]' : 'stroke-2'} />}
-          label="Activities"
+          label={t('nav.activities')}
           isActive={Boolean(isActivities)}
         />
         <NavItem
           href="/patient/profile"
           icon={<UserCircle size={26} className={isProfile ? 'fill-brand-primary/20 stroke-[2.5]' : 'stroke-2'} />}
-          label="Profile"
+          label={t('nav.profile')}
           isActive={Boolean(isProfile)}
         />
       </div>
     </nav>
   );
 }
-

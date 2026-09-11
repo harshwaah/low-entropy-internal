@@ -111,7 +111,7 @@ export function useQuickPickGame() {
   const [unlockedCharacter, setUnlockedCharacter] = useState<GameCharacter | null>(null);
   const [progressHistory, setProgressHistory] = useState<QuickPickProgressRecord[]>([]);
 
-  const questionStartTimeRef = useRef<number>(Date.now());
+  const questionStartTimeRef = useRef<number>(0);
   const animFrameRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number>(0);
 
