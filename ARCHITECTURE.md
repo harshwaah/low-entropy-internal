@@ -757,13 +757,3 @@ The shared data layer establishes elegant bi-directional feedback loops that aut
 - **The Clinical Care Loop**: When a clinical practitioner logs a significant event (e.g. "Dizziness observed in afternoon") in `/practitioner`, it persists into the shared `observations` collection. This allows caregivers to immediately see and respond to the clinician's comments in their activity feed, creating a highly cooperative and synchronized care circle.
 
 
-
-## 15. Practitioner Dashboard Redesign (Phase 10 / v0.10.0)
-
-**Goal:** Transform the Practitioner Portal into a modern, presentation-ready clinical application.
-
-**Structural Changes:**
-- **PractitionerLayout:** Replaced the legacy blue top bar with a clean, wide-canvas layout and modern sidebar (`PractitionerSidebar`).
-- **PractitionerDashboardClient:** Created a client-side layout for dynamic rendering of charts (using `recharts`) and interactive clinical metrics.
-- **Top Bar Component (`PractitionerTopbar`):** Extracted global actions (search, notifications, profile) into a reusable top navigation bar.
-- **Metric Cards (`ClinicalMetricCard`):** Reusable component for high-level KPIs, providing quick scanning of stable vs. at-risk patients.
