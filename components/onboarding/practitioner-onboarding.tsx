@@ -233,11 +233,12 @@ export function PractitionerOnboarding({ onComplete }: PractitionerOnboardingPro
               <OnboardingChoiceCard
                 key={opt.id}
                 id={`prio-${opt.id.toLowerCase().replace(/\s+/g, '-')}`}
+                value={opt.id}
                 label={opt.label}
                 emoji={opt.emoji}
                 description={opt.desc}
                 selected={selectedPriorities.includes(opt.id)}
-                onToggle={togglePriority}
+                onToggle={() => togglePriority(opt.id)}
               />
             ))}
           </div>

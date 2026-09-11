@@ -147,6 +147,7 @@ export function CaregiverOnboarding({ onComplete }: CaregiverOnboardingProps) {
               <OnboardingChoiceCard
                 key={opt.id}
                 id={`rel-${opt.id.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
+                value={opt.id}
                 variant="radio"
                 label={opt.label}
                 emoji={opt.emoji}
@@ -228,11 +229,12 @@ export function CaregiverOnboarding({ onComplete }: CaregiverOnboardingProps) {
               <OnboardingChoiceCard
                 key={opt.id}
                 id={`manage-${opt.id.toLowerCase().replace(/\s+/g, '-')}`}
+                value={opt.id}
                 label={opt.label}
                 emoji={opt.emoji}
                 description={opt.desc}
                 selected={selectedManageAreas.includes(opt.id)}
-                onToggle={toggleManageArea}
+                onToggle={() => toggleManageArea(opt.id)}
               />
             ))}
           </div>

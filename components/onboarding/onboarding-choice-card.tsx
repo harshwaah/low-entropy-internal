@@ -5,17 +5,19 @@ import { Check } from 'lucide-react';
 
 interface OnboardingChoiceCardProps {
   id: string;
+  value?: string;
   label: string;
   description?: string;
   emoji?: string;
   icon?: React.ReactNode;
   selected: boolean;
-  onToggle: (id: string) => void;
+  onToggle: (idOrValue: string) => void;
   variant?: 'checkbox' | 'radio';
 }
 
 export function OnboardingChoiceCard({
   id,
+  value,
   label,
   description,
   emoji,
@@ -24,13 +26,15 @@ export function OnboardingChoiceCard({
   onToggle,
   variant = 'checkbox',
 }: OnboardingChoiceCardProps) {
+  const toggleKey = value !== undefined ? value : id;
+
   return (
     <button
       type="button"
       id={id}
       role={variant}
       aria-checked={selected}
-      onClick={() => onToggle(id)}
+      onClick={() => onToggle(toggleKey)}
       className={`w-full min-h-[64px] p-4 rounded-2xl sm:rounded-3xl border-2 text-left transition-all duration-200 flex items-center justify-between gap-3.5 cursor-pointer active:scale-[0.98] ${
         selected
           ? 'bg-white border-[#2C5545] shadow-md ring-2 ring-[#2C5545]/15'

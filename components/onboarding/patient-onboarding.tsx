@@ -213,11 +213,12 @@ export function PatientOnboarding({ initialName, onComplete }: PatientOnboarding
               <OnboardingChoiceCard
                 key={opt.id}
                 id={`joy-${opt.id.toLowerCase()}`}
+                value={opt.id}
                 label={opt.label}
                 emoji={opt.emoji}
                 description={opt.desc}
                 selected={selectedJoys.includes(opt.id)}
-                onToggle={toggleJoy}
+                onToggle={() => toggleJoy(opt.id)}
               />
             ))}
           </div>
@@ -243,11 +244,12 @@ export function PatientOnboarding({ initialName, onComplete }: PatientOnboarding
               <OnboardingChoiceCard
                 key={opt.id}
                 id={`help-${opt.id.toLowerCase().replace(/\s+/g, '-')}`}
+                value={opt.id}
                 label={opt.label}
                 emoji={opt.emoji}
                 description={opt.desc}
                 selected={selectedHelp.includes(opt.id)}
-                onToggle={toggleHelp}
+                onToggle={() => toggleHelp(opt.id)}
               />
             ))}
           </div>
