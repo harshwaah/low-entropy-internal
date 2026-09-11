@@ -7,6 +7,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.9.0] - Phase 9: Persona Onboarding System
+
+### Added
+- **Reusable Onboarding Framework**:
+  - Implemented a unified, accessible, full-screen, mobile-first onboarding framework adhering strictly to SmritiSaathi's visual language (mascot-driven, warm cream backgrounds, soft greens, rounded cards, subtle motion, large tap targets, and no forms-heavy clinical appearance).
+  - Authored core modular components:
+    - `OnboardingLayout`: Responsive full-screen container with role-specific color accents, header with back navigation and live progress indicators, and tactile bottom CTA footer.
+    - `OnboardingStep`: Flexible step wrapper with animated transitions, typography hierarchy, and accessible content slots.
+    - `OnboardingProgress`: Step progress bar with persona-specific styling and clear "Step X of Y" indicators.
+    - `OnboardingIllustration`: Emotional mascot integration with speech bubbles, icon badges, and gentle warm ambient glows.
+    - `OnboardingChoiceCard`: High-contrast, tactile choice card with large tap targets (min 56px), custom check states, emoji support, and single/multi-selection modes.
+    - `OnboardingWelcome`: Warm introduction screen highlighting companion Saathi and core value pillars with zero jargon.
+    - `OnboardingCompletion`: Reassuring final screen with personalized preference summaries and confidence-inspiring affirmations.
+- **Patient App Onboarding Experience (5 Screens)**:
+  - Screen 1: Welcome to SmritiSaathi & companion Saathi introduction.
+  - Screen 2: "What should I call you?" capturing name/nickname with friendly presets ("Meera", "Papa", "Maa", etc.).
+  - Screen 3: "What brings you joy?" multi-select capturing personal delights (Family, Nature, Travel, Music, Festivals, Food).
+  - Screen 4: "What would you like help with?" (Memories, Daily Routines, Activities, Companionship).
+  - Screen 5: Personalized completion screen reassuring safety, love, and community.
+- **Caregiver Portal Onboarding Experience (5 Screens)**:
+  - Screen 1: Welcome explaining core care pillars (Memories, Routines, Support).
+  - Screen 2: Relationship selection (Son, Daughter, Spouse, Sibling, Other).
+  - Screen 3: Loved one identity capture (Full Name & Preferred Call Name).
+  - Screen 4: Management domain focus (Memories, Reminders, Activities, Care Updates).
+  - Screen 5: Care Circle configured completion screen with summary and launch CTA.
+- **Practitioner Dashboard Onboarding Experience (4 Screens)**:
+  - Screen 1: Clinical oversight orientation emphasizing longitudinal telemetry and non-invasive adherence.
+  - Screen 2: Professional Information (Name, Specialty Role presets, Facility/Hospital).
+  - Screen 3: Clinical Priorities ("What matters most?": Observations, Adherence, Engagement, Recommendations).
+  - Screen 4: Clinical Workstation Configured completion screen with audit initialization.
+- **State Management & Persistence**:
+  - Engineered `useOnboarding` hook with typed storage keys (`patient_onboarding_complete`, `caregiver_onboarding_complete`, `practitioner_onboarding_complete`).
+  - Only displays onboarding once upon first entry, seamlessly passing through if already completed.
+  - Preserves captured preferences in local storage for continuous portal personalization.
+- **Discrete Reset Mechanism ("Restart Introduction")**:
+  - Integrated discrete "Restart Introduction" reset action inside **Patient Profile** (`/patient/profile`).
+  - Created **Caregiver Settings** (`/caregiver/settings`) with profile summary and "Restart Introduction" reset action.
+  - Created **Practitioner Settings** (`/practitioner/settings`) with clinical credentials and "Restart Introduction" reset action.
+  - Created dedicated standalone routes for replaying: `/patient/onboarding`, `/caregiver/onboarding`, `/practitioner/onboarding`.
+
 ## [0.8.1] - Phase 8.1: Shared Data Architecture & Firestore Foundation
 
 ### Added

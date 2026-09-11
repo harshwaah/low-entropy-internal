@@ -4,8 +4,15 @@ import { calculateEngagement, progressReportService } from '../services/progress
 
 export function useActivityTracking(patientId: string = 'patient-1') {
   const [sessionId] = useState<string>(() => `sess-${Date.now()}`);
-  const startTimeRef = useRef<number>(Date.now());
-  const eventsRef = useRef<ActivityEvent[]>([]);
+  const startTimeRef = useRef<number | null>(null);
+  const [events, setEvents] = useState<ActivityEvent[]>([]);
+
+  const getStartTime = useCallback(() => {
+    if (startTimeRef.current === null) {
+      startTimeRef.current = Date.now();
+    }
+    return startTimeRef.current;
+  }, []);
 
   const trackEvent = useCallback(
     (eventType: ActivityEvent['eventType'], metadata?: Record<string, unknown>) => {
@@ -16,7 +23,7 @@ export function useActivityTracking(patientId: string = 'patient-1') {
         timestamp: new Date().toISOString(),
         metadata,
       };
-      eventsRef.current.push(event);
+      setEvents((prev) => [...prev, event]);
     },
     [sessionId]
   );
@@ -37,7 +44,8 @@ export function useActivityTracking(patientId: string = 'patient-1') {
       familyContentInteracted?: boolean;
     }): Promise<ActivityProgress> => {
       const now = Date.now();
-      const durationSeconds = Math.max(1, Math.round((now - startTimeRef.current) / 1000));
+      const startTime = getStartTime();
+      const durationSeconds = Math.max(1, Math.round((now - startTime) / 1000));
 
       const engagementLevel: EngagementLevel = calculateEngagement({
         familyContentViewed: params.familyContentViewed,
@@ -56,7 +64,7 @@ export function useActivityTracking(patientId: string = 'patient-1') {
         locationId: params.locationId,
         locationName: params.locationName,
         sessionId,
-        startedAt: new Date(startTimeRef.current).toISOString(),
+        startedAt: new Date(startTimeRef.current || now).toISOString(),
         completedAt: new Date(now).toISOString(),
         durationSeconds,
         questionAsked: params.questionAsked,
@@ -75,13 +83,13 @@ export function useActivityTracking(patientId: string = 'patient-1') {
       await progressReportService.saveProgress(progressRecord);
       return progressRecord;
     },
-    [sessionId, patientId]
+    [sessionId, patientId, getStartTime]
   );
 
   return {
     sessionId,
     trackEvent,
     saveProgressRecord,
-    events: eventsRef.current,
+    events,
   };
 }

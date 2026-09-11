@@ -21,23 +21,20 @@ export function useVoiceRecording(): UseVoiceRecordingReturn {
   const [recordingTimeSeconds, setRecordingTimeSeconds] = useState<number>(0);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState<string>('');
-  const [isSpeechSupported, setIsSpeechSupported] = useState<boolean>(false);
+  const [isSpeechSupported, setIsSpeechSupported] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      return Boolean(SpeechRecognition);
+    }
+    return false;
+  });
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
   const speechRecognitionRef = useRef<any>(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const SpeechRecognition =
-        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-      if (SpeechRecognition) {
-        setIsSpeechSupported(true);
-      }
-    }
-  }, []);
 
   const clearTimer = () => {
     if (timerRef.current) {

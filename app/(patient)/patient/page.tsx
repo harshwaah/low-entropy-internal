@@ -9,9 +9,12 @@ import { Calendar, Image as ImageIcon, Sparkles, CheckCircle2, ChevronRight, Pil
 import { MemoryOfTheDay } from '@/features/memories/components/memory-of-the-day';
 import { getMemoryOfTheDay } from '@/features/memories/data/sample-memories';
 import { useSharedData } from '@/services/context/shared-data-context';
+import { useOnboarding } from '@/hooks/use-onboarding';
+import { PatientOnboarding } from '@/components/onboarding';
 
 export default function PatientHomePage() {
   const { selectedPatient, reminders, markReminderCompleted, memories } = useSharedData();
+  const { isCompleted, isLoading, data: onboardingData } = useOnboarding('patient');
   
   // Find primary morning/medication reminder or first active reminder
   const morningReminder = reminders.find(
@@ -19,9 +22,17 @@ export default function PatientHomePage() {
   ) || reminders[0];
 
   const medicationTaken = morningReminder ? morningReminder.status === 'completed' : false;
-  const patientFirstName = selectedPatient?.name ? selectedPatient.name.split(' ')[0] : 'Meera';
+  const patientFirstName = onboardingData?.name
+    ? onboardingData.name.split(' ')[0]
+    : selectedPatient?.name
+    ? selectedPatient.name.split(' ')[0]
+    : 'Meera';
   const memoryOfTheDay = (memories && memories.length > 0) ? (memories[0] as any) : getMemoryOfTheDay();
   const pendingCount = reminders.filter((r) => r.status !== 'completed').length;
+
+  if (!isLoading && !isCompleted) {
+    return <PatientOnboarding initialName={patientFirstName} />;
+  }
 
   const handleContinueDay = () => {
     const nextSection = document.getElementById('up-next-section');

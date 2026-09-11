@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Building2,
   UserCheck,
+  Settings,
 } from 'lucide-react';
 
 export function PractitionerSidebar() {
@@ -70,6 +71,12 @@ export function PractitionerSidebar() {
       label: 'Observations',
       icon: ClipboardList,
       isActive: pathname === '/practitioner/observations',
+    },
+    {
+      href: '/practitioner/settings',
+      label: 'Settings',
+      icon: Settings,
+      isActive: pathname === '/practitioner/settings',
     },
   ];
 
