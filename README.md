@@ -128,7 +128,7 @@ Normal patient routes use `calm` mode. Only these routes automatically use
 - `/patient/activities/memory-match`
 - `/patient/activities/what-comes-next`
 - `/patient/activities/find-the-object`
-
+- `/patient/activities/quick-pick-trail`
 The `/patient/activities` landing page remains in calm mode. Music continues
 through a mode change only when it was already playing.
 
