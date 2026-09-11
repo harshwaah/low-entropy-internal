@@ -12,12 +12,18 @@ import {
   ClinicalCohortFilter,
   ClinicalAuditLog,
   RecommendationStatus,
+  ClinicalAlertItem,
+  ClinicalCarePlan,
+  ClinicalMessageThread,
 } from '../types';
 import {
   SAMPLE_CLINICAL_PATIENTS,
   SAMPLE_CLINICAL_OBSERVATIONS,
   SAMPLE_CLINICAL_RECOMMENDATIONS,
   SAMPLE_COHORT_ANALYTICS,
+  SAMPLE_CLINICAL_ALERTS,
+  SAMPLE_CLINICAL_CARE_PLANS,
+  SAMPLE_CLINICAL_MESSAGES,
 } from '../data/sample-practitioner-data';
 import { observationService } from '@/services/firestore/observation.service';
 
@@ -27,6 +33,9 @@ export interface IPractitionerService {
   getCohortAnalytics(): Promise<CohortAnalyticsSummary>;
   getObservations(patientId?: string, type?: string): Promise<ClinicalObservation[]>;
   getRecommendations(patientId?: string, category?: string): Promise<ClinicalRecommendation[]>;
+  getAlerts(severity?: string): Promise<ClinicalAlertItem[]>;
+  getCarePlans(patientId?: string): Promise<ClinicalCarePlan[]>;
+  getMessages(patientId?: string): Promise<ClinicalMessageThread[]>;
   addObservation(obs: Omit<ClinicalObservation, 'id' | 'timestamp'>): Promise<ClinicalObservation>;
   updateRecommendationStatus(id: string, status: RecommendationStatus): Promise<void>;
   recordClinicalAudit(log: Omit<ClinicalAuditLog, 'id' | 'timestamp'>): Promise<void>;
@@ -37,6 +46,9 @@ class PractitionerServiceImpl implements IPractitionerService {
   private observations: ClinicalObservation[] = [...SAMPLE_CLINICAL_OBSERVATIONS];
   private recommendations: ClinicalRecommendation[] = [...SAMPLE_CLINICAL_RECOMMENDATIONS];
   private analytics: CohortAnalyticsSummary = { ...SAMPLE_COHORT_ANALYTICS };
+  private alerts: ClinicalAlertItem[] = [...SAMPLE_CLINICAL_ALERTS];
+  private carePlans: ClinicalCarePlan[] = [...SAMPLE_CLINICAL_CARE_PLANS];
+  private messages: ClinicalMessageThread[] = [...SAMPLE_CLINICAL_MESSAGES];
   private auditLogs: ClinicalAuditLog[] = [];
 
   async getPatients(filter?: ClinicalCohortFilter): Promise<ClinicalPatient[]> {
@@ -54,6 +66,7 @@ class PractitionerServiceImpl implements IPractitionerService {
         result = result.filter(
           (p) =>
             p.name.toLowerCase().includes(q) ||
+            p.id.toLowerCase().includes(q) ||
             p.condition.toLowerCase().includes(q) ||
             p.primaryCaregiver.name.toLowerCase().includes(q)
         );
@@ -80,7 +93,7 @@ class PractitionerServiceImpl implements IPractitionerService {
   }
 
   async getPatientById(id: string): Promise<ClinicalPatient | null> {
-    const patient = this.patients.find((p) => p.id === id);
+    const patient = this.patients.find((p) => p.id === id || p.id.toLowerCase() === id.toLowerCase());
     return patient || null;
   }
 
@@ -140,6 +153,30 @@ class PractitionerServiceImpl implements IPractitionerService {
     return result;
   }
 
+  async getAlerts(severity?: string): Promise<ClinicalAlertItem[]> {
+    let result = [...this.alerts];
+    if (severity && severity !== 'all') {
+      result = result.filter((a) => a.severity === severity);
+    }
+    return result;
+  }
+
+  async getCarePlans(patientId?: string): Promise<ClinicalCarePlan[]> {
+    let result = [...this.carePlans];
+    if (patientId) {
+      result = result.filter((cp) => cp.patientId === patientId);
+    }
+    return result;
+  }
+
+  async getMessages(patientId?: string): Promise<ClinicalMessageThread[]> {
+    let result = [...this.messages];
+    if (patientId) {
+      result = result.filter((m) => m.patientId === patientId);
+    }
+    return result;
+  }
+
   async addObservation(
     obs: Omit<ClinicalObservation, 'id' | 'timestamp'>
   ): Promise<ClinicalObservation> {
@@ -190,3 +227,4 @@ class PractitionerServiceImpl implements IPractitionerService {
 }
 
 export const practitionerService = new PractitionerServiceImpl();
+

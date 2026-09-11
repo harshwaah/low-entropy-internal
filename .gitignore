@@ -1,7 +1,50 @@
+# Dependencies
 node_modules/
+/.pnp
+.pnp.js
+
+# Next.js build & export output
 .next/
+out/
+build/
+dist/
+
+# Testing
 coverage/
+
+# TypeScript build info cache
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# Miscellaneous & Cache
+.vercel/
+.turbo/
+*.tmp
+*.temp
+
+# Operating System
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs & Debug
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files containing secrets
 .env*
 !.env.example
+
+# IDE / Editor metadata
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

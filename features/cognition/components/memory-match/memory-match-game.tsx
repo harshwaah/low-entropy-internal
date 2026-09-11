@@ -118,7 +118,7 @@ export function MemoryMatchGame() {
             state="greeting"
             showSpeechBubble={true}
             speechPosition="top-right"
-            speechText={<>Hello Meera!<br/>Let&apos;s match some sweet memories! 🫖✨</>}
+            speechText={<>Hello Meera!<br />Let&apos;s match some sweet memories! 🫖✨</>}
             className="mb-1"
           />
 
@@ -220,7 +220,7 @@ export function MemoryMatchGame() {
           activityTitle="Memory Match"
           celebrationTitle="Splendid Job, Meera!"
           celebrationMessage={`You matched all ${totalPairs} pairs with calm focus and patience. Every memory is a sweet treasure.`}
-          companionSpeech={<>Marvelous work, Meera!<br/>Your mind was so bright today! 🌟</>}
+          companionSpeech={<>Marvelous work, Meera!<br />Your mind was so bright today! 🌟</>}
           statBadgeText={`${totalPairs} Pairs Discovered`}
           onReplay={() => resetGame(difficulty)}
           replayLabel="Play Another Round"
@@ -291,8 +291,8 @@ export function MemoryMatchGame() {
                   isMatched
                     ? "bg-gradient-to-b from-emerald-50 to-emerald-100/90 border-3 border-emerald-400 shadow-md ring-4 ring-emerald-200/70"
                     : isFlipped
-                    ? "bg-white border-3 border-brand-primary shadow-lg scale-[1.03]"
-                    : "bg-gradient-to-br from-brand-primary via-[#366854] to-brand-dark border-3 border-brand-dark/90 hover:brightness-105 shadow-md"
+                      ? "bg-white border-3 border-brand-primary shadow-lg scale-[1.03]"
+                      : "bg-gradient-to-br from-brand-primary via-[#366854] to-brand-dark border-3 border-brand-dark/90 hover:brightness-105 shadow-md"
                 )}
               >
                 {isFlipped ? (

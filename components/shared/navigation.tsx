@@ -18,7 +18,7 @@ export function Navigation() {
           <span className="text-2xl font-bold text-brand-dark tracking-tight group-hover:text-brand-primary transition-colors">SmritiSaathi</span>
           <SparkleIcon className="w-5 h-5 text-brand-primary group-hover:rotate-12 transition-transform" />
           <div className="flex flex-col">
-             <span className="text-[10px] uppercase font-bold text-brand-primary tracking-wider -mt-1 ml-1">Always with you</span>
+            <span className="text-[10px] uppercase font-bold text-brand-primary tracking-wider -mt-1 ml-1">Always with you</span>
           </div>
         </Link>
         <nav className="hidden md:flex items-center gap-8 font-semibold text-brand-text">

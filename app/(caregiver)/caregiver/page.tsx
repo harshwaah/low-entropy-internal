@@ -30,6 +30,9 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
+import { MemoryTrailProgressReportModal } from '@/features/memory-trail/components/MemoryTrailProgressReportModal';
+import { QuickPickProgressReportModal } from '@/features/quick-pick-trail/components/QuickPickProgressReportModal';
+
 export default function CaregiverDashboardPage() {
   const {
     selectedPatient,
@@ -43,6 +46,8 @@ export default function CaregiverDashboardPage() {
 
   const [isAddMemoryOpen, setIsAddMemoryOpen] = useState(false);
   const [isAddReminderOpen, setIsAddReminderOpen] = useState(false);
+  const [isMemoryTrailReportOpen, setIsMemoryTrailReportOpen] = useState(false);
+  const [isQuickPickReportOpen, setIsQuickPickReportOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Map shared reminders into CaregiverReminder shape for UI
@@ -315,9 +320,25 @@ export default function CaregiverDashboardPage() {
               <Smile className="h-4 w-4 text-brand-primary" />
               <span>Caregiver Guidance Principle</span>
             </div>
-            <p className="text-brand-muted">
+            <p className="text-brand-muted mb-3">
               SmritiSaathi communicates through gentle orientation prompts and familiar family voices. We never present alarming fail timers or clinical tests to Papa.
             </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button
+                onClick={() => setIsMemoryTrailReportOpen(true)}
+                className="w-full py-2.5 px-4 rounded-full bg-[#2C5545] hover:bg-[#1E3B30] text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>📊 Memory Trail Report</span>
+              </button>
+
+              <button
+                onClick={() => setIsQuickPickReportOpen(true)}
+                className="w-full py-2.5 px-4 rounded-full bg-[#4A8B71] hover:bg-[#2C5545] text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>🐍 Quick Pick Trail Report</span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -334,6 +355,18 @@ export default function CaregiverDashboardPage() {
         isOpen={isAddReminderOpen}
         onClose={() => setIsAddReminderOpen(false)}
         onAddReminder={handleAddReminder}
+      />
+
+      {/* Memory Trail Progress Report Modal */}
+      <MemoryTrailProgressReportModal
+        isOpen={isMemoryTrailReportOpen}
+        onClose={() => setIsMemoryTrailReportOpen(false)}
+      />
+
+      {/* Quick Pick Trail Progress Report Modal */}
+      <QuickPickProgressReportModal
+        isOpen={isQuickPickReportOpen}
+        onClose={() => setIsQuickPickReportOpen(false)}
       />
 
     </div>

@@ -1,0 +1,632 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Messages - SmritiSaathi Doctor Portal</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f2fcf4;
+      color: #1e293b;
+    }
+    /* Custom scrollbar for clean aesthetic */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="h-screen flex overflow-hidden bg-[#f2fcf4]">
+<!-- LEFT PERSISTENT SIDEBAR -->
+<aside class="w-64 bg-[#e7f5eb] border-r border-[#d2ddd5] flex flex-col justify-between shrink-0 h-full select-none">
+<div class="flex flex-col">
+<!-- App Brand / Logo -->
+<div class="h-16 flex items-center px-6 gap-3 border-b border-[#d2ddd5]/60">
+<div class="w-8 h-8 rounded-lg bg-[#1e4d3a] flex items-center justify-center text-white font-bold text-base shadow-sm">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div>
+<h1 class="text-base font-bold text-[#1e4d3a] leading-tight">SmritiSaathi</h1>
+<p class="text-[10px] uppercase font-semibold text-[#1e4d3a]/70 tracking-wider">Doctor Portal</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="p-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#2d3748] hover:bg-[#d9ede0] transition-colors" href="{{DATA:SCREEN:SCREEN_20}}">
+<svg class="w-5 h-5 text-[#4a5568]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"></path>
+</svg>
+          Dashboard
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#2d3748] hover:bg-[#d9ede0] transition-colors" href="{{DATA:SCREEN:SCREEN_19}}">
+<svg class="w-5 h-5 text-[#4a5568]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"></path>
+</svg>
+          Patients
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#2d3748] hover:bg-[#d9ede0] transition-colors" href="{{DATA:SCREEN:SCREEN_14}}">
+<svg class="w-5 h-5 text-[#4a5568]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"></path>
+</svg>
+          Alerts
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#2d3748] hover:bg-[#d9ede0] transition-colors" href="{{DATA:SCREEN:SCREEN_13}}">
+<svg class="w-5 h-5 text-[#4a5568]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"></path>
+</svg>
+          Activities
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#2d3748] hover:bg-[#d9ede0] transition-colors" href="{{DATA:SCREEN:SCREEN_8}}">
+<svg class="w-5 h-5 text-[#4a5568]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"></path>
+</svg>
+          Care Plans
+        </a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-[#2d3748] hover:bg-[#d9ede0] transition-colors" href="{{DATA:SCREEN:SCREEN_4}}">
+<svg class="w-5 h-5 text-[#4a5568]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"></path>
+</svg>
+          Reports &amp; Insights
+        </a>
+<!-- Active Messages item -->
+<a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold bg-[#1e4d3a] text-white shadow-sm" href="{{DATA:SCREEN:SCREEN_2}}">
+<div class="flex items-center gap-3">
+<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+            Messages
+          </div>
+<span class="w-2 h-2 rounded-full bg-emerald-400" id="sidebar-unread-badge"></span>
+</a>
+</nav>
+</div>
+<!-- Doctor Profile Footer in Sidebar -->
+<div class="p-3 border-t border-[#d2ddd5]/60">
+<div class="flex items-center gap-3 p-2 rounded-lg bg-white/70 border border-[#d2ddd5]/60">
+<img alt="Dr. Elena Vance" class="w-9 h-9 rounded-full object-cover border border-[#1e4d3a]/20" src="https://lh3.googleusercontent.com/aida/AEtjO1WjDF8P3WoNyhUqQe6nzvZVY6OabLNzVbyf190AFkY5GS93w7Sv4K9SN0welxe3hD7d02WD6O5biRTrv56zBZTnZ694EDwgMXvmuCQzq9tE1LBI3E4CT3TRbOWjQhHXjqWq1L4iIklEYy-vkb2p53Ny07ciUEKih-XcSOSgJ5KWnPoCkGnbh3C5U1Tk41hS8iwuEecG0jNDNXyNIZxr0Y9lW-Ak5xPOEDx0miDB5YdX-Nwkkw-uKtag7Cgz">
+<div class="flex-1 min-w-0">
+<p class="text-xs font-bold text-[#1e4d3a] truncate">Dr. Elena Vance</p>
+<p class="text-[11px] text-slate-500 truncate">Neurologist</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- MAIN VIEWPORT -->
+<div class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- TOP HEADER -->
+<header class="h-16 bg-white/90 backdrop-blur border-b border-[#d2ddd5] px-8 flex items-center justify-between shrink-0">
+<div>
+<div class="flex items-center gap-2">
+<h2 class="text-lg font-bold text-[#1e4d3a]">Messages</h2>
+<span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#ecf6ee] text-[#1e4d3a] border border-[#d2ddd5]">Doctor Portal</span>
+</div>
+<p class="text-xs text-slate-500">Communicate with patients and care teams.</p>
+</div>
+<div class="flex items-center gap-4">
+<!-- Global Search or patient lookup -->
+<div class="relative w-64">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</span>
+<input class="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg bg-[#f8fafc] border border-[#d2ddd5] focus:outline-none focus:border-[#1e4d3a] focus:bg-white text-slate-700" id="global-search" placeholder="Search portal..." type="text">
+</div>
+<!-- Notification Bell -->
+<button class="relative p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-[#ecf6ee] transition-colors">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"></path>
+</svg>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-emerald-600"></span>
+</button>
+<div class="h-6 w-[1px] bg-slate-200"></div>
+<!-- Current Doctor Mini badge -->
+<div class="flex items-center gap-2">
+<img alt="Dr. Elena Vance" class="w-7 h-7 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WjDF8P3WoNyhUqQe6nzvZVY6OabLNzVbyf190AFkY5GS93w7Sv4K9SN0welxe3hD7d02WD6O5biRTrv56zBZTnZ694EDwgMXvmuCQzq9tE1LBI3E4CT3TRbOWjQhHXjqWq1L4iIklEYy-vkb2p53Ny07ciUEKih-XcSOSgJ5KWnPoCkGnbh3C5U1Tk41hS8iwuEecG0jNDNXyNIZxr0Y9lW-Ak5xPOEDx0miDB5YdX-Nwkkw-uKtag7Cgz">
+<span class="text-xs font-semibold text-slate-700">Dr. Elena Vance</span>
+</div>
+</div>
+</header>
+<!-- MAIN TWO-COLUMN MESSAGING INTERFACE -->
+<main class="flex-1 p-6 overflow-hidden flex gap-5">
+<!-- LEFT COLUMN: Conversation List Card -->
+<section class="w-80 lg:w-96 bg-white rounded-xl border border-[#d2ddd5] flex flex-col shadow-sm shrink-0 overflow-hidden">
+<!-- Header & Search -->
+<div class="p-4 border-b border-[#ecf6ee] bg-[#fcfdfd]">
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-sm font-bold text-[#1e4d3a]">Conversations</h3>
+<span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-[#e7f5eb] text-[#1e4d3a]" id="unread-count-pill">1 Unread</span>
+</div>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</span>
+<input class="w-full pl-8 pr-3 py-2 text-xs rounded-lg bg-[#f8fafc] border border-[#d2ddd5] focus:outline-none focus:border-[#1e4d3a] focus:bg-white text-slate-700 transition" id="conversation-search" placeholder="Search patients or messages..." type="text">
+</div>
+</div>
+<!-- Conversation Item List -->
+<div class="flex-1 overflow-y-auto divide-y divide-[#f1f5f3]" id="conversation-list"><div class="p-3.5 flex items-start gap-3 cursor-pointer transition-all border-l-4 bg-[#ecf6ee] border-[#1e4d3a]">
+          <div class="w-9 h-9 rounded-full bg-[#1e4d3a] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-sm">
+            RK
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between mb-0.5">
+              <h4 class="text-xs font-bold text-slate-800 truncate text-[#1e4d3a]">Rameshwar Kumar</h4>
+              <span class="text-[10px] text-slate-400 shrink-0 ml-1">10:32 AM</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-semibold text-slate-800 truncate">
+                Doctor, I completed today's activities.
+              </p>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0 ml-1.5 ring-2 ring-emerald-100"></span>
+            </div>
+          </div>
+        </div><div class="p-3.5 flex items-start gap-3 cursor-pointer transition-all border-l-4 hover:bg-[#f7faf8] border-transparent">
+          <div class="w-9 h-9 rounded-full bg-[#285e49] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-sm">
+            SS
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between mb-0.5">
+              <h4 class="text-xs font-bold text-slate-800 truncate">Sunita Sharma</h4>
+              <span class="text-[10px] text-slate-400 shrink-0 ml-1">Yesterday 11:15 AM</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <p class="text-xs text-slate-500 truncate">
+                That is great progress. Consistency is what matters most.
+              </p>
+              
+            </div>
+          </div>
+        </div><div class="p-3.5 flex items-start gap-3 cursor-pointer transition-all border-l-4 hover:bg-[#f7faf8] border-transparent">
+          <div class="w-9 h-9 rounded-full bg-[#336d55] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-sm">
+            AD
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between mb-0.5">
+              <h4 class="text-xs font-bold text-slate-800 truncate">Anita Desai</h4>
+              <span class="text-[10px] text-slate-400 shrink-0 ml-1">Nov 02 12:12 PM</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <p class="text-xs text-slate-500 truncate">
+                Understood, thank you Doctor!
+              </p>
+              
+            </div>
+          </div>
+        </div><div class="p-3.5 flex items-start gap-3 cursor-pointer transition-all border-l-4 hover:bg-[#f7faf8] border-transparent">
+          <div class="w-9 h-9 rounded-full bg-[#3f7d63] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-sm">
+            RP
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between mb-0.5">
+              <h4 class="text-xs font-bold text-slate-800 truncate">Rajesh Patil</h4>
+              <span class="text-[10px] text-slate-400 shrink-0 ml-1">Oct 30 05:10 PM</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <p class="text-xs text-slate-500 truncate">
+                Thank you for letting us know. Resuming normal cadence will keep your streak active.
+              </p>
+              
+            </div>
+          </div>
+        </div></div>
+</section>
+<!-- RIGHT COLUMN: Active Chat Conversation Card -->
+<section class="flex-1 bg-white rounded-xl border border-[#d2ddd5] flex flex-col shadow-sm overflow-hidden">
+<!-- Chat Header -->
+<div class="px-6 py-3.5 border-b border-[#d2ddd5] bg-white flex items-center justify-between shrink-0">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-[#1e4d3a] text-white flex items-center justify-center font-bold text-sm shadow-sm" id="active-avatar">RK</div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="text-sm font-bold text-[#1e4d3a]" id="active-patient-name">Rameshwar Kumar</h3>
+<span class="text-[11px] font-medium px-2 py-0.5 rounded bg-[#ecf6ee] text-[#1e4d3a] border border-[#d2ddd5]" id="active-patient-id">ID: SS-4102</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-xs text-slate-500" id="active-patient-status">Active today • Memory + Motor Support</span>
+</div>
+</div>
+</div>
+<!-- Minimal Status / Secondary Info -->
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-400 font-medium">Direct Medical Channel</span>
+</div>
+</div>
+<!-- Message History Container -->
+<div class="flex-1 overflow-y-auto p-6 space-y-4 bg-[#fafdfb]" id="message-container"><div class="flex items-center justify-center my-3">
+        <span class="px-3 py-1 rounded-full bg-slate-100 text-[10px] font-medium text-slate-500 border border-slate-200">
+          Today's Clinical Communication
+        </span>
+      </div><div class="flex flex-col items-start">
+          <div class="flex items-center gap-1.5 mb-1 px-1">
+            <span class="text-[10px] font-bold text-slate-600">
+              Rameshwar Kumar
+            </span>
+            <span class="text-[9px] text-slate-400">10:15 AM</span>
+          </div>
+          <div class="max-w-[75%] px-4 py-2.5 rounded-2xl text-xs leading-relaxed shadow-sm bg-white text-slate-800 border border-[#d2ddd5] rounded-bl-xs">
+            Doctor, I completed today's memory exercises.
+          </div>
+        </div><div class="flex flex-col items-end">
+          <div class="flex items-center gap-1.5 mb-1 px-1">
+            <span class="text-[10px] font-bold text-[#1e4d3a]">
+              Dr. Elena Vance
+            </span>
+            <span class="text-[9px] text-slate-400">10:18 AM</span>
+          </div>
+          <div class="max-w-[75%] px-4 py-2.5 rounded-2xl text-xs leading-relaxed shadow-sm bg-[#1e4d3a] text-white rounded-br-xs">
+            Good work. Please continue with the activities as scheduled.
+          </div>
+        </div><div class="flex flex-col items-start">
+          <div class="flex items-center gap-1.5 mb-1 px-1">
+            <span class="text-[10px] font-bold text-slate-600">
+              Rameshwar Kumar
+            </span>
+            <span class="text-[9px] text-slate-400">10:25 AM</span>
+          </div>
+          <div class="max-w-[75%] px-4 py-2.5 rounded-2xl text-xs leading-relaxed shadow-sm bg-white text-slate-800 border border-[#d2ddd5] rounded-bl-xs">
+            I found the word recall exercise a little difficult today.
+          </div>
+        </div><div class="flex flex-col items-end">
+          <div class="flex items-center gap-1.5 mb-1 px-1">
+            <span class="text-[10px] font-bold text-[#1e4d3a]">
+              Dr. Elena Vance
+            </span>
+            <span class="text-[9px] text-slate-400">10:28 AM</span>
+          </div>
+          <div class="max-w-[75%] px-4 py-2.5 rounded-2xl text-xs leading-relaxed shadow-sm bg-[#1e4d3a] text-white rounded-br-xs">
+            That's okay. We'll keep monitoring your performance.
+          </div>
+        </div><div class="flex flex-col items-start">
+          <div class="flex items-center gap-1.5 mb-1 px-1">
+            <span class="text-[10px] font-bold text-slate-600">
+              Rameshwar Kumar
+            </span>
+            <span class="text-[9px] text-slate-400">10:32 AM</span>
+          </div>
+          <div class="max-w-[75%] px-4 py-2.5 rounded-2xl text-xs leading-relaxed shadow-sm bg-white text-slate-800 border border-[#d2ddd5] rounded-bl-xs">
+            Doctor, I completed today's activities.
+          </div>
+        </div></div>
+<!-- BOTTOM: Message Composer -->
+<div class="p-4 bg-white border-t border-[#d2ddd5] shrink-0">
+<form class="flex items-center gap-3" id="message-form" onsubmit="handleSendMessage(event)">
+<div class="flex-1 relative">
+<input autocomplete="off" class="w-full px-4 py-2.5 text-sm rounded-lg bg-[#f8fafc] border border-[#d2ddd5] focus:outline-none focus:border-[#1e4d3a] focus:bg-white text-slate-800 transition shadow-inner placeholder-slate-400" id="message-input" placeholder="Type a message..." type="text">
+</div>
+<button class="px-5 py-2.5 rounded-lg bg-[#1e4d3a] hover:bg-[#16382a] text-white text-sm font-semibold flex items-center gap-2 transition shadow-sm active:scale-[0.98]" id="send-button" type="submit">
+<span class="">Send</span>
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</form>
+<div class="mt-1.5 flex items-center justify-between text-[11px] text-slate-400 px-1">
+<span class="">Press Enter to send message</span>
+<span class="">All communications are logged for clinical continuity</span>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- APPLICATION JAVASCRIPT STATE & LOGIC -->
+<script>
+    // Demo patients data and message threads
+    const conversationsData = [
+      {
+        id: "SS-4102",
+        name: "Rameshwar Kumar",
+        initials: "RK",
+        avatarBg: "bg-[#1e4d3a]",
+        statusText: "Active today • Memory + Motor Support",
+        hasUnread: true,
+        messages: [
+          { sender: "patient", text: "Doctor, I completed today's memory exercises.", time: "10:15 AM" },
+          { sender: "doctor", text: "Good work. Please continue with the activities as scheduled.", time: "10:18 AM" },
+          { sender: "patient", text: "I found the word recall exercise a little difficult today.", time: "10:25 AM" },
+          { sender: "doctor", text: "That's okay. We'll keep monitoring your performance.", time: "10:28 AM" },
+          { sender: "patient", text: "Doctor, I completed today's activities.", time: "10:32 AM" }
+        ]
+      },
+      {
+        id: "SS-3981",
+        name: "Sunita Sharma",
+        initials: "SS",
+        avatarBg: "bg-[#285e49]",
+        statusText: "Active 2h ago • Sensory & Daily Tracking",
+        hasUnread: false,
+        messages: [
+          { sender: "doctor", text: "Good morning Sunita. How are you feeling after the morning visual recall task?", time: "Yesterday 9:30 AM" },
+          { sender: "patient", text: "Good morning Dr. Vance. Felt much clearer today. My daughter helped set the timer.", time: "Yesterday 11:05 AM" },
+          { sender: "doctor", text: "That is great progress. Consistency is what matters most.", time: "Yesterday 11:15 AM" }
+        ]
+      },
+      {
+        id: "SS-4054",
+        name: "Anita Desai",
+        initials: "AD",
+        avatarBg: "bg-[#336d55]",
+        statusText: "Active today • Recall & Orientation",
+        hasUnread: false,
+        messages: [
+          { sender: "patient", text: "Hello Dr. Elena, should I complete the orientation check before or after lunch?", time: "Nov 02 11:40 AM" },
+          { sender: "doctor", text: "Hello Anita. Doing it in the morning before lunch is ideal when alertness is highest.", time: "Nov 02 12:05 PM" },
+          { sender: "patient", text: "Understood, thank you Doctor!", time: "Nov 02 12:12 PM" }
+        ]
+      },
+      {
+        id: "SS-4219",
+        name: "Rajesh Patil",
+        initials: "RP",
+        avatarBg: "bg-[#3f7d63]",
+        statusText: "Active yesterday • Routine Schedule",
+        hasUnread: false,
+        messages: [
+          { sender: "doctor", text: "Rajesh, we noticed a missed routine log yesterday. Is everything going well?", time: "Oct 30 03:20 PM" },
+          { sender: "patient", text: "Doctor, we were traveling for family gathering. Back home now and restarting today.", time: "Oct 30 04:45 PM" },
+          { sender: "doctor", text: "Thank you for letting us know. Resuming normal cadence will keep your streak active.", time: "Oct 30 05:10 PM" }
+        ]
+      }
+    ];
+
+    let activePatientId = "SS-4102";
+    let searchQuery = "";
+
+    // DOM Elements
+    const conversationListEl = document.getElementById("conversation-list");
+    const messageContainerEl = document.getElementById("message-container");
+    const messageInputEl = document.getElementById("message-input");
+    const messageFormEl = document.getElementById("message-form");
+    const sendButtonEl = document.getElementById("send-button");
+    const activePatientNameEl = document.getElementById("active-patient-name");
+    const activePatientIdEl = document.getElementById("active-patient-id");
+    const activePatientStatusEl = document.getElementById("active-patient-status");
+    const activeAvatarEl = document.getElementById("active-avatar");
+    const unreadCountPillEl = document.getElementById("unread-count-pill");
+    const sidebarUnreadBadgeEl = document.getElementById("sidebar-unread-badge");
+    const conversationSearchInput = document.getElementById("conversation-search");
+
+    // Initialize
+    function init() {
+      renderConversations();
+      renderActiveChat();
+
+      if (conversationSearchInput) {
+        conversationSearchInput.addEventListener("input", (e) => {
+          searchQuery = e.target.value.toLowerCase().trim();
+          renderConversations();
+        });
+      }
+
+      // Explicit form submit listener
+      if (messageFormEl) {
+        messageFormEl.addEventListener("submit", handleSendMessage);
+      }
+
+      // Explicit Send button click listener
+      if (sendButtonEl) {
+        sendButtonEl.addEventListener("click", handleSendMessage);
+      }
+
+      // Explicit keydown Enter listener on the text input
+      if (messageInputEl) {
+        messageInputEl.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            handleSendMessage(e);
+          }
+        });
+      }
+    }
+
+    // Update global unread count
+    function updateUnreadCounter() {
+      const unreadTotal = conversationsData.filter(c => c.hasUnread).length;
+      if (unreadTotal > 0) {
+        unreadCountPillEl.textContent = `${unreadTotal} Unread`;
+        unreadCountPillEl.classList.remove("hidden");
+        sidebarUnreadBadgeEl.classList.remove("hidden");
+      } else {
+        unreadCountPillEl.textContent = "All Read";
+        unreadCountPillEl.classList.add("text-slate-500", "bg-slate-100");
+        unreadCountPillEl.classList.remove("text-[#1e4d3a]", "bg-[#e7f5eb]");
+        sidebarUnreadBadgeEl.classList.add("hidden");
+      }
+    }
+
+    // Render Conversation List
+    function renderConversations() {
+      conversationListEl.innerHTML = "";
+
+      const filtered = conversationsData.filter(conv => {
+        if (!searchQuery) return true;
+        const matchName = conv.name.toLowerCase().includes(searchQuery);
+        const matchId = conv.id.toLowerCase().includes(searchQuery);
+        const matchMsg = conv.messages.some(m => m.text.toLowerCase().includes(searchQuery));
+        return matchName || matchId || matchMsg;
+      });
+
+      if (filtered.length === 0) {
+        conversationListEl.innerHTML = `
+          <div class="p-8 text-center text-xs text-slate-400">
+            No matching conversations found.
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(conv => {
+        const isSelected = conv.id === activePatientId;
+        const lastMsg = conv.messages[conv.messages.length - 1];
+
+        const item = document.createElement("div");
+        item.className = `p-3.5 flex items-start gap-3 cursor-pointer transition-all border-l-4 ${
+          isSelected 
+            ? "bg-[#ecf6ee] border-[#1e4d3a]" 
+            : "hover:bg-[#f7faf8] border-transparent"
+        }`;
+        item.onclick = () => selectConversation(conv.id);
+
+        item.innerHTML = `
+          <div class="w-9 h-9 rounded-full ${conv.avatarBg} text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5 shadow-sm">
+            ${conv.initials}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between mb-0.5">
+              <h4 class="text-xs font-bold text-slate-800 truncate ${isSelected ? 'text-[#1e4d3a]' : ''}">${conv.name}</h4>
+              <span class="text-[10px] text-slate-400 shrink-0 ml-1">${lastMsg ? lastMsg.time : ''}</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <p class="text-xs ${conv.hasUnread ? 'font-semibold text-slate-800' : 'text-slate-500'} truncate">
+                ${lastMsg ? escapeHtml(lastMsg.text) : 'No messages yet'}
+              </p>
+              ${conv.hasUnread ? '<span class="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0 ml-1.5 ring-2 ring-emerald-100"></span>' : ''}
+            </div>
+          </div>
+        `;
+
+        conversationListEl.appendChild(item);
+      });
+
+      updateUnreadCounter();
+    }
+
+    // Select Conversation Action
+    function selectConversation(id) {
+      activePatientId = id;
+      const conv = conversationsData.find(c => c.id === id);
+      if (conv) {
+        // Clear unread flag upon viewing
+        conv.hasUnread = false;
+      }
+      renderConversations();
+      renderActiveChat();
+    }
+
+    // Render Active Conversation Chat
+    function renderActiveChat() {
+      const conv = conversationsData.find(c => c.id === activePatientId);
+      if (!conv) return;
+
+      activePatientNameEl.textContent = conv.name;
+      activePatientIdEl.textContent = `ID: ${conv.id}`;
+      activePatientStatusEl.textContent = conv.statusText;
+      activeAvatarEl.textContent = conv.initials;
+      activeAvatarEl.className = `w-10 h-10 rounded-full ${conv.avatarBg} text-white flex items-center justify-center font-bold text-sm shadow-sm`;
+
+      messageContainerEl.innerHTML = "";
+
+      // Group date divider
+      const dateDivider = document.createElement("div");
+      dateDivider.className = "flex items-center justify-center my-3";
+      dateDivider.innerHTML = `
+        <span class="px-3 py-1 rounded-full bg-slate-100 text-[10px] font-medium text-slate-500 border border-slate-200">
+          Today's Clinical Communication
+        </span>
+      `;
+      messageContainerEl.appendChild(dateDivider);
+
+      conv.messages.forEach(msg => {
+        const isDoctor = msg.sender === "doctor";
+        const messageRow = document.createElement("div");
+        messageRow.className = `flex flex-col ${isDoctor ? 'items-end' : 'items-start'}`;
+
+        messageRow.innerHTML = `
+          <div class="flex items-center gap-1.5 mb-1 px-1">
+            <span class="text-[10px] font-bold ${isDoctor ? 'text-[#1e4d3a]' : 'text-slate-600'}">
+              ${isDoctor ? 'Dr. Elena Vance' : conv.name}
+            </span>
+            <span class="text-[9px] text-slate-400">${msg.time}</span>
+          </div>
+          <div class="max-w-[75%] px-4 py-2.5 rounded-2xl text-xs leading-relaxed shadow-sm ${
+            isDoctor 
+              ? 'bg-[#1e4d3a] text-white rounded-br-xs' 
+              : 'bg-white text-slate-800 border border-[#d2ddd5] rounded-bl-xs'
+          }">
+            ${escapeHtml(msg.text)}
+          </div>
+        `;
+
+        messageContainerEl.appendChild(messageRow);
+      });
+
+      // Smooth scroll to bottom
+      messageContainerEl.scrollTo({
+        top: messageContainerEl.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+
+    // Handle Send Message
+    function handleSendMessage(event) {
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      if (!messageInputEl) return;
+      const text = messageInputEl.value ? messageInputEl.value.trim() : "";
+      if (!text) return;
+
+      const conv = conversationsData.find(c => c.id === activePatientId);
+      if (!conv) return;
+
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      const formattedTime = `${hours}:${minutes} ${ampm}`;
+
+      // Add doctor message to active conversation in memory
+      conv.messages.push({
+        sender: "doctor",
+        text: text,
+        time: formattedTime
+      });
+
+      // Clear input
+      messageInputEl.value = "";
+
+      // Re-render conversation chat and list preview
+      renderActiveChat();
+      renderConversations();
+
+      // Focus back on input
+      messageInputEl.focus();
+    }
+
+    function escapeHtml(string) {
+      const div = document.createElement('div');
+      div.innerText = string;
+      return div.innerHTML;
+    }
+
+    // Run on mount
+    document.addEventListener("DOMContentLoaded", init);
+    // Also run immediately in case DOM is already ready
+    if (document.readyState === "interactive" || document.readyState === "complete") {
+      init();
+    }
+  </script>
+
+
+</body></html>
