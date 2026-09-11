@@ -71,6 +71,12 @@ export function PractitionerSidebar() {
       icon: ClipboardList,
       isActive: pathname === '/practitioner/observations',
     },
+    {
+      href: '/practitioner/settings',
+      label: 'Settings',
+      icon: Settings,
+      isActive: pathname === '/practitioner/settings',
+    },
   ];
 
   return (

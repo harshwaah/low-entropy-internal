@@ -16,6 +16,9 @@ import {
   Check,
 } from 'lucide-react';
 import { ClinicalPatient, ClinicalAlertItem } from '../types';
+import { useOnboarding } from '@/hooks/use-onboarding';
+import { PractitionerOnboarding } from '@/components/onboarding';
+import { PractitionerOnboardingData } from '@/types/onboarding';
 
 interface DoctorDashboardViewProps {
   patients: ClinicalPatient[];
@@ -23,10 +26,18 @@ interface DoctorDashboardViewProps {
 }
 
 export function DoctorDashboardView({ patients, alerts }: DoctorDashboardViewProps) {
+  const { isCompleted: isOnboardingComplete, isLoading: isOnboardingLoading, data: onboardingData } = useOnboarding('practitioner');
+
   const activePatientsCount = 42;
   const attentionCount = 4;
   const stableCount = 36;
   const improvingCount = 2;
+
+  if (!isOnboardingLoading && !isOnboardingComplete) {
+    return <PractitionerOnboarding />;
+  }
+
+  const doctorGreeting = (onboardingData as PractitionerOnboardingData)?.name || 'Dr. Vance';
 
   const attentionPatients = [
     { id: 'SS-4102', name: 'Rameshwar Kumar', initials: 'RK', status: 'Needs Review', bg: 'bg-[#ffdbcf]', text: 'text-[#591800]' },
@@ -47,7 +58,7 @@ export function DoctorDashboardView({ patients, alerts }: DoctorDashboardViewPro
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-bold text-[#013625] tracking-tight mt-1">
-            Good morning, Dr. Vance
+            Good morning, {doctorGreeting}
           </h1>
           <p className="text-sm text-[#414944]">
             Here is today&apos;s patient overview and cognitive care activity.

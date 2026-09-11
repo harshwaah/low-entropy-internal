@@ -37,13 +37,18 @@
 | `/patient/activities/memory-match` | `app/(patient)/patient/activities/memory-match/` | Dementia Patient | Memory Match Mini-Game |
 | `/patient/activities/what-comes-next` | `app/(patient)/patient/activities/what-comes-next/` | Dementia Patient | Routine Sequencing Mini-Game |
 | `/patient/activities/find-the-object` | `app/(patient)/patient/activities/find-the-object/` | Dementia Patient | Visual Recognition Mini-Game |
-| `/patient/profile` | `app/(patient)/patient/profile/` | Dementia Patient | Profile & Caregiver Quick Dial |
+| `/patient/profile` | `app/(patient)/patient/profile/` | Dementia Patient | Profile, Companion Call & "Restart Introduction" |
+| `/patient/onboarding` | `app/(patient)/patient/onboarding/` | Dementia Patient | Dedicated Patient Onboarding Route |
 | `/caregiver` | `app/(caregiver)/caregiver/` | Family Caregiver | Caregiver Command Center |
 | `/caregiver/memories` | `app/(caregiver)/caregiver/memories/` | Family Caregiver | Scrapbook & Keepsake Vault Management |
 | `/caregiver/reminders` | `app/(caregiver)/caregiver/reminders/` | Family Caregiver | Circadian Routine & Medication Schedule |
 | `/caregiver/monitoring` | `app/(caregiver)/caregiver/monitoring/` | Family Caregiver | Activity Monitoring & Weekly Insights |
 | `/caregiver/alerts` | `app/(caregiver)/caregiver/alerts/` | Family Caregiver | Calm Notification & Safety Beacon Center |
+| `/caregiver/settings` | `app/(caregiver)/caregiver/settings/` | Family Caregiver | Care Circle Settings & "Restart Introduction" |
+| `/caregiver/onboarding` | `app/(caregiver)/caregiver/onboarding/` | Family Caregiver | Dedicated Caregiver Onboarding Route |
 | `/practitioner` | `app/(practitioner)/practitioner/` | Healthcare Practitioner | Desktop Clinical Sidebar |
+| `/practitioner/settings` | `app/(practitioner)/practitioner/settings/` | Healthcare Practitioner | Workstation Settings & "Restart Introduction" |
+| `/practitioner/onboarding` | `app/(practitioner)/practitioner/onboarding/` | Healthcare Practitioner | Dedicated Practitioner Onboarding Route |
 
 ---
 
@@ -163,7 +168,22 @@ import { MemoryItem } from '@/features/memories/types/index';
 
 ---
 
-## 10. Verification Commands
+## 10. Persona Onboarding System Rules (Phase 9 / v0.9.0)
+
+1. **Non-Intrusive Intercept Pattern**:
+   - The onboarding flow intercepts entry on the primary dashboard page (`/patient`, `/caregiver`, `/practitioner`) only if `isCompleted === false`.
+   - Never show a jarring layout shift; the onboarding layout replaces the page body cleanly without top/bottom navbars distracting from the initial impression.
+2. **Minimal Text & Emotional Warmth**:
+   - Limit text per step to 1-2 friendly sentences.
+   - Use companion mascot visual reactions and large tap targets (`min-h-[56px]`).
+   - Never present medicalized questionnaires or clinical terminology to the patient.
+3. **Discrete Reset Accessibility**:
+   - Every persona possesses a "Restart Introduction" action in its settings/profile section.
+   - Calling `resetOnboarding()` clears the role's completion flag and redirects seamlessly to the corresponding onboarding route.
+
+---
+
+## 11. Verification Commands
 
 Always run these before completing changes:
 ```bash
@@ -171,9 +191,3 @@ npm run build   # Must compile cleanly with 0 TypeScript/Next.js errors
 npm run lint    # Must pass ESLint
 ```
 
-
-## 10. Practitioner Dashboard Redesign Rules (Phase 10 / v0.10.0)
-
-1. **Clinical Aesthetic (Green-Tinted):** Use `#f7fbf9` for backgrounds, `#134e36` for primary text and active elements, and `#dcebdd` for soft borders.
-2. **Professional Triage:** Never use overly playful elements in the Practitioner portal. Use standard clinical alert colors (red for high priority, amber for medium, emerald for stable).
-3. **Data Fetching:** Always fetch real data using `practitionerService` and pass it down to client components (`PractitionerDashboardClient`) for interactive rendering.

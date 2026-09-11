@@ -21,9 +21,17 @@ export default function PatientHomePage() {
   ) || reminders[0];
 
   const medicationTaken = morningReminder ? morningReminder.status === 'completed' : false;
-  const patientFirstName = selectedPatient?.name ? selectedPatient.name.split(' ')[0] : 'Meera';
+  const patientFirstName = onboardingData?.name
+    ? onboardingData.name.split(' ')[0]
+    : selectedPatient?.name
+    ? selectedPatient.name.split(' ')[0]
+    : 'Meera';
   const memoryOfTheDay = (memories && memories.length > 0) ? (memories[0] as any) : getMemoryOfTheDay();
   const pendingCount = reminders.filter((r) => r.status !== 'completed').length;
+
+  if (!isLoading && !isCompleted) {
+    return <PatientOnboarding initialName={patientFirstName} />;
+  }
 
   const handleContinueDay = () => {
     const nextSection = document.getElementById('up-next-section');

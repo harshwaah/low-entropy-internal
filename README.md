@@ -24,9 +24,9 @@ This repository contains the working SmritiSaathi MVP and its shared architectur
 
 ---
 
-## 2. The Three Experience Portals
+## 2. The Three Experience Portals & Onboarding
 
-| Experience | Route | Primary Persona | Layout Archetype | UX Focus |
+| Experience | Route | Primary Persona | Layout Archetype | First-Time Onboarding Flow |
 | :--- | :--- | :--- | :--- | :--- |
 | **Patient Companion** | `/patient` | Patient living with mild-to-moderate dementia | **Mobile-First** (`max-w-2xl`) | Calming colors, high contrast, minimal clutter, large touch targets (≥48px), orientation anchors, memories, activities, and persistent music controls. |
 | **Caregiver Oversight** | `/caregiver` | Family member / Primary home caregiver | **Responsive** (Mobile & Desktop) | Real-time status, routine schedules, memory vault uploads, alert notifications, and caregiver respite check-ins. |

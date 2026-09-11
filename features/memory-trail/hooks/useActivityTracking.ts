@@ -16,7 +16,7 @@ export function useActivityTracking(patientId: string = 'patient-1') {
         timestamp: new Date().toISOString(),
         metadata,
       };
-      eventsRef.current.push(event);
+      setEvents((prev) => [...prev, event]);
     },
     [sessionId]
   );

@@ -11,6 +11,7 @@ import {
   Activity,
   Bell,
   ShieldCheck,
+  Settings,
 } from 'lucide-react';
 import { BrandLogo } from '@/components/shared/brand-logo';
 
@@ -52,6 +53,12 @@ export function CaregiverNav({ unresolvedAlertCount = 2 }: CaregiverNavProps) {
       icon: Bell,
       exact: false,
       badge: unresolvedAlertCount > 0 ? unresolvedAlertCount : undefined,
+    },
+    {
+      label: 'Settings',
+      href: '/caregiver/settings',
+      icon: Settings,
+      exact: false,
     },
   ];
 
@@ -141,7 +148,11 @@ export function CaregiverNav({ unresolvedAlertCount = 2 }: CaregiverNavProps) {
               )}
             </Link>
 
-            <div className="flex items-center gap-2.5 border-l border-slate-200 pl-3">
+            <Link
+              href="/caregiver/settings"
+              id="header-caregiver-profile-link"
+              className="flex items-center gap-2.5 border-l border-slate-200 pl-3 hover:opacity-80 transition-opacity"
+            >
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-light border border-brand-primary/30 font-bold text-xs text-brand-dark shadow-xs">
                 PS
               </div>
@@ -149,7 +160,7 @@ export function CaregiverNav({ unresolvedAlertCount = 2 }: CaregiverNavProps) {
                 <p className="text-xs font-bold text-brand-dark leading-tight">Priya Sharma</p>
                 <p className="text-[11px] text-brand-muted">Primary Daughter & Caregiver</p>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
 

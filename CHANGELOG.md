@@ -2,27 +2,56 @@
 
 All notable changes to the **SmritiSaathi** project will be documented in this file.
 
+## [0.9.1] - Caregiver UI Stability Fix
+
+### Fixed
+- Guarded the caregiver reminder progress widget against empty reminder states so the progress bar and percentage remain at 0% instead of rendering `NaN`.
+- Added a calm empty-state message for the caregiver reminder list when no reminders have been scheduled yet.
+
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
-## [0.10.0] - Phase 10: Practitioner Clinical Dashboard Redesign
+## [0.9.0] - Phase 9: Persona Onboarding System
 
-### Changed
-- **Practitioner Dashboard Redesign (`/practitioner`)**:
-  - Replaced the previous blue-themed command center with a clean, highly professional, green-tinted clinical aesthetic (`#f7fbf9` background, `#134e36` primary text).
-  - Built a new `PractitionerSidebar` featuring a clean navigation menu with alert indicators, active states, and a bottom user profile section.
-  - Built a new reusable `PractitionerTopbar` with a prominent search bar, notification bell, and doctor profile snippet.
-  - Built a new reusable `ClinicalMetricCard` for displaying high-level cohort statistics (Active Patients, Requires Attention, Stable, Improving) with custom trend icons and status badges.
-  - Implemented the `PractitionerDashboardClient` component for rendering dynamic clinical widgets.
-  - Integrated `recharts` to render a responsive "Average Cognitive Performance" longitudinal line chart.
-  - Redesigned the "Care Insights" decision-support module highlighting patients requiring immediate review.
-  - Redesigned the "Recent Alerts" triage feed and "Attention Focus" patient risk stratification lists for improved clinical scanning efficiency.
-- **Documentation**:
-  - Bumped version to `v0.10.0`.
-
-## [0.9.0] - Phase 9: Version Bump
+### Added
+- **Reusable Onboarding Framework**:
+  - Implemented a unified, accessible, full-screen, mobile-first onboarding framework adhering strictly to SmritiSaathi's visual language (mascot-driven, warm cream backgrounds, soft greens, rounded cards, subtle motion, large tap targets, and no forms-heavy clinical appearance).
+  - Authored core modular components:
+    - `OnboardingLayout`: Responsive full-screen container with role-specific color accents, header with back navigation and live progress indicators, and tactile bottom CTA footer.
+    - `OnboardingStep`: Flexible step wrapper with animated transitions, typography hierarchy, and accessible content slots.
+    - `OnboardingProgress`: Step progress bar with persona-specific styling and clear "Step X of Y" indicators.
+    - `OnboardingIllustration`: Emotional mascot integration with speech bubbles, icon badges, and gentle warm ambient glows.
+    - `OnboardingChoiceCard`: High-contrast, tactile choice card with large tap targets (min 56px), custom check states, emoji support, and single/multi-selection modes.
+    - `OnboardingWelcome`: Warm introduction screen highlighting companion Saathi and core value pillars with zero jargon.
+    - `OnboardingCompletion`: Reassuring final screen with personalized preference summaries and confidence-inspiring affirmations.
+- **Patient App Onboarding Experience (5 Screens)**:
+  - Screen 1: Welcome to SmritiSaathi & companion Saathi introduction.
+  - Screen 2: "What should I call you?" capturing name/nickname with friendly presets ("Meera", "Papa", "Maa", etc.).
+  - Screen 3: "What brings you joy?" multi-select capturing personal delights (Family, Nature, Travel, Music, Festivals, Food).
+  - Screen 4: "What would you like help with?" (Memories, Daily Routines, Activities, Companionship).
+  - Screen 5: Personalized completion screen reassuring safety, love, and community.
+- **Caregiver Portal Onboarding Experience (5 Screens)**:
+  - Screen 1: Welcome explaining core care pillars (Memories, Routines, Support).
+  - Screen 2: Relationship selection (Son, Daughter, Spouse, Sibling, Other).
+  - Screen 3: Loved one identity capture (Full Name & Preferred Call Name).
+  - Screen 4: Management domain focus (Memories, Reminders, Activities, Care Updates).
+  - Screen 5: Care Circle configured completion screen with summary and launch CTA.
+- **Practitioner Dashboard Onboarding Experience (4 Screens)**:
+  - Screen 1: Clinical oversight orientation emphasizing longitudinal telemetry and non-invasive adherence.
+  - Screen 2: Professional Information (Name, Specialty Role presets, Facility/Hospital).
+  - Screen 3: Clinical Priorities ("What matters most?": Observations, Adherence, Engagement, Recommendations).
+  - Screen 4: Clinical Workstation Configured completion screen with audit initialization.
+- **State Management & Persistence**:
+  - Engineered `useOnboarding` hook with typed storage keys (`patient_onboarding_complete`, `caregiver_onboarding_complete`, `practitioner_onboarding_complete`).
+  - Only displays onboarding once upon first entry, seamlessly passing through if already completed.
+  - Preserves captured preferences in local storage for continuous portal personalization.
+- **Discrete Reset Mechanism ("Restart Introduction")**:
+  - Integrated discrete "Restart Introduction" reset action inside **Patient Profile** (`/patient/profile`).
+  - Created **Caregiver Settings** (`/caregiver/settings`) with profile summary and "Restart Introduction" reset action.
+  - Created **Practitioner Settings** (`/practitioner/settings`) with clinical credentials and "Restart Introduction" reset action.
+  - Created dedicated standalone routes for replaying: `/patient/onboarding`, `/caregiver/onboarding`, `/practitioner/onboarding`.
 
 ## [0.8.1] - Phase 8.1: Shared Data Architecture & Firestore Foundation
 

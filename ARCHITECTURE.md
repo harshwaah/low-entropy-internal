@@ -756,14 +756,44 @@ The shared data layer establishes elegant bi-directional feedback loops that aut
 - **The Memory Scrapbook Loop**: When a caregiver adds a nostalgic photo via `AddMemoryModal` inside the Caregiver portal, it instantly populates the Patient's memory carousel and triggers dynamic introduction prompts on the patient experience.
 - **The Clinical Care Loop**: When a clinical practitioner logs a significant event (e.g. "Dizziness observed in afternoon") in `/practitioner`, it persists into the shared `observations` collection. This allows caregivers to immediately see and respond to the clinician's comments in their activity feed, creating a highly cooperative and synchronized care circle.
 
+---
+
+## 15. Persona Onboarding System Architecture (Phase 9 / v0.9.0)
+
+### 15.1 Architecture & Component Hierarchy
+The Onboarding framework resides in `components/onboarding/` and `hooks/use-onboarding.ts`:
+
+```
+components/onboarding/
+├── onboarding-layout.tsx         # Full-screen responsive chassis with role theming
+├── onboarding-step.tsx           # Step view container with enter/exit animations
+├── onboarding-progress.tsx       # Role-colored progress bar & step indicator
+├── onboarding-illustration.tsx   # Mascot & icon illustration container
+├── onboarding-choice-card.tsx    # Tactile 56px+ choice cards (single/multi-select)
+├── onboarding-welcome.tsx        # Persona-tailored intro screen
+├── onboarding-completion.tsx     # Persona-tailored celebration & summary screen
+├── patient-onboarding.tsx        # 5-step Patient companion flow
+├── caregiver-onboarding.tsx      # 5-step Caregiver care circle flow
+├── practitioner-onboarding.tsx   # 4-step Practitioner clinical workstation flow
+└── index.ts                      # Barrel export
+```
+
+### 15.2 State Machine & Persistence
+The `useOnboarding(role)` hook provides reactive state tracking:
+- **Storage Keys**:
+  - `smriti_onboarding_patient_completed`
+  - `smriti_onboarding_caregiver_completed`
+  - `smriti_onboarding_practitioner_completed`
+  - `smriti_onboarding_patient_data`
+  - `smriti_onboarding_caregiver_data`
+  - `smriti_onboarding_practitioner_data`
+- **Interception Model**:
+  - Main portal entries (`/patient`, `/caregiver`, `/practitioner`) evaluate `isCompleted` after initial hydration.
+  - If incomplete, the corresponding onboarding component renders in-place, preventing flash of dashboard content.
+  - Upon completion, `completeOnboarding(data)` stores preferences and triggers smooth transition into the live portal.
+- **Reset Mechanism ("Restart Introduction")**:
+  - Clean `resetOnboarding()` function accessible from `/patient/profile`, `/caregiver/settings`, and `/practitioner/settings`.
+  - Dedicated replayable routes available at `/patient/onboarding`, `/caregiver/onboarding`, and `/practitioner/onboarding`.
 
 
-## 15. Practitioner Dashboard Redesign (Phase 10 / v0.10.0)
 
-**Goal:** Transform the Practitioner Portal into a modern, presentation-ready clinical application.
-
-**Structural Changes:**
-- **PractitionerLayout:** Replaced the legacy blue top bar with a clean, wide-canvas layout and modern sidebar (`PractitionerSidebar`).
-- **PractitionerDashboardClient:** Created a client-side layout for dynamic rendering of charts (using `recharts`) and interactive clinical metrics.
-- **Top Bar Component (`PractitionerTopbar`):** Extracted global actions (search, notifications, profile) into a reusable top navigation bar.
-- **Metric Cards (`ClinicalMetricCard`):** Reusable component for high-level KPIs, providing quick scanning of stable vs. at-risk patients.

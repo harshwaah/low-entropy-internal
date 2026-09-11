@@ -126,6 +126,8 @@ export default function CaregiverRemindersPage() {
   };
 
   const completedCount = reminders.filter((r) => r.status === 'completed').length;
+  const totalReminderCount = reminders.length;
+  const progressPercentage = totalReminderCount === 0 ? 0 : Math.round((completedCount / totalReminderCount) * 100);
 
   return (
     <div className="space-y-6 sm:space-y-8">
@@ -173,10 +175,14 @@ export default function CaregiverRemindersPage() {
           <Mascot size="sm" state="encouraging" />
           <div className="text-xs sm:text-sm text-brand-text leading-relaxed">
             <h3 className="font-bold text-brand-dark">
-              Today&apos;s Schedule Progress: {completedCount} of {reminders.length} Done
+              {totalReminderCount === 0
+                ? 'No reminders are scheduled yet'
+                : `Today&apos;s Schedule Progress: ${completedCount} of ${totalReminderCount} Done`}
             </h3>
             <p className="text-brand-muted mt-0.5">
-              Morning medications were verified at 8:12 AM. The companion will chime gently with sitar music for the afternoon scrapbook session.
+              {totalReminderCount === 0
+                ? 'Start by adding a gentle reminder for medication, hydration, or a warm family ritual.'
+                : 'Morning medications were verified at 8:12 AM. The companion will chime gently with sitar music for the afternoon scrapbook session.'}
             </p>
           </div>
         </div>
@@ -185,11 +191,11 @@ export default function CaregiverRemindersPage() {
           <div className="h-2.5 w-36 sm:w-44 rounded-full bg-slate-200 overflow-hidden">
             <div
               className="h-full bg-brand-primary rounded-full transition-all duration-500"
-              style={{ width: `${Math.round((completedCount / reminders.length) * 100)}%` }}
+              style={{ width: `${progressPercentage}%` }}
             />
           </div>
           <span className="text-xs font-bold text-brand-dark">
-            {Math.round((completedCount / reminders.length) * 100)}%
+            {progressPercentage}%
           </span>
         </div>
       </div>
@@ -254,19 +260,34 @@ export default function CaregiverRemindersPage() {
 
       {/* Reminder Cards Grid */}
       <section aria-label="Reminders List" className="space-y-4">
-        {filteredReminders.map((reminder) => {
-          const isDone = reminder.status === 'completed';
-          return (
-            <div
-              key={reminder.id}
-              id={`reminder-card-${reminder.id}`}
-              className={cn(
-                'rounded-3xl border p-5 sm:p-6 transition-all shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4',
-                isDone
-                  ? 'bg-emerald-50/40 border-emerald-200/70'
-                  : 'bg-white border-brand-border/80 hover:shadow-md'
-              )}
-            >
+        {filteredReminders.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-brand-border/80 bg-white p-10 text-center shadow-xs">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-light text-brand-dark">
+              <CalendarClock className="h-5 w-5" />
+            </div>
+            <h3 className="mt-4 text-base font-bold text-brand-dark">
+              {totalReminderCount === 0 ? 'No reminders yet' : 'No reminders match this filter'}
+            </h3>
+            <p className="mt-1 text-xs text-brand-muted">
+              {totalReminderCount === 0
+                ? 'Create a gentle reminder for medication, hydration, or daily companionship.'
+                : 'Try another reminder category to view the full caregiver schedule.'}
+            </p>
+          </div>
+        ) : (
+          filteredReminders.map((reminder) => {
+            const isDone = reminder.status === 'completed';
+            return (
+              <div
+                key={reminder.id}
+                id={`reminder-card-${reminder.id}`}
+                className={cn(
+                  'rounded-3xl border p-5 sm:p-6 transition-all shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4',
+                  isDone
+                    ? 'bg-emerald-50/40 border-emerald-200/70'
+                    : 'bg-white border-brand-border/80 hover:shadow-md'
+                )}
+              >
               {/* Left Details */}
               <div className="flex items-start gap-4 min-w-0">
                 <div
@@ -370,8 +391,9 @@ export default function CaregiverRemindersPage() {
                 </button>
               </div>
             </div>
-          );
-        })}
+              );
+            })
+          )}
       </section>
 
       {/* Add Reminder Modal */}
