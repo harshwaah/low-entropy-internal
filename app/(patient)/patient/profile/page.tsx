@@ -1,15 +1,31 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mascot } from '@/components/shared/mascot';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, User, Heart, Phone } from 'lucide-react';
+import { ArrowLeft, User, Heart, Phone, RotateCcw } from 'lucide-react';
 import { usePatientTranslation } from '@/features/patient-i18n';
+import { useSharedData } from '@/services/context/shared-data-context';
+import { useOnboarding } from '@/hooks/use-onboarding';
+import { PatientOnboardingData } from '@/types/onboarding';
 
 export default function PatientProfilePage() {
+  const router = useRouter();
   const { t } = usePatientTranslation();
+  const { selectedPatient } = useSharedData();
+  const { data: onboardingData, resetOnboarding } = useOnboarding('patient');
+  const patientData = onboardingData as PatientOnboardingData | null;
+  const [resetting, setResetting] = useState(false);
+
+  const patientName = patientData?.preferredName || patientData?.name || selectedPatient?.name || 'Meera Sharma';
+
+  const handleRestartIntroduction = () => {
+    setResetting(true);
+    resetOnboarding();
+    router.push('/patient');
+  };
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-8 animate-in fade-in duration-300">
@@ -32,7 +48,7 @@ export default function PatientProfilePage() {
           {patientName.charAt(0) || 'M'}
         </div>
         <div className="flex-1">
-          <h2 className="text-2xl font-bold text-brand-dark">Meera Sharma</h2>
+          <h2 className="text-2xl font-bold text-brand-dark">{patientName}</h2>
           <p className="text-brand-muted font-medium">New Delhi, India • {t('profile.dailyCompanionActive')}</p>
         </div>
       </section>

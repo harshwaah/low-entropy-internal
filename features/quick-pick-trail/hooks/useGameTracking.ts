@@ -7,13 +7,6 @@ export function useGameTracking(patientId: string = 'patient-1') {
   const [startTime] = useState<number>(() => Date.now());
   const responseTimesRef = useRef<number[]>([]);
 
-  const getStartTime = useCallback(() => {
-    if (startTimeRef.current === null) {
-      startTimeRef.current = Date.now();
-    }
-    return startTimeRef.current;
-  }, []);
-
   const recordResponseTime = useCallback((timeSeconds: number) => {
     responseTimesRef.current.push(timeSeconds);
   }, []);

@@ -16,6 +16,7 @@ import {
   ShieldCheck,
   Building2,
   UserCheck,
+  Settings,
 } from 'lucide-react';
 
 export function PractitionerSidebar() {

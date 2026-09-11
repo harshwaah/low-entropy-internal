@@ -10,9 +10,14 @@ import { MemoryOfTheDay } from '@/features/memories/components/memory-of-the-day
 import { getMemoryOfTheDay } from '@/features/memories/data/sample-memories';
 import { useSharedData } from '@/services/context/shared-data-context';
 import { usePatientTranslation, LanguageSelector } from '@/features/patient-i18n';
+import { useOnboarding } from '@/hooks/use-onboarding';
+import { PatientOnboarding } from '@/components/onboarding';
+import { PatientOnboardingData } from '@/types/onboarding';
 
 export default function PatientHomePage() {
   const { selectedPatient, reminders, markReminderCompleted, memories } = useSharedData();
+  const { isCompleted, isLoading, data } = useOnboarding('patient');
+  const onboardingData = data as PatientOnboardingData | null;
   const { t } = usePatientTranslation();
   
   // Find primary morning/medication reminder or first active reminder
@@ -21,7 +26,9 @@ export default function PatientHomePage() {
   ) || reminders[0];
 
   const medicationTaken = morningReminder ? morningReminder.status === 'completed' : false;
-  const patientFirstName = onboardingData?.name
+  const patientFirstName = onboardingData?.preferredName
+    ? onboardingData.preferredName.split(' ')[0]
+    : onboardingData?.name
     ? onboardingData.name.split(' ')[0]
     : selectedPatient?.name
     ? selectedPatient.name.split(' ')[0]
