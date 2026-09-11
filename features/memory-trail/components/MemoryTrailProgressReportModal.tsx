@@ -21,17 +21,17 @@ export function MemoryTrailProgressReportModal({
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    let isCancelled = false;
+    let isMounted = true;
     if (isOpen) {
       progressReportService.generateProgressReport(patientId).then((rep) => {
-        if (!isCancelled) {
+        if (isMounted) {
           setReport(rep);
           setLoading(false);
         }
       });
     }
     return () => {
-      isCancelled = true;
+      isMounted = false;
     };
   }, [isOpen, patientId]);
 

@@ -10,6 +10,7 @@ import {
 } from '../types';
 import { Pause, Play, Heart, ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface GameBoardProps {
   question: GameQuestion | null;
@@ -38,6 +39,7 @@ export function GameBoard({
   onSelectApple,
   onTogglePause,
 }: GameBoardProps) {
+  const { t } = usePatientTranslation();
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   // Handle Touch Swipe Gestures
@@ -77,14 +79,14 @@ export function GameBoard({
           size="icon"
           onClick={onTogglePause}
           className="w-10 h-10 rounded-full text-[#2C5545] hover:bg-[#F3F8F5]"
-          aria-label={isPaused ? 'Resume Game' : 'Pause Game'}
+          aria-label={isPaused ? t('quickPick.resumePlay') : t('quickPick.gamePaused')}
         >
           {isPaused ? <Play className="w-5 h-5 fill-[#2C5545]" /> : <Pause className="w-5 h-5" />}
         </Button>
 
         {/* Score Display */}
         <div className="flex items-center gap-2">
-          <span className="text-[#5C7065] text-xs sm:text-sm font-bold uppercase">Score:</span>
+          <span className="text-[#5C7065] text-xs sm:text-sm font-bold uppercase">{t('quickPick.score')}:</span>
           <span className="text-2xl font-black text-[#2C5545]">{score}</span>
         </div>
 
@@ -108,10 +110,10 @@ export function GameBoard({
         <div className="bg-[#FAF3EB] border-4 border-[#E8D7C3] rounded-3xl p-4 text-center shadow-md relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#D9C4AC]" />
           <span className="text-xs font-black uppercase tracking-wider text-[#8D4935] block mb-1">
-            Question
+            {t('quickPick.questionPrompt')}
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-[#2C5545] tracking-tight">
-            {question ? question.question : 'Ready?'}
+            {question ? question.question : t('quickPick.ready')}
           </h2>
         </div>
       </div>
@@ -133,13 +135,13 @@ export function GameBoard({
         {/* PAUSE OVERLAY */}
         {isPaused && (
           <div className="absolute inset-0 bg-white/85 backdrop-blur-xs z-30 flex flex-col items-center justify-center space-y-4">
-            <h3 className="text-3xl font-extrabold text-[#2C5545]">Game Paused</h3>
+            <h3 className="text-3xl font-extrabold text-[#2C5545]">{t('quickPick.gamePaused')}</h3>
             <Button
               size="lg"
               onClick={onTogglePause}
               className="h-14 px-8 rounded-full bg-[#2C5545] text-white font-bold text-lg"
             >
-              Resume Play
+              {t('quickPick.resumePlay')}
             </Button>
           </div>
         )}

@@ -2,6 +2,7 @@ import React from 'react';
 import { MEMORY_CATEGORIES } from '../data/sample-memories';
 import { MemoryCategoryKey } from '../types';
 import { cn } from '@/lib/utils';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface CategorySelectorProps {
   selectedCategory: string;
@@ -12,12 +13,14 @@ export function CategorySelector({
   selectedCategory,
   onSelectCategory,
 }: CategorySelectorProps) {
+  const { t } = usePatientTranslation();
+
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between px-1">
-        <h2 className="text-xl font-bold text-brand-dark">Scrapbook Categories</h2>
+        <h2 className="text-xl font-bold text-brand-dark">{t('memories.scrapbookCategories')}</h2>
         <span className="text-sm font-semibold text-brand-muted">
-          Browse by life chapter
+          {t('memories.browseByChapter')}
         </span>
       </div>
 
@@ -34,7 +37,7 @@ export function CategorySelector({
           )}
         >
           <span>✨</span>
-          <span>All Memories</span>
+          <span>{t('memories.allMemories')}</span>
         </button>
 
         {/* Categories from Sample Data */}

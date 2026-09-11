@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, Sparkles, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Mascot, MascotState } from '@/components/shared/mascot';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface ActivityLayoutProps {
   title: string;
@@ -27,6 +28,8 @@ export function ActivityLayout({
   actionButton,
   children,
 }: ActivityLayoutProps) {
+  const { t } = usePatientTranslation();
+
   return (
     <div className="p-4 sm:p-6 lg:p-8 pb-28 sm:pb-32 space-y-6 animate-in fade-in duration-300">
       {/* Top Header with accessible touch-target back button */}
@@ -35,7 +38,7 @@ export function ActivityLayout({
           <Link
             href={backHref}
             className="focus:outline-none focus:ring-4 focus:ring-brand-primary/30 rounded-full"
-            aria-label="Return to Gentle Activities"
+            aria-label={t('common.back')}
           >
             <Button
               variant="ghost"
@@ -92,7 +95,7 @@ export function ActivityLayout({
       <footer className="text-center pt-4 pb-2">
         <p className="text-xs sm:text-sm text-brand-muted font-semibold flex items-center justify-center gap-1.5">
           <Heart className="w-4 h-4 text-brand-accent-orange fill-brand-accent-orange" />
-          <span>Take all the time you need. No clocks, no rush, pure enjoyment.</span>
+          <span>{t('activities.tag')}</span>
         </p>
       </footer>
     </div>

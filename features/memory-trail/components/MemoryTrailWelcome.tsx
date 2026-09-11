@@ -4,22 +4,25 @@ import React from 'react';
 import { Mascot } from '@/components/shared/mascot';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Leaf, Sparkles } from 'lucide-react';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface MemoryTrailWelcomeProps {
   onStart: () => void;
 }
 
 export function MemoryTrailWelcome({ onStart }: MemoryTrailWelcomeProps) {
+  const { t } = usePatientTranslation();
+
   return (
     <div className="min-h-[85vh] flex flex-col justify-between px-4 sm:px-6 py-6 bg-[#FDFBF7] text-[#2C5545] animate-in fade-in duration-300">
       
       {/* Header section */}
       <div className="text-center pt-2 space-y-2">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#2C5545] tracking-tight">
-          My Memory Trail
+          {t('memoryTrail.welcomeTitle')}
         </h1>
         <p className="text-lg sm:text-xl text-[#5C7065] font-medium leading-relaxed max-w-sm mx-auto">
-          Let&apos;s take a gentle walk through your memories.
+          {t('memoryTrail.welcomeSubtitle')}
         </p>
       </div>
 
@@ -55,8 +58,8 @@ export function MemoryTrailWelcome({ onStart }: MemoryTrailWelcomeProps) {
       <div className="space-y-6 text-center max-w-md mx-auto w-full pb-4">
         <div className="bg-[#F3F8F5] border border-[#DCE5E0] rounded-3xl p-4 sm:p-5 shadow-xs">
           <p className="text-base sm:text-lg text-[#2C5545] font-bold leading-snug">
-            There are no right or wrong answers.<br />
-            <span className="text-[#5C7065] font-medium">Every memory is yours.</span>
+            {t('memoryTrail.subtitle')}<br />
+            <span className="text-[#5C7065] font-medium">{t('memoryTrail.sharePrompt')}</span>
           </p>
         </div>
 
@@ -65,14 +68,14 @@ export function MemoryTrailWelcome({ onStart }: MemoryTrailWelcomeProps) {
           onClick={onStart}
           className="w-full h-16 rounded-full text-xl font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md hover:shadow-lg active:scale-[0.99] transition-all flex items-center justify-center gap-3 cursor-pointer"
         >
-          <span>Start My Journey</span>
+          <span>{t('common.startJourney')}</span>
           <ArrowRight className="w-6 h-6 stroke-[2.5]" />
         </Button>
 
         {/* Footer Text */}
         <div className="flex items-center justify-center gap-2 text-xs sm:text-sm font-bold text-[#5C7065]">
           <Leaf className="w-4 h-4 text-[#4A8B71]" />
-          <span>More Memories. Brighter Days. Together.</span>
+          <span>{t('memoryTrail.title')}</span>
         </div>
       </div>
 

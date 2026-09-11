@@ -16,12 +16,12 @@ interface UseVoiceRecordingReturn {
   setTranscript: (text: string) => void;
 }
 
-export function useVoiceRecording(): UseVoiceRecordingReturn {
+export function useVoiceRecording(options?: { speechLocale?: string }): UseVoiceRecordingReturn {
   const [recordingState, setRecordingState] = useState<RecordingState>('idle');
   const [recordingTimeSeconds, setRecordingTimeSeconds] = useState<number>(0);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState<string>('');
-  const [isSpeechSupported, setIsSpeechSupported] = useState<boolean>(() => {
+  const [isSpeechSupported] = useState<boolean>(() => {
     if (typeof window !== 'undefined') {
       const SpeechRecognition =
         (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -36,6 +36,8 @@ export function useVoiceRecording(): UseVoiceRecordingReturn {
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
   const speechRecognitionRef = useRef<any>(null);
 
+
+
   const clearTimer = () => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
@@ -43,7 +45,9 @@ export function useVoiceRecording(): UseVoiceRecordingReturn {
     }
   };
 
-  const startRecording = useCallback(async () => {
+  const startRecording = useCallback(async (overrideLocale?: string) => {
+    const activeLocale = overrideLocale || options?.speechLocale || 'en-US';
+
     try {
       setTranscript('');
       setAudioUrl(null);
@@ -89,7 +93,7 @@ export function useVoiceRecording(): UseVoiceRecordingReturn {
               const recognition = new SpeechRecognition();
               recognition.continuous = true;
               recognition.interimResults = true;
-              recognition.lang = 'en-US';
+              recognition.lang = activeLocale;
 
               recognition.onresult = (event: any) => {
                 let currentText = '';
@@ -127,7 +131,8 @@ export function useVoiceRecording(): UseVoiceRecordingReturn {
         setRecordingTimeSeconds(prev => prev + 1);
       }, 1000);
     }
-  }, []);
+  }, [options?.speechLocale]);
+
 
   const stopRecording = useCallback(() => {
     clearTimer();

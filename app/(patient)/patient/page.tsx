@@ -1,20 +1,24 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { Mascot } from '@/components/shared/mascot';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Calendar, Image as ImageIcon, Sparkles, CheckCircle2, ChevronRight, Pill, Heart, BookOpen } from 'lucide-react';
+import { Calendar, Sparkles, CheckCircle2, ChevronRight, Pill, Heart } from 'lucide-react';
 import { MemoryOfTheDay } from '@/features/memories/components/memory-of-the-day';
 import { getMemoryOfTheDay } from '@/features/memories/data/sample-memories';
 import { useSharedData } from '@/services/context/shared-data-context';
+import { usePatientTranslation, LanguageSelector } from '@/features/patient-i18n';
 import { useOnboarding } from '@/hooks/use-onboarding';
 import { PatientOnboarding } from '@/components/onboarding';
+import { PatientOnboardingData } from '@/types/onboarding';
 
 export default function PatientHomePage() {
   const { selectedPatient, reminders, markReminderCompleted, memories } = useSharedData();
-  const { isCompleted, isLoading, data: onboardingData } = useOnboarding('patient');
+  const { isCompleted, isLoading, data } = useOnboarding('patient');
+  const onboardingData = data as PatientOnboardingData | null;
+  const { t } = usePatientTranslation();
   
   // Find primary morning/medication reminder or first active reminder
   const morningReminder = reminders.find(
@@ -22,7 +26,9 @@ export default function PatientHomePage() {
   ) || reminders[0];
 
   const medicationTaken = morningReminder ? morningReminder.status === 'completed' : false;
-  const patientFirstName = onboardingData?.name
+  const patientFirstName = onboardingData?.preferredName
+    ? onboardingData.preferredName.split(' ')[0]
+    : onboardingData?.name
     ? onboardingData.name.split(' ')[0]
     : selectedPatient?.name
     ? selectedPatient.name.split(' ')[0]
@@ -50,9 +56,19 @@ export default function PatientHomePage() {
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-8 animate-in fade-in slide-in-from-bottom-3 duration-500">
       
+      {/* Header bar with Language Selector */}
+      <div className="flex items-center justify-between px-2 pt-2 pb-1">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl font-black tracking-tight text-brand-dark">
+            {t('home.appName')}
+          </span>
+        </div>
+        <LanguageSelector />
+      </div>
+
       {/* 1. Companion Welcome Card */}
       <section className="bg-brand-light-alt rounded-[3rem] p-6 sm:p-8 flex flex-col items-center text-center shadow-sm relative overflow-hidden">
-        <div className="pt-4 mb-4">
+        <div className="pt-2 mb-4">
           <Mascot 
             size="lg" 
             state={medicationTaken ? "celebrating" : "happy"}
@@ -60,20 +76,20 @@ export default function PatientHomePage() {
             speechPosition="top-right"
             speechText={
               medicationTaken ? (
-                <>Wonderful job, {patientFirstName}!<br/>You&apos;re doing great today! <Heart className="inline w-4 h-4 fill-red-500 text-red-500" /></>
+                <>{t('home.wonderfulJob', { name: patientFirstName })}<br/>{t('home.doingGreat')} <Heart className="inline w-4 h-4 fill-red-500 text-red-500" /></>
               ) : (
-                <>Good Morning, {patientFirstName}.<br/>I&apos;m so glad to see you! <Heart className="inline w-4 h-4 fill-brand-accent-orange text-brand-accent-orange" /></>
+                <>{t('home.goodMorning', { name: patientFirstName })}<br/>{t('home.gladToSeeYou')} <Heart className="inline w-4 h-4 fill-brand-accent-orange text-brand-accent-orange" /></>
               )
             }
           />
         </div>
         
         <h1 className="text-3xl font-extrabold text-brand-dark mb-3 tracking-tight">
-          Ready for a peaceful day?
+          {t('home.readyForDay')}
         </h1>
         
         <p className="text-xl text-brand-muted font-medium mb-8 max-w-sm leading-relaxed">
-          I&apos;ve put together your gentle schedule and lovely memories for us.
+          {t('home.scheduleText')}
         </p>
 
         <Button 
@@ -81,7 +97,7 @@ export default function PatientHomePage() {
           onClick={handleContinueDay}
           className="w-full sm:w-auto text-lg h-16 px-10 rounded-full shadow-md font-bold hover:scale-105 transition-all"
         >
-          Continue Day
+          {t('home.continueDay')}
           <ChevronRight className="ml-2 w-6 h-6" />
         </Button>
       </section>
@@ -92,17 +108,17 @@ export default function PatientHomePage() {
           <CardContent className="p-6 sm:p-8 flex items-center justify-between">
             <div>
               <p className="text-brand-primary font-bold text-lg mb-1 flex items-center gap-2">
-                <Calendar className="w-5 h-5" /> Today
+                <Calendar className="w-5 h-5" /> {t('home.today')}
               </p>
-              <h2 className="text-4xl font-extrabold text-brand-dark">Saturday</h2>
-              <p className="text-xl text-brand-muted font-medium mt-1">September 5, 2026</p>
+              <h2 className="text-4xl font-extrabold text-brand-dark">{t('home.saturday')}</h2>
+              <p className="text-xl text-brand-muted font-medium mt-1">{t('home.septemberDate')}</p>
             </div>
             <div className="hidden sm:flex flex-col items-center justify-center bg-brand-light-alt rounded-2xl p-4 min-w-[120px]">
               <span className="text-3xl font-black text-brand-dark">
                 {pendingCount}
               </span>
               <span className="text-sm font-bold text-brand-muted text-center leading-tight mt-1">
-                Gentle<br/>Items
+                {t('home.gentleItems')}
               </span>
             </div>
           </CardContent>
@@ -111,7 +127,7 @@ export default function PatientHomePage() {
 
       {/* 3. Up Next Reminder Card */}
       <section id="up-next-section" className="scroll-mt-6">
-        <h3 className="text-2xl font-bold text-brand-dark mb-4 px-2">Up Next</h3>
+        <h3 className="text-2xl font-bold text-brand-dark mb-4 px-2">{t('home.upNext')}</h3>
         <Card className="bg-[#F0F7FF] border-0 shadow-sm rounded-3xl overflow-hidden">
           <CardContent className="p-6 sm:p-8">
             <div className="flex items-center gap-4 mb-6 pb-6 border-b border-blue-100">
@@ -119,8 +135,8 @@ export default function PatientHomePage() {
                 <Pill className="w-8 h-8" />
               </div>
               <div className="flex-1">
-                <p className="text-xl font-bold text-blue-950 mb-1">{morningReminder?.title || 'Morning Medication'}</p>
-                <p className="text-blue-700 font-medium text-base">{morningReminder?.description || 'Take with a warm glass of water.'}</p>
+                <p className="text-xl font-bold text-blue-950 mb-1">{morningReminder?.title ? morningReminder.title : t('home.morningMedication')}</p>
+                <p className="text-blue-700 font-medium text-base">{morningReminder?.description ? morningReminder.description : t('home.medicationDesc')}</p>
               </div>
               <div className="text-right shrink-0">
                 <p className="text-2xl font-black text-blue-950">{morningReminder?.time || '9:30'}</p>
@@ -131,7 +147,7 @@ export default function PatientHomePage() {
             {medicationTaken ? (
               <div className="w-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-lg h-16 rounded-2xl flex items-center justify-center font-bold gap-3 shadow-inner">
                 <CheckCircle2 className="w-7 h-7 text-emerald-600" />
-                Completed! Great job, {patientFirstName} ❤️
+                {t('home.completed', { name: patientFirstName })}
               </div>
             ) : (
               <Button 
@@ -140,7 +156,7 @@ export default function PatientHomePage() {
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xl h-16 rounded-2xl shadow-sm font-bold active:scale-[0.99] transition-transform"
               >
                 <CheckCircle2 className="mr-3 w-7 h-7" />
-                I have taken it
+                {t('home.taken')}
               </Button>
             )}
           </CardContent>
@@ -150,12 +166,12 @@ export default function PatientHomePage() {
       {/* 4. Memory Of The Day Preview */}
       <section>
         <div className="flex items-center justify-between mb-4 px-2">
-          <h3 className="text-2xl font-bold text-brand-dark">Memory of the Day</h3>
+          <h3 className="text-2xl font-bold text-brand-dark">{t('home.memoryOfTheDay')}</h3>
           <Link 
             href="/patient/memories" 
             className="text-sm font-bold text-brand-primary hover:underline flex items-center gap-1"
           >
-            <span>View All</span>
+            <span>{t('home.viewAll')}</span>
             <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
@@ -164,7 +180,7 @@ export default function PatientHomePage() {
 
       {/* 5. Activities Preview */}
       <section>
-        <h3 className="text-2xl font-bold text-brand-dark mb-4 px-2">Gentle Activities</h3>
+        <h3 className="text-2xl font-bold text-brand-dark mb-4 px-2">{t('home.gentleActivities')}</h3>
         <Link href="/patient/activities" className="block focus:outline-none focus:ring-4 focus:ring-brand-primary/20 rounded-3xl">
           <Card className="bg-[#F3F0FF] border-0 shadow-sm hover:shadow-md transition-all group rounded-3xl">
             <CardContent className="p-6 sm:p-8 flex flex-row items-center">
@@ -172,8 +188,8 @@ export default function PatientHomePage() {
                 <Sparkles className="w-10 h-10" />
               </div>
               <div className="flex-1">
-                <h4 className="text-2xl font-bold text-purple-950 mb-2">Relaxing Puzzles</h4>
-                <p className="text-lg text-purple-800 font-medium">Keep your mind active with simple, fun shapes.</p>
+                <h4 className="text-2xl font-bold text-purple-950 mb-2">{t('home.relaxingPuzzles')}</h4>
+                <p className="text-lg text-purple-800 font-medium">{t('home.puzzleDesc')}</p>
               </div>
               <div className="bg-white p-3 rounded-full shadow-sm text-purple-700 group-hover:bg-purple-600 group-hover:text-white transition-colors shrink-0 ml-4">
                 <ChevronRight className="w-8 h-8" />
@@ -186,4 +202,3 @@ export default function PatientHomePage() {
     </div>
   );
 }
-

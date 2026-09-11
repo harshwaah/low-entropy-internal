@@ -9,8 +9,10 @@ import { ActivityProgressCard } from '../shared/activity-progress-card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, ChevronRight, HelpCircle, ArrowDown, RotateCcw, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 export function WhatComesNextGame() {
+  const { t } = usePatientTranslation();
   const scenarios = cognitiveService.getRoutineScenarios();
   const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
@@ -61,20 +63,20 @@ export function WhatComesNextGame() {
   if (isCompleted) {
     return (
       <ActivityLayout
-        title="What Comes Next?"
-        subtitle="Follow soothing daily life rhythms"
-        categoryName="Daily Routines"
+        title={t('cognition.whatComesNextTitle')}
+        subtitle={t('cognition.whatComesNextDesc')}
+        categoryName={t('home.gentleActivities')}
       >
         <ActivityCompletionCard
-          activityTitle="What Comes Next?"
-          celebrationTitle="Delightful Flow, Meera!"
-          celebrationMessage="You guided all 4 daily rituals with natural ease and clarity. Morning sunshine, fresh masala chai, balcony blooms, and peaceful starlight."
-          companionSpeech={<>You know every gentle rhythm of the day so well! 🌸✨</>}
-          statBadgeText="All 4 Rituals Completed"
+          activityTitle={t('cognition.whatComesNextTitle')}
+          celebrationTitle={t('cognition.wellDone')}
+          celebrationMessage={t('cognition.keepGoing')}
+          companionSpeech={<>{t('cognition.wellDone')}<br />{t('cognition.keepGoing')} 🌸✨</>}
+          statBadgeText={t('cognition.activityCompleted')}
           onReplay={handleResetGame}
-          replayLabel="Play Another Round"
+          replayLabel={t('quickPick.playAgain')}
           nextActivityHref="/patient/activities"
-          nextActivityLabel="Back to Activities"
+          nextActivityLabel={t('quickPick.backToActivities')}
         />
       </ActivityLayout>
     );
@@ -84,13 +86,13 @@ export function WhatComesNextGame() {
 
   return (
     <ActivityLayout
-      title="What Comes Next?"
-      subtitle="Follow soothing daily life rhythms"
-      categoryName="Daily Routines"
+      title={t('cognition.whatComesNextTitle')}
+      subtitle={t('cognition.whatComesNextDesc')}
+      categoryName={t('home.gentleActivities')}
       companionState={feedback.type === 'correct' ? 'celebrating' : feedback.type === 'nudge' ? 'thinking' : 'encouraging'}
       companionMessage={
         feedback.message ||
-        `Let’s follow this peaceful story together. What is the comforting next step?`
+        t('cognition.whatComesNextDesc')
       }
       actionButton={
         <Button
@@ -100,7 +102,7 @@ export function WhatComesNextGame() {
           className="rounded-full border-brand-border bg-white text-brand-dark hover:bg-brand-light-alt font-bold h-11 px-4 text-sm flex items-center gap-1.5 shadow-sm transition-transform active:scale-95"
         >
           <RotateCcw className="w-4 h-4 text-brand-primary" />
-          <span>Restart</span>
+          <span>{t('quickPick.playAgain')}</span>
         </Button>
       }
     >
@@ -108,7 +110,7 @@ export function WhatComesNextGame() {
       <ActivityProgressCard
         currentStep={currentScenarioIndex + 1}
         totalSteps={scenarios.length}
-        label="Routine Progress"
+        label={t('cognition.whatComesNextTitle')}
         stepName={`Ritual ${currentScenarioIndex + 1} of ${scenarios.length}: ${currentScenario.title}`}
         showHearts={false}
       />
@@ -194,7 +196,7 @@ export function WhatComesNextGame() {
                   isStepSolved ? "text-emerald-800" : "text-amber-900"
                 )}
               >
-                {isStepSolved ? 'Step 3: Next Step Completed! ✨' : 'Step 3: What Comes Next?'}
+                {isStepSolved ? t('cognition.wellDone') : t('cognition.whatComesNextTitle')}
               </span>
               <p
                 className={cn(
@@ -214,7 +216,7 @@ export function WhatComesNextGame() {
         {!isStepSolved && (
           <div className="space-y-3 pt-2">
             <span className="text-xs font-black text-brand-dark uppercase tracking-wider block px-1">
-              Choose the natural next step in our ritual:
+              {t('cognition.whatComesNextTitle')}
             </span>
             <div className="grid grid-cols-1 gap-3 sm:gap-4">
               {currentScenario.options.map(option => {
@@ -262,8 +264,8 @@ export function WhatComesNextGame() {
               <Sparkles className="w-6 h-6" />
               <span>
                 {currentScenarioIndex + 1 < scenarios.length
-                  ? 'Continue to Next Ritual'
-                  : 'Complete Routine Activity'}
+                  ? t('common.continue')
+                  : t('cognition.wellDone')}
               </span>
               <ChevronRight className="w-6 h-6 stroke-[2.5]" />
             </Button>

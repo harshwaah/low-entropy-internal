@@ -1,9 +1,12 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MemoryItem } from '../types';
 import { Volume2, MapPin, Calendar, Heart, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface MemoryCardProps {
   memory: MemoryItem;
@@ -12,6 +15,8 @@ interface MemoryCardProps {
 }
 
 export function MemoryCard({ memory, className, featured = false }: MemoryCardProps) {
+  const { t } = usePatientTranslation();
+
   return (
     <Link 
       href={`/patient/memories/${memory.id}`}
@@ -50,7 +55,7 @@ export function MemoryCard({ memory, className, featured = false }: MemoryCardPr
             <div className="absolute top-4 right-4 z-10">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand-primary/95 text-white text-xs font-bold shadow-sm backdrop-blur-sm">
                 <Volume2 className="w-3.5 h-3.5" />
-                <span>Voice Note</span>
+                <span>{t('common.listen')}</span>
               </span>
             </div>
           )}
@@ -89,7 +94,7 @@ export function MemoryCard({ memory, className, featured = false }: MemoryCardPr
             </div>
             
             <div className="inline-flex items-center gap-1 text-sm font-bold text-brand-primary group-hover:translate-x-1 transition-transform">
-              <span>Open Memory</span>
+              <span>{t('home.viewAll')}</span>
               <ArrowRight className="w-4 h-4" />
             </div>
           </div>

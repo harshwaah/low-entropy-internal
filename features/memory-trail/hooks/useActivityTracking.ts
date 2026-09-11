@@ -4,15 +4,8 @@ import { calculateEngagement, progressReportService } from '../services/progress
 
 export function useActivityTracking(patientId: string = 'patient-1') {
   const [sessionId] = useState<string>(() => `sess-${Date.now()}`);
-  const startTimeRef = useRef<number | null>(null);
-  const [events, setEvents] = useState<ActivityEvent[]>([]);
-
-  const getStartTime = useCallback(() => {
-    if (startTimeRef.current === null) {
-      startTimeRef.current = Date.now();
-    }
-    return startTimeRef.current;
-  }, []);
+  const [startTime] = useState<number>(() => Date.now());
+  const eventsRef = useRef<ActivityEvent[]>([]);
 
   const trackEvent = useCallback(
     (eventType: ActivityEvent['eventType'], metadata?: Record<string, unknown>) => {
@@ -23,7 +16,7 @@ export function useActivityTracking(patientId: string = 'patient-1') {
         timestamp: new Date().toISOString(),
         metadata,
       };
-      setEvents((prev) => [...prev, event]);
+      eventsRef.current.push(event);
     },
     [sessionId]
   );
@@ -44,7 +37,6 @@ export function useActivityTracking(patientId: string = 'patient-1') {
       familyContentInteracted?: boolean;
     }): Promise<ActivityProgress> => {
       const now = Date.now();
-      const startTime = getStartTime();
       const durationSeconds = Math.max(1, Math.round((now - startTime) / 1000));
 
       const engagementLevel: EngagementLevel = calculateEngagement({
@@ -64,7 +56,7 @@ export function useActivityTracking(patientId: string = 'patient-1') {
         locationId: params.locationId,
         locationName: params.locationName,
         sessionId,
-        startedAt: new Date(startTimeRef.current || now).toISOString(),
+        startedAt: new Date(startTime).toISOString(),
         completedAt: new Date(now).toISOString(),
         durationSeconds,
         questionAsked: params.questionAsked,
@@ -83,13 +75,15 @@ export function useActivityTracking(patientId: string = 'patient-1') {
       await progressReportService.saveProgress(progressRecord);
       return progressRecord;
     },
-    [sessionId, patientId, getStartTime]
+    [sessionId, patientId, startTime]
   );
+
+  const getEvents = useCallback(() => eventsRef.current, []);
 
   return {
     sessionId,
     trackEvent,
     saveProgressRecord,
-    events,
+    getEvents,
   };
 }

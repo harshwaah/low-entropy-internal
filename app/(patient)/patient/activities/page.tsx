@@ -17,8 +17,10 @@ import {
   Calendar,
 } from 'lucide-react';
 import { cognitiveService } from '@/features/cognition/services';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 export default function PatientActivitiesHubPage() {
+  const { t } = usePatientTranslation();
   const categories = cognitiveService.getCategories();
   const activities = cognitiveService.getAllActivities();
   const recommended = cognitiveService.getRecommendedActivity();
@@ -38,23 +40,23 @@ export default function PatientActivitiesHubPage() {
             state="encouraging"
             showSpeechBubble={true}
             speechPosition="top-right"
-            speechText={<>Would you like to play a<br/>quick memory game today? 🧩✨</>}
+            speechText={t('activities.speechBubble')}
             className="mb-2"
           />
         </div>
 
         <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-dark tracking-tight mb-2">
-          Gentle Mind Activities
+          {t('activities.title')}
         </h1>
 
         <p className="text-lg sm:text-xl text-brand-muted font-medium max-w-md mx-auto leading-relaxed mb-6">
-          Fun, comforting, and frustration-free games designed to keep your thoughts bright and relaxed.
+          {t('activities.subtitle')}
         </p>
 
         {/* Reassuring Calm Tag */}
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 border border-brand-border rounded-full text-sm font-bold text-brand-dark shadow-xs">
           <Heart className="w-4 h-4 text-brand-primary fill-brand-primary" />
-          <span>Zero Timers • Zero Wrong Answers • Pure Comfort</span>
+          <span>{t('activities.tag')}</span>
         </div>
       </section>
 
@@ -64,17 +66,17 @@ export default function PatientActivitiesHubPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-brand-primary font-bold text-sm">
               <Calendar className="w-4 h-4" />
-              <span>Today&apos;s Mindful Moments</span>
+              <span>{t('activities.progressTitle')}</span>
             </div>
             <span className="text-xs font-bold text-emerald-700 bg-emerald-100/70 px-2.5 py-1 rounded-full">
-              Peaceful Pace
+              {t('activities.peacefulPace')}
             </span>
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-2xl font-extrabold text-brand-dark">
-                {progress.activitiesCompletedToday} of {progress.totalAvailable} Gentle Activities Explored
+                {t('activities.progressCount', { completed: progress.activitiesCompletedToday, total: progress.totalAvailable })}
               </h2>
               <p className="text-sm sm:text-base text-brand-muted font-medium mt-1">
                 {progress.positiveAffirmation}
@@ -121,13 +123,13 @@ export default function PatientActivitiesHubPage() {
               <div className="space-y-1">
                 <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-[#8D4935] text-white rounded-full text-xs font-black uppercase tracking-wide">
                   <Sparkles className="w-3.5 h-3.5 fill-white" />
-                  <span>Adaptive Cognitive Game</span>
+                  <span>{t('activities.quickPickTag')}</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black text-[#2C5545] group-hover:text-[#4A8B71] transition-colors">
-                  Quick Pick Trail
+                  {t('activities.quickPickTitle')}
                 </h3>
                 <p className="text-sm sm:text-base text-[#5C7065] font-medium max-w-md">
-                  Guide your cute friend to collect apples with the right answers! Math, Colors, Objects & Patterns.
+                  {t('activities.quickPickDesc')}
                 </p>
               </div>
             </div>
@@ -136,7 +138,7 @@ export default function PatientActivitiesHubPage() {
               size="lg"
               className="w-full sm:w-auto h-14 px-7 rounded-full text-base sm:text-lg font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md group-hover:scale-105 transition-all shrink-0 flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Play Now</span>
+              <span>{t('activities.quickPickPlay')}</span>
               <ArrowRight className="w-5 h-5 stroke-[2.5]" />
             </Button>
           </div>
@@ -157,13 +159,13 @@ export default function PatientActivitiesHubPage() {
               <div className="space-y-1">
                 <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-[#4A8B71] text-white rounded-full text-xs font-black uppercase tracking-wide">
                   <Sparkles className="w-3.5 h-3.5 fill-white" />
-                  <span>Autobiographical Memory Trail</span>
+                  <span>{t('activities.memoryTrailTag')}</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black text-[#2C5545] group-hover:text-[#4A8B71] transition-colors">
-                  My Memory Trail
+                  {t('activities.memoryTrailTitle')}
                 </h3>
                 <p className="text-sm sm:text-base text-[#5C7065] font-medium max-w-md">
-                  Revisit childhood home, school, market, and family stories through photos, songs, and gentle voice recording.
+                  {t('activities.memoryTrailDesc')}
                 </p>
               </div>
             </div>
@@ -172,7 +174,7 @@ export default function PatientActivitiesHubPage() {
               size="lg"
               className="w-full sm:w-auto h-14 px-7 rounded-full text-base sm:text-lg font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md group-hover:scale-105 transition-all shrink-0 flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Start My Journey</span>
+              <span>{t('activities.memoryTrailStart')}</span>
               <ArrowRight className="w-5 h-5 stroke-[2.5]" />
             </Button>
           </div>
@@ -182,7 +184,7 @@ export default function PatientActivitiesHubPage() {
       {/* 4. Activity Categories & All Games */}
       <section aria-label="All Gentle Activities" className="space-y-4">
         <h2 className="text-2xl font-extrabold text-brand-dark px-1">
-          Explore All Activities
+          {t('activities.exploreAll')}
         </h2>
 
         <div className="grid grid-cols-1 gap-4 sm:gap-5">
@@ -263,7 +265,7 @@ export default function PatientActivitiesHubPage() {
       {/* 5. Gentle Category Explanations */}
       <section aria-label="Activity Categories Guide" className="pt-2">
         <h3 className="text-lg font-bold text-brand-dark mb-3 px-1">
-          Why These Activities Feel Good
+          {t('activities.whyFeelGood')}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {categories.map(cat => (

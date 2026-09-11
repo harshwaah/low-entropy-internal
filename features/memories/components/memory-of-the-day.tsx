@@ -1,9 +1,12 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { MemoryItem } from '../types';
 import { Sparkles, Calendar, Heart, Volume2, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { usePatientTranslation } from '@/features/patient-i18n';
 
 interface MemoryOfTheDayProps {
   memory: MemoryItem;
@@ -11,6 +14,8 @@ interface MemoryOfTheDayProps {
 }
 
 export function MemoryOfTheDay({ memory, variant = 'hub' }: MemoryOfTheDayProps) {
+  const { t } = usePatientTranslation();
+
   if (variant === 'compact') {
     return (
       <Link 
@@ -28,14 +33,14 @@ export function MemoryOfTheDay({ memory, variant = 'hub' }: MemoryOfTheDayProps)
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute top-2 left-2 bg-amber-500 text-white text-[11px] font-black uppercase px-2.5 py-0.5 rounded-full shadow-sm">
-              Today
+              {t('common.today')}
             </div>
           </div>
           <div className="flex-1 w-full flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="inline-flex items-center gap-1 text-xs font-bold text-brand-primary">
-                  <Sparkles className="w-3.5 h-3.5" /> Memory of the Day
+                  <Sparkles className="w-3.5 h-3.5" /> {t('home.memoryOfTheDay')}
                 </span>
                 <span className="text-xs text-brand-muted">• {memory.dateEra}</span>
               </div>
@@ -52,7 +57,7 @@ export function MemoryOfTheDay({ memory, variant = 'hub' }: MemoryOfTheDayProps)
                 {memory.emotionalTag}
               </span>
               <div className="inline-flex items-center gap-1 text-sm font-bold text-brand-primary group-hover:translate-x-1 transition-transform">
-                <span>Revisit Memory</span>
+                <span>{t('home.viewAll')}</span>
                 <ArrowRight className="w-4 h-4" />
               </div>
             </div>
@@ -68,7 +73,7 @@ export function MemoryOfTheDay({ memory, variant = 'hub' }: MemoryOfTheDayProps)
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500 text-white text-sm font-extrabold shadow-sm">
           <Sparkles className="w-4 h-4 fill-white" />
-          <span>Special Memory of the Day</span>
+          <span>{t('home.memoryOfTheDay')}</span>
         </div>
         <div className="inline-flex items-center gap-1.5 text-brand-dark bg-white px-3.5 py-1.5 rounded-full border border-amber-200 text-xs font-bold shadow-xs">
           <Calendar className="w-3.5 h-3.5 text-amber-600" />
@@ -135,7 +140,7 @@ export function MemoryOfTheDay({ memory, variant = 'hub' }: MemoryOfTheDayProps)
           <div className="pt-2">
             <Link href={`/patient/memories/${memory.id}`} className="inline-block w-full sm:w-auto">
               <Button size="lg" className="w-full sm:w-auto rounded-full text-lg h-14 px-8 font-bold shadow-md hover:scale-105 transition-all">
-                Revisit This Memory
+                {t('home.viewAll')}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>

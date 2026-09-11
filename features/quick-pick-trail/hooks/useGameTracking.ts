@@ -4,15 +4,8 @@ import { quickPickStorageService } from '../services/quickPickStorageService';
 
 export function useGameTracking(patientId: string = 'patient-1') {
   const [sessionId] = useState<string>(() => `sess-qp-${Date.now()}`);
-  const startTimeRef = useRef<number | null>(null);
+  const [startTime] = useState<number>(() => Date.now());
   const responseTimesRef = useRef<number[]>([]);
-
-  const getStartTime = useCallback(() => {
-    if (startTimeRef.current === null) {
-      startTimeRef.current = Date.now();
-    }
-    return startTimeRef.current;
-  }, []);
 
   const recordResponseTime = useCallback((timeSeconds: number) => {
     responseTimesRef.current.push(timeSeconds);
@@ -30,7 +23,6 @@ export function useGameTracking(patientId: string = 'patient-1') {
       completed: boolean;
     }): Promise<QuickPickProgressRecord> => {
       const now = Date.now();
-      const startTime = getStartTime();
       const totalDurationSeconds = Math.max(1, Math.round((now - startTime) / 1000));
 
       const accuracyPercentage =
@@ -74,7 +66,7 @@ export function useGameTracking(patientId: string = 'patient-1') {
       await quickPickStorageService.saveProgressRecord(record);
       return record;
     },
-    [sessionId, patientId, getStartTime]
+    [sessionId, patientId, startTime]
   );
 
   return {
