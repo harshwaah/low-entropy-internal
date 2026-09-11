@@ -68,3 +68,4 @@ export {
   getMusicModeForPathname,
 } from './components/music-route-controller';
 export { MusicControls } from './components/music-controls';
+export { MusicMenu } from './components/music-menu';

@@ -10,10 +10,17 @@ const COGNITIVE_GAME_ROUTES = new Set([
   '/patient/activities/memory-match',
   '/patient/activities/what-comes-next',
   '/patient/activities/find-the-object',
+  '/patient/activities/quick-pick-trail',
 ]);
 
 export function getMusicModeForPathname(pathname: string): MusicMode {
-  return COGNITIVE_GAME_ROUTES.has(pathname) ? 'cognitive' : 'calm';
+  if (pathname.includes('/memory-trail')) {
+    return 'memory-trail';
+  }
+  if (COGNITIVE_GAME_ROUTES.has(pathname)) {
+    return 'cognitive';
+  }
+  return 'calm';
 }
 
 export function MusicRouteController() {

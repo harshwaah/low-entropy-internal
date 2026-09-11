@@ -34,6 +34,7 @@ import {
   ALL_TRACKS,
   DEFAULT_CALM_TRACK_ID,
   DEFAULT_COGNITIVE_TRACK_ID,
+  DEFAULT_MEMORY_TRAIL_TRACK_ID,
   getTrackById,
 } from '../constants/track-catalog';
 
@@ -141,7 +142,11 @@ export class MusicEngine {
 
     // Pre-select the default track for the initial mode without playing yet.
     const defaultId =
-      initialMode === 'calm' ? DEFAULT_CALM_TRACK_ID : DEFAULT_COGNITIVE_TRACK_ID;
+      initialMode === 'calm'
+        ? DEFAULT_CALM_TRACK_ID
+        : initialMode === 'memory-trail'
+        ? DEFAULT_MEMORY_TRAIL_TRACK_ID
+        : DEFAULT_COGNITIVE_TRACK_ID;
     const defaultTrack = getTrackById(defaultId) ?? null;
     this._currentTrack = defaultTrack;
 
@@ -357,9 +362,14 @@ export class MusicEngine {
   ): Promise<void> {
     this._mode = mode;
 
-    const trackId =
-      preferredTrackId ??
-      (mode === 'calm' ? DEFAULT_CALM_TRACK_ID : DEFAULT_COGNITIVE_TRACK_ID);
+    const defaultId =
+      mode === 'calm'
+        ? DEFAULT_CALM_TRACK_ID
+        : mode === 'memory-trail'
+        ? DEFAULT_MEMORY_TRAIL_TRACK_ID
+        : DEFAULT_COGNITIVE_TRACK_ID;
+
+    const trackId = preferredTrackId ?? defaultId;
 
     await this.changeTrack(trackId, autoPlay);
   }

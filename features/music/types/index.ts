@@ -14,13 +14,19 @@
 // ---------------------------------------------------------------------------
 
 /**
- * The two behavioural modes the music engine can operate in.
+ * The behavioural modes the music engine can operate in.
  *
- * - calm       → played on patient home, memories, routines, companion screens
- * - cognitive  → played inside cognitive game pages (memory-match, what-comes-next,
- *               find-the-object)
+ * - calm         → played on patient home, memories, routines, companion screens
+ * - cognitive    → played inside cognitive game pages (memory-match, what-comes-next, find-the-object, quick-pick-trail)
+ * - memory-trail → played inside Memory Trail experience
  */
-export type MusicMode = 'calm' | 'cognitive';
+export type MusicMode = 'calm' | 'cognitive' | 'memory-trail';
+
+/**
+ * Music preference categories available in the patient music popup.
+ */
+export type MusicPreferenceCategory = 'calm' | 'classic-hindi' | 'north-east';
+
 
 // ---------------------------------------------------------------------------
 // Track

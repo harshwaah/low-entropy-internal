@@ -398,6 +398,11 @@ export const DEFAULT_CALM_TRACK_ID: string = CALM_TRACKS[0].id;
 export const DEFAULT_COGNITIVE_TRACK_ID: string = 'cognitive-positive-game-01';
 
 /**
+ * Default track used for Memory Trail experience (warm, nostalgic flute melodies).
+ */
+export const DEFAULT_MEMORY_TRAIL_TRACK_ID: string = 'calm-gentle-instrumental-02';
+
+/**
  * Resolve a track by its stable ID.
  * Returns undefined if the ID is not found in the catalog.
  */
@@ -409,6 +414,9 @@ export function getTrackById(id: string): MusicTrack | undefined {
  * Return all tracks suitable for a given MusicMode.
  * Regional tracks are included in the pool matching their primary mode.
  */
-export function getTracksForMode(mode: 'calm' | 'cognitive'): MusicTrack[] {
+export function getTracksForMode(mode: 'calm' | 'cognitive' | 'memory-trail'): MusicTrack[] {
+  if (mode === 'memory-trail') {
+    return ALL_TRACKS.filter((t) => t.id === DEFAULT_MEMORY_TRAIL_TRACK_ID || t.mode === 'calm');
+  }
   return ALL_TRACKS.filter((t) => t.mode === mode);
 }

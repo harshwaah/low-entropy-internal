@@ -67,9 +67,9 @@ function selectedTrackIdForMode(
   preferences: MusicPreferences,
   mode: MusicMode
 ): string | null {
-  return mode === 'calm'
-    ? preferences.selectedCalmTrackId
-    : preferences.selectedCognitiveTrackId;
+  if (mode === 'calm') return preferences.selectedCalmTrackId;
+  if (mode === 'memory-trail') return null; // Uses catalog default for memory-trail
+  return preferences.selectedCognitiveTrackId;
 }
 
 export function MusicProvider({ children }: { children: ReactNode }) {
