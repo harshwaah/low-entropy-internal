@@ -1,0 +1,197 @@
+{
+  "$schema": "https://firebase.google.com/schemas/firestore/blueprint/v1.json",
+  "entities": {
+    "Patient": {
+      "collection": "patients",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "name": { "type": "string", "required": true },
+        "preferredName": { "type": "string", "required": true },
+        "age": { "type": "number", "required": true },
+        "gender": { "type": "string", "required": true },
+        "condition": { "type": "string", "required": true },
+        "stage": { "type": "string", "enum": ["early", "moderate", "advanced"], "required": true },
+        "location": { "type": "string", "required": true },
+        "currentStatus": { "type": "string", "required": true },
+        "mood": { "type": "string", "required": true },
+        "todayEngagement": { "type": "number", "required": true },
+        "primaryCaregiverId": { "type": "string", "required": true },
+        "primaryCaregiverName": { "type": "string", "required": true },
+        "primaryCaregiverPhone": { "type": "string", "required": true },
+        "attendingPhysician": { "type": "string", "required": true },
+        "engagementScore": { "type": "number", "required": true },
+        "routineAdherenceScore": { "type": "number", "required": true },
+        "memoryActivityScore": { "type": "number", "required": true },
+        "riskIndicator": { "type": "string", "enum": ["optimal", "attention", "elevated"], "required": true },
+        "avatarUrl": { "type": "string" },
+        "createdAt": { "type": "string", "required": true },
+        "updatedAt": { "type": "string", "required": true }
+      }
+    },
+    "Memory": {
+      "collection": "memories",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "patientId": { "type": "string", "required": true },
+        "title": { "type": "string", "required": true },
+        "shortDescription": { "type": "string", "required": true },
+        "dateEra": { "type": "string", "required": true },
+        "yearApproximate": { "type": "string" },
+        "location": { "type": "string" },
+        "category": { "type": "string", "required": true },
+        "emotionalTag": { "type": "string", "required": true },
+        "companionIntro": { "type": "string" },
+        "coverImage": { "type": "string", "required": true },
+        "familiarPeople": { "type": "array" },
+        "isMemoryOfTheDay": { "type": "boolean" },
+        "story": { "type": "array" },
+        "familyNotes": { "type": "array" },
+        "audioNarration": { "type": "map" },
+        "createdAt": { "type": "string", "required": true },
+        "updatedAt": { "type": "string", "required": true }
+      }
+    },
+    "Narration": {
+      "collection": "narrations",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "memoryId": { "type": "string", "required": true },
+        "patientId": { "type": "string", "required": true },
+        "authorId": { "type": "string", "required": true },
+        "authorName": { "type": "string", "required": true },
+        "relation": { "type": "string", "required": true },
+        "audioUrl": { "type": "string" },
+        "durationFormatted": { "type": "string" },
+        "durationSeconds": { "type": "number" },
+        "title": { "type": "string", "required": true },
+        "transcript": { "type": "string" },
+        "status": { "type": "string", "enum": ["draft", "published", "processing"], "required": true },
+        "createdAt": { "type": "string", "required": true }
+      }
+    },
+    "Reminder": {
+      "collection": "reminders",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "patientId": { "type": "string", "required": true },
+        "title": { "type": "string", "required": true },
+        "category": { "type": "string", "enum": ["medication", "routine", "custom", "hydration", "movement"], "required": true },
+        "period": { "type": "string", "enum": ["morning", "afternoon", "evening", "bedtime"], "required": true },
+        "timeFormatted": { "type": "string", "required": true },
+        "instructions": { "type": "string", "required": true },
+        "recurrence": { "type": "string", "required": true },
+        "requiresCaregiverValidation": { "type": "boolean", "required": true },
+        "status": { "type": "string", "enum": ["pending", "completed", "upcoming", "missed"], "required": true },
+        "completedAt": { "type": "string" },
+        "completedBy": { "type": "string" },
+        "medicationDosageNote": { "type": "string" },
+        "assignedTo": { "type": "string" },
+        "iconName": { "type": "string" },
+        "createdAt": { "type": "string", "required": true },
+        "updatedAt": { "type": "string", "required": true }
+      }
+    },
+    "Activity": {
+      "collection": "activities",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "patientId": { "type": "string", "required": true },
+        "type": { "type": "string", "required": true },
+        "gameType": { "type": "string" },
+        "title": { "type": "string", "required": true },
+        "category": { "type": "string", "required": true },
+        "time": { "type": "string", "required": true },
+        "timestamp": { "type": "string", "required": true },
+        "status": { "type": "string", "enum": ["completed", "scheduled", "in-progress"], "required": true },
+        "score": { "type": "number" },
+        "stars": { "type": "number" },
+        "durationSeconds": { "type": "number" },
+        "description": { "type": "string" },
+        "companionFeedback": { "type": "string" },
+        "cognitiveDomain": { "type": "string" },
+        "createdAt": { "type": "string", "required": true }
+      }
+    },
+    "Caregiver": {
+      "collection": "caregivers",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "name": { "type": "string", "required": true },
+        "preferredName": { "type": "string" },
+        "relation": { "type": "string", "required": true },
+        "phone": { "type": "string", "required": true },
+        "email": { "type": "string", "required": true },
+        "associatedPatientIds": { "type": "array", "required": true },
+        "validationFrequency": { "type": "string" },
+        "receiveInstantAlerts": { "type": "boolean" },
+        "avatarUrl": { "type": "string" },
+        "createdAt": { "type": "string", "required": true }
+      }
+    },
+    "Practitioner": {
+      "collection": "practitioners",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "name": { "type": "string", "required": true },
+        "title": { "type": "string", "required": true },
+        "specialty": { "type": "string", "required": true },
+        "hospital": { "type": "string", "required": true },
+        "email": { "type": "string", "required": true },
+        "phone": { "type": "string", "required": true },
+        "assignedPatientIds": { "type": "array", "required": true },
+        "avatarUrl": { "type": "string" },
+        "createdAt": { "type": "string", "required": true }
+      }
+    },
+    "Observation": {
+      "collection": "observations",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "patientId": { "type": "string", "required": true },
+        "practitionerId": { "type": "string", "required": true },
+        "practitionerName": { "type": "string", "required": true },
+        "date": { "type": "string", "required": true },
+        "timestamp": { "type": "string", "required": true },
+        "domain": { "type": "string", "required": true },
+        "severity": { "type": "string", "enum": ["info", "positive", "concern", "action_needed"], "required": true },
+        "observationText": { "type": "string", "required": true },
+        "recommendationText": { "type": "string" },
+        "metricsSnapshot": { "type": "map" },
+        "isSharedWithCaregiver": { "type": "boolean", "required": true },
+        "createdAt": { "type": "string", "required": true }
+      }
+    },
+    "LoveNote": {
+      "collection": "loveNotes",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "patientId": { "type": "string", "required": true },
+        "memoryId": { "type": "string" },
+        "authorId": { "type": "string", "required": true },
+        "authorName": { "type": "string", "required": true },
+        "relation": { "type": "string", "required": true },
+        "text": { "type": "string", "required": true },
+        "avatarInitials": { "type": "string" },
+        "avatarBg": { "type": "string" },
+        "audioVoiceNoteUrl": { "type": "string" },
+        "reactionsCount": { "type": "number" },
+        "createdAt": { "type": "string", "required": true }
+      }
+    },
+    "Alert": {
+      "collection": "alerts",
+      "fields": {
+        "id": { "type": "string", "required": true },
+        "patientId": { "type": "string", "required": true },
+        "severity": { "type": "string", "required": true },
+        "title": { "type": "string", "required": true },
+        "description": { "type": "string", "required": true },
+        "timeAgo": { "type": "string" },
+        "timestamp": { "type": "string", "required": true },
+        "acknowledged": { "type": "boolean", "required": true },
+        "actionRecommended": { "type": "string" },
+        "createdAt": { "type": "string", "required": true }
+      }
+    }
+  }
+}

@@ -578,4 +578,192 @@ The service layer in `features/cognition/services/cognitive.service.ts` encapsul
 - **`ActivityProgressCard`**: Non-judgmental progress trackers with heart icons or milestone badges.
 - **`ActivityEncouragementCard`**: Companion voice bubble component for inline coaching and micro-reassurances.
 
+---
 
+## 13. AI Memory Layer Architecture (Phase 8 / v0.8.0)
+
+The AI Memory Layer (`features/memories`) operationalizes autobiographical reminiscence into structured family keepsakes without relying on brittle real-time voice infrastructure during demonstrations.
+
+### 13.1 Architecture Overview
+```
++-------------------------------------------------------------------------------+
+|                       AI MEMORY LAYER ARCHITECTURE                            |
++-------------------------------------------------------------------------------+
+|                                                                               |
+|  [ Patient: Memory Photo ]                                                    |
+|           |                                                                   |
+|           v                                                                   |
+|  [ MemoryNarrationCta ] ----> [ /patient/memories/[id]/narrate ]              |
+|                                       |                                       |
+|                                       +-- NarrationStudio                     |
+|                                       |   * Oversized Tactile Mic             |
+|                                       |   * Streaming Parchment Transcript    |
+|                                       |   * 1-Tap Starter Phrases             |
+|                                       |                                       |
+|                                       v                                       |
+|                      [ Calming Progressive Structuring ]                      |
+|                      * Listening -> Understanding -> Creating                 |
+|                                       |                                       |
+|                                       v                                       |
+|                                [ StoryService ]                               |
+|                                * MemoryStory Model                            |
+|                                * localStorage Sync                            |
+|                                       |                                       |
+|            +--------------------------+-------------------------+             |
+|            |                          |                         |             |
+|            v                          v                         v             |
+|    [ StoryMemoirView ]      [ RecentNarrationsCard ]  [ NarrativeEngagement ] |
+|  (/memories/[id]/story)        (Caregiver Portal)      (Practitioner Portal)  |
+|  * Scrapbook Styling          * Emotional Insights    * Non-Diagnostic        |
+|  * Audio Waveform Player      * Love Note Action      * Observational Pacing  |
+|  * Family Share Action                                                        |
++-------------------------------------------------------------------------------+
+```
+
+### 13.2 Core Data Models (`features/memories/types`)
+```typescript
+export type NarrationStep = 'ready' | 'listening' | 'review' | 'structuring' | 'complete';
+
+export interface MemoryStory {
+  id: string;
+  memoryId: string;
+  memoryTitle: string;
+  storyTitle: string;
+  narratedBy: string;
+  narratedRole: string;
+  recordedAt: string;
+  formattedDate: string;
+  category: MemoryCategoryKey;
+  coverImage: string;
+  location?: string;
+  yearEra?: string;
+  transcriptExcerpt: string;
+  narrativeParagraphs: string[];
+  emotionalTakeaway: string;
+  keyPhrases: string[];
+  peopleMentioned: string[];
+  audioDuration?: string;
+  caregiverNote?: string;
+  practitionerEngagement: {
+    verbalParticipation: 'High' | 'Moderate' | 'Gentle';
+    emotionalResonance: 'Deeply Joyful' | 'Serene' | 'Reflective';
+    sessionDurationSeconds: number;
+    promptResponseLatency: 'Natural' | 'Thoughtful';
+  };
+}
+```
+
+### 13.3 Persistence Strategy (`StoryService`)
+- Singleton service (`storyService`) manages `MemoryStory` lifecycles with transparent fallbacks to rich pre-seeded mock memoirs (`INITIAL_SAMPLE_STORIES`).
+- On new narration submissions, stores records into browser `localStorage` keyed under `smritisaathi_narrated_stories`.
+- Exposes query methods:
+  - `getAllStories()`: Returns all stored memoirs.
+  - `getStoryByMemoryId(memoryId)`: Retrieves or dynamically seeds a memoir for any memory id.
+  - `getCaregiverNarrations()`: Translates story events into caregiver-facing telemetry and emotional insights.
+  - `getPractitionerNarrativeMetrics()`: Aggregates voluntary participation rates, emotional valence, and weekly frequency for clinical oversight.
+
+---
+
+## 14. Shared Data Architecture & Firestore Foundation (Phase 8.1 / v0.8.1)
+
+### 14.1 Subsystem Overview
+The **Shared Data Architecture & Firestore Foundation** (v0.8.1) introduces a unified, cloud-persisted, reactive data pipeline that bridges the boundaries between the **Patient App**, **Caregiver Portal**, and **Practitioner Dashboard**. 
+
+Instead of operating in siloed frontend memory caches or local browsers, all client interfaces now hook into a centralized React Context (`SharedDataProvider`) powered by a modular Firebase Firestore service layer. This ensures real-time updates across multiple devices, durable synchronization of care protocols, and instantaneous telemetry reporting.
+
+```
++---------------------------------------------------------------------------------+
+|                          SHARED DATA PERSISTENCE PIPELINE                       |
++---------------------------------------------------------------------------------+
+|                                                                                 |
+|  [ Patient Experience ]      [ Caregiver Portal ]      [ Practitioner Dashboard ]|
+|          │                            │                             │           |
+|          ▼                            ▼                             ▼           |
+|    Completed Routine             Added Memory /              Recorded Clinical  |
+|    & Oral History              Reminders Schedule            Care Observation   |
+|          │                            │                             │           |
+|          +────────────────────────────┼─────────────────────────────+           |
+|                                       │                                         |
+|                                       v                                         |
+|                       [ SharedDataProvider Context ]                            |
+|                       * Optimistic UI Updates & States                          |
+|                       * Local Memory Reducers & Cache                           |
+|                       * Auto-Bootstrapper for Clean Demo Data                   |
+|                                       │                                         |
+|                     +─────────────────┴─────────────────+                       |
+|                     │                                   │                       |
+|                     ▼ (Write API)                       ▼ (Read stream)         |
+|             [ Cloud Firestore Services ]          [ Real-Time Subscriptions ]  |
+|             * memoryService, reminderService      * onSnapshot listeners        |
+|             * activityService, alertService       * Instant updates propagation |
+|                     │                                   ▲                       |
+|                     +─────────────────┬─────────────────+                       |
+|                                       ▼                                         |
+|                               [ Firestore DB ]                                  |
++---------------------------------------------------------------------------------+
+```
+
+### 14.2 Database Modeling & Collections
+The Firestore schema maps out ten specialized collections that capture clinical, behavioral, and biographical dimensions of dementia care:
+
+1. **`patients`**
+   - *Purpose*: Main patient records (demographics, dementia staging, primary contact, attending physician).
+   - *Key Fields*: `id`, `name`, `preferredName`, `age`, `stage`, `engagementScore`, `attendingPhysician`.
+2. **`memories`**
+   - *Purpose*: Family-curated biographical scrapbooks.
+   - *Key Fields*: `id`, `patientId`, `title`, `story`, `category`, `dateEra`, `location`, `coverImage`, `familiarPeople`.
+3. **`reminders`**
+   - *Purpose*: Circadian medication and routine schedules.
+   - *Key Fields*: `id`, `patientId`, `title`, `time`, `category`, `period`, `status`, `instructions`, `recurrence`, `dosage`, `assignedTo`.
+4. **`activities`**
+   - *Purpose*: Historical record of check-ins, routine accomplishments, and cognitive game plays.
+   - *Key Fields*: `id`, `patientId`, `title`, `type`, `category`, `time`, `status`, `cognitiveDomain`, `description`, `companionFeedback`.
+5. **`narrations`**
+   - *Purpose*: Oral history memoir chapters recorded by the patient.
+   - *Key Fields*: `id`, `memoryId`, `storyTitle`, `transcriptExcerpt`, `narrativeParagraphs`, `emotionalTakeaway`, `keyPhrases`, `recordedAt`.
+6. **`observations`**
+   - *Purpose*: Chronological care notes, vital context, and clinical remarks written by practitioners or caregivers.
+   - *Key Fields*: `id`, `patientId`, `patientName`, `title`, `description`, `summary`, `authorName`, `authorRole`, `type`, `tags`, `timestamp`.
+7. **`caregivers`**
+   - *Purpose*: Registered family caregivers and emergency contacts.
+   - *Key Fields*: `id`, `name`, `relation`, `phone`, `email`.
+8. **`practitioners`**
+   - *Purpose*: Clinical staff and specialists tracking patient profiles.
+   - *Key Fields*: `id`, `name`, `role`, `specialty`, `email`.
+9. **`love_notes`**
+   - *Purpose*: Reciprocal emotional letters sent from caregivers to comfort patients in real-time.
+   - *Key Fields*: `id`, `patientId`, `author`, `relation`, `text`, `avatarInitials`, `createdAt`.
+10. **`alerts`**
+    - *Purpose*: Gentle, non-panic care warnings regarding circadian routine deviations.
+    - *Key Fields*: `id`, `patientId`, `severity`, `type`, `title`, `message`, `acknowledged`, `timestamp`.
+
+### 14.3 Multi-Entity State & Real-Time Sync Engine
+At the core of the state synchronization is the `SharedDataProvider` in `/services/context/shared-data-context.tsx`. It implements a robust synchronization engine:
+
+- **Optimistic State Reduction**: When a caregiver creates a reminder or toggle-switches a medication, the context immediately dispatches an optimistic state update to the local React state. This guarantees sub-millisecond responsiveness in the UI. Simultaneously, an asynchronous database write triggers in the background.
+- **OnSnapshot Real-time Broadcast**: The context registers real-time Firestore listeners (`onSnapshot`) for reminders, activities, memories, love notes, alerts, and observations. If a caregiver updates a reminder in their tab, the patient's tablet instantly animates the new schedule without requiring a page refresh.
+- **Self-Healing Auto-Bootstrapper**: Upon initialization, the provider checks the database. If the user's Firestore instance is completely fresh or empty, the engine automatically bootstraps a culturally rich, multi-faceted clinical and biographical dataset (reconstructed from `/services/seed/demo-seed-data.ts`) to ensure a fully functioning product experience from first render.
+- **Offline Resiliency & Local Fallback**: When the database is unreachable or offline, the system gracefully logs warnings to console, maintaining fully operational local state within the browser session context, ensuring the app never crashes or displays blank, unresponsive frames.
+
+### 14.4 Cross-Portal Synergy & Telemetry Loops
+The shared data layer establishes elegant bi-directional feedback loops that automate clinical and caretaking telemetries:
+
+- **The Activity Check-Off Loop**: When a patient marks their "Morning Routine" or "Thyroxine Medication" as completed inside `/patient`, the system:
+  1. Updates the live `reminders` status in Firestore.
+  2. Creates and appends a structured `CaregiverActivityLog` in the `activities` stream.
+  3. Seamlessly updates the caregiver’s Circadian Progress charts in `/caregiver`.
+  4. Automatically appends compliance metrics to the practitioner's clinical adherence analytics graphs in `/practitioner`.
+- **The Memory Scrapbook Loop**: When a caregiver adds a nostalgic photo via `AddMemoryModal` inside the Caregiver portal, it instantly populates the Patient's memory carousel and triggers dynamic introduction prompts on the patient experience.
+- **The Clinical Care Loop**: When a clinical practitioner logs a significant event (e.g. "Dizziness observed in afternoon") in `/practitioner`, it persists into the shared `observations` collection. This allows caregivers to immediately see and respond to the clinician's comments in their activity feed, creating a highly cooperative and synchronized care circle.
+
+
+
+## 15. Practitioner Dashboard Redesign (Phase 10 / v0.10.0)
+
+**Goal:** Transform the Practitioner Portal into a modern, presentation-ready clinical application.
+
+**Structural Changes:**
+- **PractitionerLayout:** Replaced the legacy blue top bar with a clean, wide-canvas layout and modern sidebar (`PractitionerSidebar`).
+- **PractitionerDashboardClient:** Created a client-side layout for dynamic rendering of charts (using `recharts`) and interactive clinical metrics.
+- **Top Bar Component (`PractitionerTopbar`):** Extracted global actions (search, notifications, profile) into a reusable top navigation bar.
+- **Metric Cards (`ClinicalMetricCard`):** Reusable component for high-level KPIs, providing quick scanning of stable vs. at-risk patients.

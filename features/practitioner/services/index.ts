@@ -6,6 +6,7 @@
 import {
   ClinicalPatient,
   ClinicalObservation,
+  ObservationType,
   ClinicalRecommendation,
   CohortAnalyticsSummary,
   ClinicalCohortFilter,
@@ -24,6 +25,7 @@ import {
   SAMPLE_CLINICAL_CARE_PLANS,
   SAMPLE_CLINICAL_MESSAGES,
 } from '../data/sample-practitioner-data';
+import { observationService } from '@/services/firestore/observation.service';
 
 export interface IPractitionerService {
   getPatients(filter?: ClinicalCohortFilter): Promise<ClinicalPatient[]>;
@@ -100,6 +102,36 @@ class PractitionerServiceImpl implements IPractitionerService {
   }
 
   async getObservations(patientId?: string, type?: string): Promise<ClinicalObservation[]> {
+    try {
+      const remoteObs = await observationService.getObservations(patientId);
+      if (remoteObs && remoteObs.length > 0) {
+        // Merge any remote observation not yet in memory
+        for (const ro of remoteObs) {
+          if (!this.observations.some((o) => o.id === ro.id)) {
+            this.observations.push({
+              id: ro.id,
+              patientId: ro.patientId,
+              patientName: ro.patientName || 'Kamal Sharma',
+              type: (ro.type as ObservationType) || 'observation',
+              title: ro.title || 'Clinical Observation',
+              summary: ro.summary || ro.description || ro.observationText || 'Observation recorded',
+              detail: ro.description || ro.summary || ro.observationText || '',
+              timestamp: ro.timestamp ? new Date(ro.timestamp).toLocaleDateString() : 'Recent',
+              author: {
+                name: ro.authorName || 'Healthcare Team',
+                role: ro.authorRole || 'Clinical Staff',
+                type: (ro.authorRole?.toLowerCase().includes('physician') ? 'physician' : 'caregiver') as any,
+              },
+              tags: ro.tags || ['Clinical'],
+              sentiment: (ro.severity === 'concern' || ro.severity === 'action_needed' ? 'attention' : ro.severity === 'positive' ? 'positive' : 'neutral'),
+            });
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Syncing practitioner observations with Firestore warning:', e);
+    }
+
     let result = [...this.observations];
     if (patientId) {
       result = result.filter((o) => o.patientId === patientId);
@@ -154,6 +186,27 @@ class PractitionerServiceImpl implements IPractitionerService {
       timestamp: 'Just now',
     };
     this.observations.unshift(newObs);
+
+    // Persist to shared Firestore observation collection
+    try {
+      await observationService.createObservation({
+        id: newObs.id,
+        patientId: newObs.patientId,
+        patientName: newObs.patientName,
+        type: newObs.type,
+        title: newObs.title,
+        description: newObs.detail || newObs.summary,
+        summary: newObs.summary,
+        authorName: newObs.author.name,
+        authorRole: newObs.author.role,
+        tags: newObs.tags,
+        timestamp: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+      });
+    } catch (err) {
+      console.warn('Persisting observation to Firestore failed, stored locally:', err);
+    }
+
     return newObs;
   }
 

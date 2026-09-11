@@ -43,3 +43,5 @@ export {
   getMemoryOfTheDay,
   getMemoriesByCategory,
 };
+
+export { storyService } from './story-service';
