@@ -2,6 +2,12 @@
 
 All notable changes to the **SmritiSaathi** project will be documented in this file.
 
+## [0.9.1] - Caregiver UI Stability Fix
+
+### Fixed
+- Guarded the caregiver reminder progress widget against empty reminder states so the progress bar and percentage remain at 0% instead of rendering `NaN`.
+- Added a calm empty-state message for the caregiver reminder list when no reminders have been scheduled yet.
+
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
