@@ -252,4 +252,43 @@ The Cognitive Activities Hub (`/patient/activities`) and mini-games provide ther
 - **High Visual Contrast**: Large bold typography, 3px solid active borders, and clear state transitions (`scale-105`, `ring-4`).
 - **Low Cognitive Density**: Single-task focus per screen view with zero extraneous widgets or popups.
 
+---
+
+## 15. AI Memory Layer & Reminiscence Story Weaver (Phase 8 / v0.8.0)
+
+The AI Memory Layer transforms passive photographic viewing into an active, dignity-first oral history experience. It bridges patient reminiscence, gentle AI structuring, and intergenerational family connection.
+
+### 15.1 Experience Vision: The Reminiscence Loop
+```
+Caregiver Uploads Photo
+       ↓
+Patient Revisits Memory with Saathi
+       ↓
+Patient Narrates Spoken Reflection
+       ↓
+Calming AI Story Weaver Structures Words
+       ↓
+Treasured Keepsake Book Grows & Family Connects
+```
+
+### 15.2 Anti-Chatbot & Anti-AI-Slop Directives
+- **Zero Chat Bubbles / Chatbot Styling**: The interface avoids generic conversational back-and-forth chat windows, speech bubbles, typing indicators, or technical AI status bars.
+- **Natural Scrapbook Metaphor**: Oral reflections are formatted as physical memoirs on rich off-white parchment paper (`#FFFDF9`), adorned with washi tape accents, drop caps, and rotated Polaroid frames.
+- **Calming Progressive Story Weaving**:
+  Technical loading states are replaced with a soothing 3-phase journey:
+  - *Phase 1: Listening with warm attention*
+  - *Phase 2: Cherishing the people and feelings*
+  - *Phase 3: Weaving your words into a treasured storybook page*
+  Zero technical buzzwords ("LLM", "Inference", "Tokens", "Processing").
+
+### 15.3 Narration Ergonomics & Accessibility
+- **Oversized Tactile Recording Control**: 144px pill-shaped microphone button with soft glow animations, clear active timers, and real-time soundwave visualizers.
+- **Accessible 1-Tap Starter Phrases**: Contextually personalized starter reflection chips (e.g., *"Say: 'I remember the smell of fresh marigolds...'"*) allowing instant demonstration and removing the friction of a blank page.
+- **Unhurried Pacing**: Patients can speak for as long as they wish in any language; the system provides zero time pressure or audio cutoffs.
+
+### 15.4 Tri-Persona Memory Integration
+- **Patient**: Gains emotional validation, joyful reminiscence, and ownership of their growing "My Stories" keepsake shelf.
+- **Caregiver**: Receives real-time visibility into recent narrations, audio durations, and AI-synthesized emotional insights on Papa's mood and engagement, with a 1-tap "Love Note" reply action.
+- **Practitioner**: Accesses lightweight, non-diagnostic participation metrics (Narrative Participation, Story Emotional Valence, Activity Frequency) documenting voluntary psychosocial wellness without clinical diagnostic claims.
+
 

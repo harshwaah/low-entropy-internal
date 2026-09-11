@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // SmritiSaathi Collaborative Healthcare Ecosystem
+    // Allows seamless bidirectional real-time synchronization between
+    // Patient App, Caregiver Portal, and Practitioner Dashboard
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}

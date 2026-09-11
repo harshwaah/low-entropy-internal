@@ -14,3 +14,4 @@ export * from './edit-reminder-modal';
 export * from './weekly-engagement-chart';
 export * from './insight-metrics-cards';
 export * from './calm-alert-item';
+export * from './recent-narrations-card';

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { MemoryItem } from '../types';
 import { MemoryAudioPlayer } from './memory-audio-player';
+import { MemoryNarrationCta } from './memory-narration-cta';
 import { Mascot } from '@/components/shared/mascot';
 import { Button } from '@/components/ui/button';
 import { 
@@ -111,7 +112,10 @@ export function MemoryDetailView({ memory, nextMemoryId, previousMemoryId }: Mem
         </div>
       </section>
 
-      {/* 4. Companion Introduction */}
+      {/* 4. Tell Me About This Memory (AI Memory Layer Entry) */}
+      <MemoryNarrationCta memory={memory} />
+
+      {/* 5. Companion Introduction */}
       <section className="bg-brand-light-alt rounded-[2.5rem] p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 shadow-sm border border-brand-border/60">
         <Mascot
           size="md"

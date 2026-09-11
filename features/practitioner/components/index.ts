@@ -22,3 +22,4 @@ export * from './alerts-portal-view';
 export * from './messages-portal-view';
 export * from './activities-portal-view';
 
+export * from './narrative-engagement-panel';
