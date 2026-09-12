@@ -47,7 +47,8 @@ export default function PatientHomePage() {
   const onboardingData = data as PatientOnboardingData | null;
   const { t } = usePatientTranslation();
   const circadian = useCircadianStage();
-  const { play, isPlaying } = useMusic();
+  const { play, status } = useMusic();
+  const isPlaying = status === 'playing';
 
   const [activeStep, setActiveStep] = useState<JourneyStep>('greeting');
   const [showStageSelector, setShowStageSelector] = useState(false);
