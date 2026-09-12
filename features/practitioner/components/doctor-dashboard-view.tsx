@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import {
   Users,
@@ -14,6 +14,9 @@ import {
   Search,
   Bell,
   Check,
+  Activity,
+  BarChart2,
+  Calendar,
 } from 'lucide-react';
 import { ClinicalPatient, ClinicalAlertItem } from '../types';
 import { useOnboarding } from '@/hooks/use-onboarding';
@@ -25,13 +28,80 @@ interface DoctorDashboardViewProps {
   alerts: ClinicalAlertItem[];
 }
 
+type MetricMode = 'composite' | 'memory' | 'adherence';
+type TimeframeMode = '7d' | '14d' | '30d';
+
+interface TrajectoryDataPoint {
+  day: string;
+  date: string;
+  x: number;
+  y: number;
+  score: number;
+  domainNote: string;
+  delta: string;
+  adherence: number;
+}
+
 export function DoctorDashboardView({ patients, alerts }: DoctorDashboardViewProps) {
   const { isCompleted: isOnboardingComplete, isLoading: isOnboardingLoading, data: onboardingData } = useOnboarding('practitioner');
+
+  const [metricMode, setMetricMode] = useState<MetricMode>('composite');
+  const [timeframe, setTimeframe] = useState<TimeframeMode>('7d');
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(6);
 
   const activePatientsCount = 42;
   const attentionCount = 4;
   const stableCount = 36;
   const improvingCount = 2;
+
+  const trajectoryData: Record<MetricMode, TrajectoryDataPoint[]> = useMemo(() => ({
+    composite: [
+      { day: 'Mon', date: 'Sep 6', x: 30, y: 120, score: 68, domainNote: 'Orientation & Attention focus', delta: '-2.0% vs target', adherence: 88 },
+      { day: 'Tue', date: 'Sep 7', x: 138, y: 92, score: 74, domainNote: 'Associative memory recall', delta: '+1.5% vs target', adherence: 91 },
+      { day: 'Wed', date: 'Sep 8', x: 245, y: 103, score: 71, domainNote: 'Spatial sequencing exercise', delta: '-0.5% vs target', adherence: 87 },
+      { day: 'Thu', date: 'Sep 9', x: 352, y: 85, score: 78, domainNote: 'Narrative story recollection', delta: '+4.2% vs target', adherence: 94 },
+      { day: 'Fri', date: 'Sep 10', x: 460, y: 65, score: 83, domainNote: 'Music & melodic cue responses', delta: '+6.1% vs target', adherence: 95 },
+      { day: 'Sat', date: 'Sep 11', x: 565, y: 54, score: 86, domainNote: 'Photo album reminiscence depth', delta: '+8.0% vs target', adherence: 96 },
+      { day: 'Sun', date: 'Sep 12 (Today)', x: 670, y: 45, score: 89, domainNote: 'Multi-domain composite synthesis', delta: '+9.4% (Optimal)', adherence: 98 },
+    ],
+    memory: [
+      { day: 'Mon', date: 'Sep 6', x: 30, y: 110, score: 70, domainNote: 'Childhood photo recognition', delta: '0.0% vs target', adherence: 90 },
+      { day: 'Tue', date: 'Sep 7', x: 138, y: 85, score: 76, domainNote: 'Family voice cue recognition', delta: '+2.8% vs target', adherence: 92 },
+      { day: 'Wed', date: 'Sep 8', x: 245, y: 95, score: 73, domainNote: 'Familiar location orientation', delta: '+0.5% vs target', adherence: 88 },
+      { day: 'Thu', date: 'Sep 9', x: 352, y: 70, score: 82, domainNote: 'Story narration engagement', delta: '+5.5% vs target', adherence: 95 },
+      { day: 'Fri', date: 'Sep 10', x: 460, y: 60, score: 85, domainNote: 'Sensory melody recollection', delta: '+7.0% vs target', adherence: 97 },
+      { day: 'Sat', date: 'Sep 11', x: 565, y: 48, score: 88, domainNote: 'Wedding album reminiscence', delta: '+8.5% vs target', adherence: 98 },
+      { day: 'Sun', date: 'Sep 12 (Today)', x: 670, y: 38, score: 92, domainNote: 'Active family dialogue recall', delta: '+11.0% (Optimal)', adherence: 99 },
+    ],
+    adherence: [
+      { day: 'Mon', date: 'Sep 6', x: 30, y: 70, score: 88, domainNote: 'Morning routine on time', delta: '+3.0% vs target', adherence: 88 },
+      { day: 'Tue', date: 'Sep 7', x: 138, y: 60, score: 91, domainNote: 'All scheduled prompts verified', delta: '+5.0% vs target', adherence: 91 },
+      { day: 'Wed', date: 'Sep 8', x: 245, y: 74, score: 87, domainNote: '1 routine prompt slightly delayed', delta: '+1.0% vs target', adherence: 87 },
+      { day: 'Thu', date: 'Sep 9', x: 352, y: 52, score: 94, domainNote: 'Caregiver validation with love', delta: '+7.5% vs target', adherence: 94 },
+      { day: 'Fri', date: 'Sep 10', x: 460, y: 48, score: 95, domainNote: 'Direct audio note recorded', delta: '+8.0% vs target', adherence: 95 },
+      { day: 'Sat', date: 'Sep 11', x: 565, y: 42, score: 96, domainNote: 'Evening memory session logged', delta: '+9.0% vs target', adherence: 96 },
+      { day: 'Sun', date: 'Sep 12 (Today)', x: 670, y: 35, score: 98, domainNote: '100% completion across all domains', delta: '+12.0% (Exceeded)', adherence: 98 },
+    ],
+  }), []);
+
+  const currentPoints = trajectoryData[metricMode];
+  const activePoint = hoveredIndex !== null && currentPoints[hoveredIndex] ? currentPoints[hoveredIndex] : currentPoints[currentPoints.length - 1];
+
+  // Generate SVG path dynamically based on active metric points
+  const { linePath, areaPath } = useMemo(() => {
+    if (!currentPoints.length) return { linePath: '', areaPath: '' };
+    const first = currentPoints[0];
+    let d = `M ${first.x},${first.y}`;
+    for (let i = 1; i < currentPoints.length; i++) {
+      const prev = currentPoints[i - 1];
+      const curr = currentPoints[i];
+      const cx = (prev.x + curr.x) / 2;
+      d += ` C ${cx},${prev.y} ${cx},${curr.y} ${curr.x},${curr.y}`;
+    }
+    const last = currentPoints[currentPoints.length - 1];
+    const area = `${d} L ${last.x},180 L ${first.x},180 Z`;
+    return { linePath: d, areaPath: area };
+  }, [currentPoints]);
 
   if (!isOnboardingLoading && !isOnboardingComplete) {
     return <PractitionerOnboarding />;
@@ -155,61 +225,257 @@ export function DoctorDashboardView({ patients, alerts }: DoctorDashboardViewPro
         {/* Left Column: Trajectory Chart Card (~65% width) */}
         <div className="lg:col-span-8 bg-white p-6 rounded-2xl shadow-xs border border-emerald-900/5 flex flex-col justify-between">
           <div>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
               <div className="flex flex-col">
-                <h2 className="text-lg font-bold text-[#013625] tracking-tight">Average Cognitive Performance</h2>
-                <span className="text-xs text-[#414944]">Last 7 Days · Cohort Composite Trajectory</span>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-lg font-bold text-[#013625] tracking-tight">Average Cognitive Performance</h2>
+                  <span className="px-2 py-0.5 rounded-full bg-[#ecf6ee] text-[#1e4d3a] text-[10px] font-bold uppercase tracking-wider">
+                    Interactive CDS
+                  </span>
+                </div>
+                <span className="text-xs text-[#414944]">
+                  {timeframe === '7d' ? 'Last 7 Days' : timeframe === '14d' ? 'Last 14 Days' : 'Last 30 Days'} · Cohort Trajectory &amp; Real-time Adherence
+                </span>
               </div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#e1ebe3] text-[#151d19] text-xs font-medium self-start sm:self-auto">
-                <span className="w-2 h-2 rounded-full bg-[#1e4d3a]"></span>
-                <span>Overall Cognitive Performance</span>
+
+              {/* Timeframe & Metric Filter Controls */}
+              <div className="flex items-center flex-wrap gap-1.5 self-start sm:self-auto">
+                <div className="flex items-center bg-[#f0f4f1] p-1 rounded-xl gap-1 text-xs font-semibold">
+                  <button
+                    type="button"
+                    onClick={() => setMetricMode('composite')}
+                    className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                      metricMode === 'composite'
+                        ? 'bg-white text-[#013625] shadow-2xs font-bold'
+                        : 'text-[#414944] hover:text-[#013625]'
+                    }`}
+                  >
+                    Composite
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setMetricMode('memory')}
+                    className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                      metricMode === 'memory'
+                        ? 'bg-white text-[#013625] shadow-2xs font-bold'
+                        : 'text-[#414944] hover:text-[#013625]'
+                    }`}
+                  >
+                    Memory
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setMetricMode('adherence')}
+                    className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
+                      metricMode === 'adherence'
+                        ? 'bg-white text-[#013625] shadow-2xs font-bold'
+                        : 'text-[#414944] hover:text-[#013625]'
+                    }`}
+                  >
+                    Adherence
+                  </button>
+                </div>
+
+                <div className="hidden sm:flex items-center bg-[#f0f4f1] p-1 rounded-xl text-xs font-semibold">
+                  {(['7d', '14d', '30d'] as TimeframeMode[]).map((tf) => (
+                    <button
+                      key={tf}
+                      type="button"
+                      onClick={() => setTimeframe(tf)}
+                      className={`px-2 py-1 rounded-lg uppercase transition-all cursor-pointer ${
+                        timeframe === tf
+                          ? 'bg-[#1e4d3a] text-white shadow-2xs'
+                          : 'text-[#717973] hover:text-[#013625]'
+                      }`}
+                    >
+                      {tf}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Active Selected Point Header Banner */}
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-3 pb-1 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-[#013625] bg-[#c4ecd4]/50 px-2 py-0.5 rounded-md">
+                  {activePoint.day} ({activePoint.date}):
+                </span>
+                <span className="font-semibold text-[#151d19]">
+                  Score: <strong className="text-sm text-[#013625]">{activePoint.score}%</strong>
+                </span>
+                <span className="text-[#717973]">· {activePoint.domainNote}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-bold text-[#1e4d3a] bg-[#ecf6ee] px-2 py-0.5 rounded-full">
+                  {activePoint.delta}
+                </span>
+                <span className="text-[11px] text-[#414944]">
+                  Adherence: <strong>{activePoint.adherence}%</strong>
+                </span>
               </div>
             </div>
 
             {/* SVG Trajectory Visualization */}
-            <div className="w-full h-64 pt-2 relative">
+            <div className="w-full h-64 pt-2 relative select-none">
               <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 700 200">
                 <defs>
                   <linearGradient id="areaGradDash" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stop-color="#bbeed3" stop-opacity="0.55"></stop>
-                    <stop offset="100%" stop-color="#bbeed3" stop-opacity="0.0"></stop>
+                    <stop offset="0%" stopColor="#bbeed3" stopOpacity="0.6"></stop>
+                    <stop offset="100%" stopColor="#bbeed3" stopOpacity="0.02"></stop>
                   </linearGradient>
+                  <filter id="pointGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#013625" floodOpacity="0.25" />
+                  </filter>
                 </defs>
-                <line stroke="#e6f0e8" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="700" y1="40" y2="40"></line>
-                <line stroke="#e6f0e8" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="700" y1="90" y2="90"></line>
-                <line stroke="#e6f0e8" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="700" y1="140" y2="140"></line>
-                
-                <path d="M 30,120 Q 130,85 230,105 T 430,70 T 550,55 T 670,45 L 670,180 L 30,180 Z" fill="url(#areaGradDash)"></path>
-                <path d="M 30,120 Q 130,85 230,105 T 430,70 T 550,55 T 670,45" fill="none" stroke="#1e4d3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
-                
-                <circle cx="30" cy="120" fill="#1e4d3a" r="4.5" stroke="#ffffff" stroke-width="2"></circle>
-                <circle cx="138" cy="92" fill="#1e4d3a" r="4.5" stroke="#ffffff" stroke-width="2"></circle>
-                <circle cx="245" cy="103" fill="#1e4d3a" r="4.5" stroke="#ffffff" stroke-width="2"></circle>
-                <circle cx="352" cy="85" fill="#1e4d3a" r="4.5" stroke="#ffffff" stroke-width="2"></circle>
-                <circle cx="460" cy="65" fill="#1e4d3a" r="4.5" stroke="#ffffff" stroke-width="2"></circle>
-                <circle cx="565" cy="54" fill="#1e4d3a" r="4.5" stroke="#ffffff" stroke-width="2"></circle>
-                <circle cx="670" cy="45" fill="#013625" r="5.5" stroke="#ffffff" stroke-width="2.5"></circle>
+
+                {/* Grid guidelines */}
+                <line stroke="#edf3ef" strokeDasharray="4 4" strokeWidth="1" x1="0" x2="700" y1="40" y2="40"></line>
+                <line stroke="#edf3ef" strokeDasharray="4 4" strokeWidth="1" x1="0" x2="700" y1="90" y2="90"></line>
+                <line stroke="#edf3ef" strokeDasharray="4 4" strokeWidth="1" x1="0" x2="700" y1="140" y2="140"></line>
+
+                {/* Clinical Target Baseline Threshold Line */}
+                <line stroke="#ba1a1a" strokeDasharray="6 4" strokeWidth="1.25" strokeOpacity="0.45" x1="0" x2="700" y1="100" y2="100"></line>
+                <text x="690" y="96" fill="#802a05" fontSize="10" fontWeight="600" textAnchor="end" opacity="0.8">
+                  Clinical Target Baseline (70%)
+                </text>
+
+                {/* Filled Area */}
+                <path d={areaPath} fill="url(#areaGradDash)"></path>
+
+                {/* Main Trajectory Stroke */}
+                <path
+                  d={linePath}
+                  fill="none"
+                  stroke="#1e4d3a"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="3.5"
+                  className="transition-all duration-300"
+                ></path>
+
+                {/* Vertical Cursor Indicator Line on Hovered Point */}
+                {hoveredIndex !== null && currentPoints[hoveredIndex] && (
+                  <line
+                    x1={currentPoints[hoveredIndex].x}
+                    x2={currentPoints[hoveredIndex].x}
+                    y1="20"
+                    y2="180"
+                    stroke="#1e4d3a"
+                    strokeWidth="1.5"
+                    strokeDasharray="3 3"
+                    strokeOpacity="0.5"
+                  />
+                )}
+
+                {/* Interactive Points */}
+                {currentPoints.map((pt, idx) => {
+                  const isHovered = hoveredIndex === idx;
+                  return (
+                    <g
+                      key={pt.day}
+                      className="cursor-pointer group"
+                      onMouseEnter={() => setHoveredIndex(idx)}
+                      onClick={() => setHoveredIndex(idx)}
+                    >
+                      {/* Invisible larger touch/hover target */}
+                      <circle cx={pt.x} cy={pt.y} r="20" fill="transparent" />
+
+                      {/* Highlight Outer Ring */}
+                      {isHovered && (
+                        <circle
+                          cx={pt.x}
+                          cy={pt.y}
+                          r="10"
+                          fill="#c4ecd4"
+                          fillOpacity="0.7"
+                          className="animate-ping"
+                        />
+                      )}
+
+                      {/* Visible Point */}
+                      <circle
+                        cx={pt.x}
+                        cy={pt.y}
+                        fill={isHovered ? '#013625' : '#1e4d3a'}
+                        r={isHovered ? 6.5 : 4.5}
+                        stroke="#ffffff"
+                        strokeWidth={isHovered ? 3 : 2}
+                        filter="url(#pointGlow)"
+                        className="transition-all duration-150"
+                      />
+
+                      {/* Score Value Floating Tag on Active/Hovered Point */}
+                      {isHovered && (
+                        <g transform={`translate(${pt.x}, ${Math.max(16, pt.y - 14)})`}>
+                          <rect
+                            x="-22"
+                            y="-16"
+                            width="44"
+                            height="18"
+                            rx="5"
+                            fill="#013625"
+                            filter="url(#pointGlow)"
+                          />
+                          <text
+                            x="0"
+                            y="-3.5"
+                            fill="#ffffff"
+                            fontSize="10"
+                            fontWeight="bold"
+                            textAnchor="middle"
+                          >
+                            {pt.score}%
+                          </text>
+                        </g>
+                      )}
+                    </g>
+                  );
+                })}
               </svg>
-              <div className="flex justify-between items-center text-[#717973] text-xs font-semibold pt-2 px-2">
-                <span>Mon</span>
-                <span>Tue</span>
-                <span>Wed</span>
-                <span>Thu</span>
-                <span>Fri</span>
-                <span>Sat</span>
-                <span>Sun</span>
+
+              {/* X-Axis Day Markers (Interactive buttons) */}
+              <div className="flex justify-between items-center text-xs font-semibold pt-1 px-1">
+                {currentPoints.map((pt, idx) => {
+                  const isSelected = hoveredIndex === idx;
+                  return (
+                    <button
+                      key={pt.day}
+                      type="button"
+                      onClick={() => setHoveredIndex(idx)}
+                      onMouseEnter={() => setHoveredIndex(idx)}
+                      className={`px-2 py-1 rounded-lg text-xs transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-[#013625] text-white font-bold shadow-2xs scale-105'
+                          : 'text-[#717973] hover:text-[#013625] hover:bg-[#ecf6ee]'
+                      }`}
+                    >
+                      {pt.day}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-3 mt-4 bg-[#ecf6ee]/60 px-4 py-3 rounded-xl">
+          {/* Card Summary Footer */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 mt-4 bg-[#ecf6ee]/70 px-4 py-3 rounded-xl border border-emerald-900/5">
             <div className="flex items-center gap-2 text-[#151d19]">
-              <Check className="h-4 w-4 text-[#426653]" />
+              <Check className="h-4 w-4 text-[#426653] shrink-0" />
               <span className="text-xs font-medium">
-                Mean adherence rate: <strong className="text-[#013625]">91.4%</strong> over 7 days
+                Active Cohort Mean: <strong className="text-[#013625]">91.4% adherence</strong> ·{' '}
+                <span className="text-[#1e4d3a] font-semibold">{activePoint.day} performance: {activePoint.score}%</span>
               </span>
             </div>
-            <span className="text-[11px] text-[#717973]">Updated 24m ago</span>
+            <div className="flex items-center gap-2 self-end sm:self-auto">
+              <Link
+                href="/practitioner/reports"
+                className="text-xs font-bold text-[#1e4d3a] hover:text-[#013625] hover:underline inline-flex items-center gap-1"
+              >
+                <span>Full Longitudinal Analytics</span>
+                <ArrowRight className="h-3 w-3" />
+              </Link>
+            </div>
           </div>
         </div>
 
