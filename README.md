@@ -218,3 +218,9 @@ For complete technical specifications, review:
 - [`DESIGN.md`](./DESIGN.md): Patient-first philosophy, dementia interaction guidelines, and sound design.
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md): Git branching rules, team folder ownership matrix, and PR checklists.
 - [`AGENT_CONTEXT.md`](./AGENT_CONTEXT.md): Guide for automated AI agents and co-developers.
+
+## 9. Living Room Experience
+The `Living Room` cognitive activity is implemented as a linear, scene-based progression within `/patient/activities/find-the-object`.
+- **Interaction Model**: Patients are guided sequentially to locate distinct visual targets (Blue Jar, Clock, Cushion) using tap interactions. Successful discovery triggers a gentle chime and non-distracting visual highlight. Mistakes yield patient encouragement without harsh fail states or buzzer noises.
+- **Accessibility**: Includes high-contrast hitboxes, large tap targets, and Web Speech API integration for auditory guidance and repetition.
+- **Memory Challenge**: The activity concludes with a spatial memory challenge where the patient recalls the locations of previously discovered objects by tapping empty regions in the scene.

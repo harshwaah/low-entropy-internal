@@ -191,3 +191,7 @@ npm run build   # Must compile cleanly with 0 TypeScript/Next.js errors
 npm run lint    # Must pass ESLint
 ```
 
+
+## Memory Walk Expansion Notes (v0.9.1)
+- When expanding activities (e.g., adding "Garden"), follow the `FindTheObjectGame` component pattern: a single unified state machine managing visual finding, audio synthesis (Web Speech API), and spatial memory challenges in a continuous, un-interrupted flow.
+- Always use the predefined Tailwind-compatible colors in inline styles or mapped variants to preserve exact design fidelity for cognitive accessibility.

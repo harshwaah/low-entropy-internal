@@ -797,3 +797,9 @@ The `useOnboarding(role)` hook provides reactive state tracking:
 
 
 
+
+### 10.3 Living Room Walk Component Architecture (v0.9.1)
+The `FindTheObjectGame` component orchestrates a multi-step state machine (`welcome`, `find_jar`, `find_clock`, `find_cushion`, `memory_jar`, `memory_clock`, `memory_cushion`, `completed`).
+- **State Machine**: React `useState` drives the progression, replacing route-based navigation to maintain audio context and prevent jarring page reloads.
+- **Audio Synthesis**: The `Web Speech API` (`window.speechSynthesis`) is wrapped in React `useEffect` for cleanup, utilizing `SpeechSynthesisUtterance` for programmatic, sequenced dialogue with event listeners (`onstart`, `onend`) driving UI speaking indicators.
+- **Hitbox Implementation**: Absolute-positioned `<button>` elements function as accessible touch targets mapped to image coordinates, with dynamic CSS application (`found-highlight`, `tap-ripple`) handled via utility classes (`cn`) and injected `<style>` tags.

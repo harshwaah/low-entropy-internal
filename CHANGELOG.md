@@ -1,3 +1,11 @@
+## [0.9.1] - Living Room Recreation
+### Added
+- **Living Room Recreation**: Replaced the previous `FindTheObjectGame` with a highly accurate recreation of the new Living Room design.
+- **Sequential Flow**: Implemented a 4-step sequence (Welcome, Find Objects, Memory Challenge, Completion).
+- **Accessibility Considerations**: Added large touch targets, gentle TTS narration (Web Speech API) with playback controls, and calm, non-distracting CSS animations.
+- **Audio & Visual Cues**: Added gentle chime sounds for correct taps, and a soft tone for incorrect taps. Taps spawn warm, non-disruptive ripples.
+
+
 # Changelog
 
 All notable changes to the **SmritiSaathi** project will be documented in this file.

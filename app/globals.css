@@ -25,6 +25,51 @@
   }
 }
 
+@layer components {
+  /* Tactile elderly-friendly tap targets */
+  .touch-target {
+    position: absolute;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    transition: transform 0.2s ease;
+  }
+  
+  .touch-target:active {
+    transform: scale(0.98);
+  }
+
+  .tap-ripple {
+    animation: softFeedback 0.85s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+  }
+
+  /* Target discovery indicators */
+  .found-highlight {
+    border: 3px solid #7bc991 !important;
+    background: radial-gradient(circle, rgba(254, 243, 199, 0.4) 0%, rgba(148, 221, 174, 0.35) 50%, rgba(255, 255, 255, 0) 75%) !important;
+    box-shadow: 0 0 25px rgba(123, 201, 145, 0.6), 0 0 10px rgba(251, 191, 36, 0.3) !important;
+    animation: jarHalo 1.4s ease-in-out infinite;
+  }
+
+  .found-clock-highlight {
+    border: 3px solid #7bc991 !important;
+    background: radial-gradient(circle, rgba(254, 243, 199, 0.45) 0%, rgba(148, 221, 174, 0.3) 60%, rgba(255, 255, 255, 0) 80%) !important;
+    box-shadow: 0 0 24px rgba(123, 201, 145, 0.55), 0 0 10px rgba(251, 191, 36, 0.25) !important;
+  }
+
+  .found-cushion-highlight {
+    border: 3px solid #7bc991 !important;
+    background: radial-gradient(circle, rgba(254, 243, 199, 0.45) 0%, rgba(148, 221, 174, 0.32) 60%, rgba(255, 255, 255, 0) 85%) !important;
+    box-shadow: 0 0 26px rgba(123, 201, 145, 0.55), 0 0 12px rgba(251, 191, 36, 0.25) !important;
+  }
+}
+
+
 /* Companion Gentle Motion Keyframes (Calm & Non-Distracting) */
 @keyframes mascot-float-breathing {
   0%, 100% {
@@ -76,6 +121,69 @@
     transform: scale(1.15);
     opacity: 1;
   }
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-8px) scale(1.015); }
+}
+
+@keyframes softPulseGlow {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.08); }
+}
+
+@keyframes speakingPulse {
+  0%, 100% { transform: translateY(-4px) scale(1.02); }
+  50% { transform: translateY(-10px) scale(1.06); }
+}
+
+@keyframes audioWavePulse {
+  0%, 100% { height: 6px; }
+  50% { height: 15px; }
+}
+
+@keyframes happyBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-8px) scale(1.08); }
+  60% { transform: translateY(-2px) scale(1.04); }
+}
+
+@keyframes jarHalo {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+@keyframes clockSubtle {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.08); }
+  60% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+@keyframes cushionPulse {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.05); }
+  70% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes softFeedback {
+  0% { transform: scale(0.6); opacity: 0.85; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+@theme {
+  --animate-gentleFloat: gentleFloat 4.8s ease-in-out infinite;
+  --animate-softPulseGlow: softPulseGlow 6s ease-in-out infinite;
+  --animate-speakingPulse: speakingPulse 1.8s ease-in-out infinite;
+  --animate-audioWavePulse: audioWavePulse 1.2s ease-in-out infinite;
+  --animate-bounce-gentle: happyBounce 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --animate-jar-glow: jarHalo 1.2s ease-in-out infinite;
+  --animate-clock-pop: clockSubtle 0.9s ease-out;
+  --animate-cushion-pop: cushionPulse 1.1s ease-out;
+  --animate-softFeedback: softFeedback 0.85s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+  --animate-float: gentleFloat 4s ease-in-out infinite;
 }
 
 .animate-mascot-idle {

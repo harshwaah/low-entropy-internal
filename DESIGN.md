@@ -318,3 +318,9 @@ The Onboarding System introduces new users to SmritiSaathi with immediate warmth
 
 
 
+
+## 17. The Living Room Memory Walk (Phase 9.1 / v0.9.1)
+The Living Room activity exemplifies the therapeutic "Memory Walk" approach.
+- **Narrative Over Testing**: The activity frames visual scanning as a peaceful "stroll" rather than a test. The mascot guides the user gently through the room.
+- **In-Scene Memory Challenge**: Unlike generic modal popups, the memory challenge occurs contextually within the scene itself using invisible spatial hitboxes, anchoring recall to physical space.
+- **Accessible TTS Support**: Every prompt features oversized (48x48px minimum) audio replay buttons utilizing the Web Speech API with deliberately slowed rates (`0.85x`) for optimal comprehension.
