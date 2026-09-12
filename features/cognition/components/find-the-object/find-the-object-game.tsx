@@ -3,9 +3,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { ChevronRight, Volume2, Heart, ChevronLeft, CheckCircle } from 'lucide-react';
+import { ChevronRight, Volume2, Heart, ChevronLeft, CheckCircle, RotateCcw, Home } from 'lucide-react';
 
-type Step = 'welcome' | 'find_jar' | 'find_clock' | 'find_cushion' | 'memory_jar' | 'memory_clock' | 'memory_cushion' | 'completed';
+type Step = 
+  | 'welcome' 
+  | 'find_jar' 
+  | 'find_clock' 
+  | 'find_cushion' 
+  | 'intro_memory'
+  | 'memory_jar' 
+  | 'memory_clock' 
+  | 'memory_cushion' 
+  | 'completed';
 
 export function FindTheObjectGame() {
   const router = useRouter();
@@ -17,10 +26,12 @@ export function FindTheObjectGame() {
   const rippleIdRef = useRef(0);
   const resetPromptTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Phase 1 Found objects
   const [isJarFound, setIsJarFound] = useState(false);
   const [isClockFound, setIsClockFound] = useState(false);
   const [isCushionFound, setIsCushionFound] = useState(false);
 
+  // Phase 2 Memory Revealed objects
   const [isJarMemoryRevealed, setIsJarMemoryRevealed] = useState(false);
   const [isClockMemoryRevealed, setIsClockMemoryRevealed] = useState(false);
   const [isCushionMemoryRevealed, setIsCushionMemoryRevealed] = useState(false);
@@ -36,7 +47,7 @@ export function FindTheObjectGame() {
   const [haloAnim, setHaloAnim] = useState('absolute inset-0 rounded-full bg-[#e0f7e6]/60 blur-md transform scale-110 transition-all duration-500');
   const [heartOpacity, setHeartOpacity] = useState(0);
 
-  // Used for target animations
+  // Target animations
   const [animateCushionPop, setAnimateCushionPop] = useState(false);
   const [animateClockPop, setAnimateClockPop] = useState(false);
   
@@ -208,10 +219,10 @@ export function FindTheObjectGame() {
           setSpeechMain('“Can you find the blue jar?”');
           setSpeechSub('Take your time. Look around.');
         } else if (step === 'find_clock' && !isClockFound) {
-          setSpeechMain('“Can you find something that tells us the time?”');
+          setSpeechMain('“Can you find the object that shows the time?”');
           setSpeechSub('Take your time. Look around.');
         } else if (step === 'find_cushion' && !isCushionFound) {
-          setSpeechMain('“Can you find the cushion on the sofa?”');
+          setSpeechMain('“Can you find the cushion resting on the sofa?”');
           setSpeechSub('Take your time. Look around.');
         }
       }, 3500);
@@ -223,13 +234,13 @@ export function FindTheObjectGame() {
       if (resetPromptTimeoutRef.current) clearTimeout(resetPromptTimeoutRef.current);
       resetPromptTimeoutRef.current = setTimeout(() => {
         if (step === 'memory_jar') {
-          setSpeechMain("“Do you remember where we saw the blue jar?”");
+          setSpeechMain("“Can you remember where the blue jar was kept?”");
           setSpeechSub("Take your time. Look around.");
         } else if (step === 'memory_clock') {
-          setSpeechMain("“Where did we see the clock?”");
+          setSpeechMain("“Can you remember where the clock was?”");
           setSpeechSub("Take your time. Look around.");
         } else if (step === 'memory_cushion') {
-          setSpeechMain("“Where was the cushion?”");
+          setSpeechMain("“Can you remember where the cushion was resting?”");
           setSpeechSub("Take your time. Look around.");
         }
       }, 3000);
@@ -243,6 +254,7 @@ export function FindTheObjectGame() {
     if (isTransitioning) return;
     if (resetPromptTimeoutRef.current) clearTimeout(resetPromptTimeoutRef.current);
     
+    // STEP 2: Find the Blue Jar
     if (target === 'blue_jar' && step === 'find_jar') {
       if (isJarFound) return;
       setIsJarFound(true);
@@ -253,11 +265,16 @@ export function FindTheObjectGame() {
       setSpeechSub('It is sitting on the table.');
       
       speakSequentialMessages(["Wonderful! You found the blue jar.", "It is sitting on the table."], () => {
+        setContinueText('Continue Stroll');
         setShowContinue(true);
       });
-      setTimeout(() => setShowContinue(true), 4200);
+      setTimeout(() => {
+        setContinueText('Continue Stroll');
+        setShowContinue(true);
+      }, 3800);
     }
     
+    // STEP 3: Find the Clock
     else if (target === 'clock' && step === 'find_clock') {
       if (isClockFound) return;
       setIsClockFound(true);
@@ -267,15 +284,20 @@ export function FindTheObjectGame() {
       setTimeout(() => setAnimateClockPop(false), 1000);
       
       triggerCelebration();
-      setSpeechMain("“That’s right! You found the clock.”");
+      setSpeechMain("“Wonderful! You found the clock.”");
       setSpeechSub("We use it to tell the time.");
       
-      speakSequentialMessages(["That's right! You found the clock.", "We use it to tell the time."], () => {
+      speakSequentialMessages(["Wonderful! You found the clock.", "We use it to tell the time."], () => {
+        setContinueText('Continue Stroll');
         setShowContinue(true);
       });
-      setTimeout(() => setShowContinue(true), 4200);
+      setTimeout(() => {
+        setContinueText('Continue Stroll');
+        setShowContinue(true);
+      }, 3800);
     }
     
+    // STEP 4: Find the Cushion
     else if (target === 'cushion' && step === 'find_cushion') {
       if (isCushionFound) return;
       setIsCushionFound(true);
@@ -285,49 +307,69 @@ export function FindTheObjectGame() {
       setTimeout(() => setAnimateCushionPop(false), 1100);
       
       triggerCelebration();
-      setSpeechMain("“Yes! You found the cushion.”");
+      setSpeechMain("“Wonderful! You found the cushion.”");
       setSpeechSub("It’s resting on the sofa.");
       
-      speakSequentialMessages(["Yes! You found the cushion.", "It's resting on the sofa."], () => {
+      speakSequentialMessages(["Wonderful! You found the cushion.", "It's resting on the sofa."], () => {
+        setContinueText('Continue Stroll');
         setShowContinue(true);
       });
-      setTimeout(() => setShowContinue(true), 4200);
+      setTimeout(() => {
+        setContinueText('Continue Stroll');
+        setShowContinue(true);
+      }, 3800);
     }
     
-    else if (target === 'table' && step === 'memory_jar') {
-      playGentleChime(true);
+    // STEP 6: Remember the Blue Jar
+    else if ((target === 'table' || target === 'blue_jar' || target === 'jar') && step === 'memory_jar') {
+      if (isJarMemoryRevealed) return;
       setIsJarMemoryRevealed(true);
+      playGentleChime(true);
       triggerCelebration();
       setSpeechMain("“Wonderful! You remembered.”");
       setSpeechSub("The blue jar was on the table.");
       speakSequentialMessages(["Wonderful! You remembered.", "The blue jar was on the table."], () => {
+        setContinueText('Continue Stroll');
         setShowContinue(true);
       });
-      setTimeout(() => setShowContinue(true), 3800);
+      setTimeout(() => {
+        setContinueText('Continue Stroll');
+        setShowContinue(true);
+      }, 3800);
     }
     
-    else if (target === 'wall' && step === 'memory_clock') {
-      playGentleChime(true);
+    // STEP 7: Remember the Clock
+    else if ((target === 'wall' || target === 'clock') && step === 'memory_clock') {
+      if (isClockMemoryRevealed) return;
       setIsClockMemoryRevealed(true);
+      playGentleChime(true);
       triggerCelebration();
       setSpeechMain("“Wonderful! You remembered where the clock was.”");
       setSpeechSub("High on the wall above the sofa.");
       speakSequentialMessages(["Wonderful! You remembered where the clock was."], () => {
+        setContinueText('Continue Stroll');
         setShowContinue(true);
       });
-      setTimeout(() => setShowContinue(true), 3500);
+      setTimeout(() => {
+        setContinueText('Continue Stroll');
+        setShowContinue(true);
+      }, 3500);
     }
     
-    else if (target === 'sofa' && step === 'memory_cushion') {
-      playGentleChime(true);
+    // STEP 8: Remember the Cushion
+    else if ((target === 'sofa' || target === 'cushion' || target === 'pillow') && step === 'memory_cushion') {
+      if (isCushionMemoryRevealed) return;
       setIsCushionMemoryRevealed(true);
+      playGentleChime(true);
       triggerCelebration();
       setSpeechMain("“Yes! The cushion was resting on the sofa.”");
       setSpeechSub("So cozy and soft.");
       speakSequentialMessages(["Yes! The cushion was resting on the sofa."], () => {
         finishAllMemoryQuestions();
       });
-      setTimeout(() => { if (step === 'memory_cushion') finishAllMemoryQuestions(); }, 3800);
+      setTimeout(() => { 
+        if (step === 'memory_cushion') finishAllMemoryQuestions(); 
+      }, 3800);
     }
     else {
       handleWrongTap();
@@ -346,15 +388,13 @@ export function FindTheObjectGame() {
     setSpeechSub("That was a lovely memory stroll in the living room.");
     
     speakSequentialMessages(["You remembered so many things!", "That was a lovely memory stroll in the living room."], () => {
-      setContinueText('Visit the Garden →');
       setShowContinue(true);
       setIsTransitioning(false);
     });
     setTimeout(() => {
-      setContinueText('Visit the Garden →');
       setShowContinue(true);
       setIsTransitioning(false);
-    }, 4200);
+    }, 3800);
   };
 
   const handleStart = () => {
@@ -368,6 +408,14 @@ export function FindTheObjectGame() {
     setIsJarMemoryRevealed(false);
     setIsClockMemoryRevealed(false);
     setIsCushionMemoryRevealed(false);
+    setShowBadge(false);
+    setShowContinue(false);
+    setIsTransitioning(false);
+    setCompanionAnim('animate-float');
+    setCompanionEmotion('Friendly companion');
+    setHaloAnim('absolute inset-0 rounded-full bg-[#e0f7e6]/60 blur-md transform scale-110 transition-all duration-500');
+    setHeartOpacity(0);
+
     setStep('find_jar');
     setSpeechMain('“Can you find the blue jar?”');
     setSpeechSub('Take your time. Look around.');
@@ -386,6 +434,7 @@ export function FindTheObjectGame() {
     setCompanionEmotion('Attentive & warm');
     setHaloAnim('absolute inset-0 rounded-full bg-[#e0f7e6]/80 blur-md transform scale-110 transition-all duration-500');
 
+    // 1. From finding Jar -> Find Clock
     if (step === 'find_jar') {
       setSpeechMain('“The blue jar was sitting on the table.”');
       setSpeechSub('You have a good eye!');
@@ -399,13 +448,14 @@ export function FindTheObjectGame() {
         setTimeout(() => {
           setStep('find_clock');
           setIsTransitioning(false);
-          setSpeechMain('“Can you find something that tells us the time?”');
+          setSpeechMain('“Can you find the object that shows the time?”');
           setSpeechSub('Take your time. Look around.');
-          speakMessage("Can you find something that tells us the time? Take your time. Look around.");
-        }, 2600);
-      }, 3800);
+          speakMessage("Can you find the object that shows the time? Take your time. Look around.");
+        }, 2200);
+      }, 3200);
     }
     
+    // 2. From finding Clock -> Find Cushion
     else if (step === 'find_clock') {
       setSpeechMain("“You’re doing wonderfully.”");
       setSpeechSub("Let’s look around one more time.");
@@ -414,16 +464,21 @@ export function FindTheObjectGame() {
       setTimeout(() => {
         setStep('find_cushion');
         setIsTransitioning(false);
-        setSpeechMain('“Can you find the cushion on the sofa?”');
+        setSpeechMain('“Can you find the cushion resting on the sofa?”');
         setSpeechSub('Take your time. Look around.');
-        speakMessage("Can you find the cushion on the sofa? Take your time. Look around.");
-      }, 3400);
+        speakMessage("Can you find the cushion resting on the sofa? Take your time. Look around.");
+      }, 2600);
     }
     
+    // 3. From finding Cushion -> Intro to Memory Game
     else if (step === 'find_cushion') {
+      setStep('intro_memory');
       setSpeechMain('“That was a lovely memory stroll in the living room.”');
-      setSpeechSub('Resting together in peaceful comfort.');
-      speakSequentialMessages(["That was a lovely memory stroll in the living room.", "Whenever you're ready, let's play a gentle memory game."], () => {
+      setSpeechSub('Now, let’s see what you remember!');
+      speakSequentialMessages([
+        "That was a lovely memory stroll in the living room.", 
+        "Now the objects have disappeared. Whenever you're ready, let's play a gentle memory game!"
+      ], () => {
         setContinueText('Play Memory Game');
         setShowContinue(true);
         setIsTransitioning(false);
@@ -432,33 +487,37 @@ export function FindTheObjectGame() {
         setContinueText('Play Memory Game');
         setShowContinue(true);
         setIsTransitioning(false);
-      }, 4500);
+      }, 4200);
     }
     
-    else if (continueText === 'Play Memory Game') {
+    // 4. From Intro Memory -> Memory Jar Question
+    else if (step === 'intro_memory') {
       setStep('memory_jar');
       setIsTransitioning(false);
-      setSpeechMain("“Do you remember where we saw the blue jar?”");
+      setSpeechMain("“Can you remember where the blue jar was kept?”");
       setSpeechSub("Take your time. Look around.");
-      speakMessage("Do you remember where we saw the blue jar? Take your time. Look around.");
+      speakMessage("Can you remember where the blue jar was kept? Take your time. Look around.");
     }
     
+    // 5. From Memory Jar -> Memory Clock Question
     else if (step === 'memory_jar') {
       setStep('memory_clock');
       setIsTransitioning(false);
-      setSpeechMain("“Where did we see the clock?”");
+      setSpeechMain("“Can you remember where the clock was?”");
       setSpeechSub("Take your time. Look around.");
-      speakMessage("Where did we see the clock? Take your time. Look around.");
+      speakMessage("Can you remember where the clock was? Take your time. Look around.");
     }
     
+    // 6. From Memory Clock -> Memory Cushion Question
     else if (step === 'memory_clock') {
       setStep('memory_cushion');
       setIsTransitioning(false);
-      setSpeechMain("“Where was the cushion?”");
+      setSpeechMain("“Can you remember where the cushion was resting?”");
       setSpeechSub("Take your time. Look around.");
-      speakMessage("Where was the cushion? Take your time. Look around.");
+      speakMessage("Can you remember where the cushion was resting? Take your time. Look around.");
     }
     
+    // 7. Completed fallback
     else if (step === 'completed') {
       setSpeechMain("“Off we go to the sunny garden!”");
       setSpeechSub("Stepping outside into the fresh breeze...");
@@ -469,8 +528,9 @@ export function FindTheObjectGame() {
     }
   };
 
-  const isMemoryMode = step.startsWith('memory_') || step === 'completed';
+  const isMemoryMode = step === 'intro_memory' || step.startsWith('memory_') || step === 'completed';
 
+  // 1. WELCOME SCREEN
   if (step === 'welcome') {
     return (
       <div className="bg-[#FAF7F2] text-[#25342B] antialiased flex justify-center items-center min-h-screen selection:bg-[#D8EAD9]">
@@ -563,6 +623,7 @@ export function FindTheObjectGame() {
     );
   }
 
+  // 2. MAIN GAME SCREEN
   return (
     <div className="min-h-[100dvh] text-[#2d3b32] flex justify-center bg-[#fdfcf7] antialiased">
       <style>{`
@@ -611,16 +672,18 @@ export function FindTheObjectGame() {
           </button>
           <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#f1fcf4]/90 border border-[#e0f7e6] text-[#385342] text-xs font-semibold">
             <span className="w-2 h-2 rounded-full bg-[#5fc286] animate-pulse" />
-            <span>The Living Room</span>
+            <span>{isMemoryMode ? 'Memory Challenge' : 'The Living Room'}</span>
           </div>
         </header>
 
+        {/* Room Artwork & Hitboxes Stage */}
         <section 
-          className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-card border-2 border-[#e0f7e6]/80 bg-[#f9f6ed] flex-shrink-0 select-none cursor-pointer"
+          className="relative w-full rounded-3xl overflow-hidden shadow-card border-2 border-[#e0f7e6]/80 bg-[#f9f6ed] flex-shrink-0 select-none cursor-pointer"
           onClick={handleBackgroundTap}
         >
+          {/* Base Background Image (With objects in Discovery mode, clean empty room in Memory mode) */}
           <img 
-            className="w-full h-full object-cover pointer-events-none transition-transform duration-700" 
+            className="w-full h-auto block pointer-events-none transition-transform duration-700" 
             src={isMemoryMode 
               ? "https://lh3.googleusercontent.com/aida-public/AB6AXuB0ZlKdjqzfCvJGqd6F0dE-iwqWHoMSOB4zgzYEBEtbBrHb0B7nt2iWIyTox8Lynh2kyB0Ri5fBcPhygSMwB-uKwkqP2GKQIc1g9Z5Hwh8al5GG2D3Q5aLQ4_rIEZkDl6P6fkE6tzsP7tk9xugHK7VTXSapveN0LpdPphHlcLTeTf2u4Pkq5SFiIGD1MJiTOt4uKMgBzDHrphhAkK9ctW6H7NhX20pxRTxD2qAjSgpW-MzkCXaT9yKqIw"
               : "https://lh3.googleusercontent.com/aida/AEtjO1XNXNv9TbaxpKe5qQGCgkuIS-4fwPa-rgKmPMOiI_V-jXqSkEMK5kNq7D757X6FehZfh5BtxK5ztXNaT1905-EhYSaGI3GeR2tTRtyoeu-NIbjdUTh0nEcJI7hbyjzmov4ZzoOiIKIrj5D6vnj-Q1riaZNwtkVfiLMZW0hp6zt1jJR8BokSSS4cLJKQVrYsgZ-cjNyIhlYUUt2vAOfA7yeskqNE6nIQ9ZbpzQfIImX69twvzmKTfyTk7Yuj"
@@ -628,40 +691,44 @@ export function FindTheObjectGame() {
             alt="Living Room Scene" 
           />
 
-          {/* Overlays for revealed memory items */}
+          {/* Phase 2: Memory Mode Revealed Overlays (Items reappear when tapped correctly) */}
           {isMemoryMode && isJarMemoryRevealed && (
-            <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 pointer-events-none z-20">
               <img 
                 src="https://lh3.googleusercontent.com/aida/AEtjO1XNXNv9TbaxpKe5qQGCgkuIS-4fwPa-rgKmPMOiI_V-jXqSkEMK5kNq7D757X6FehZfh5BtxK5ztXNaT1905-EhYSaGI3GeR2tTRtyoeu-NIbjdUTh0nEcJI7hbyjzmov4ZzoOiIKIrj5D6vnj-Q1riaZNwtkVfiLMZW0hp6zt1jJR8BokSSS4cLJKQVrYsgZ-cjNyIhlYUUt2vAOfA7yeskqNE6nIQ9ZbpzQfIImX69twvzmKTfyTk7Yuj"
-                className="w-full h-full object-cover pointer-events-none"
+                className="w-full h-full object-fill pointer-events-none"
                 style={{ clipPath: 'inset(52% 41% 26% 45%)' }}
+                alt="Blue Jar Revealed"
               />
             </div>
           )}
           {isMemoryMode && isCushionMemoryRevealed && (
-            <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 pointer-events-none z-20">
               <img 
                 src="https://lh3.googleusercontent.com/aida/AEtjO1XNXNv9TbaxpKe5qQGCgkuIS-4fwPa-rgKmPMOiI_V-jXqSkEMK5kNq7D757X6FehZfh5BtxK5ztXNaT1905-EhYSaGI3GeR2tTRtyoeu-NIbjdUTh0nEcJI7hbyjzmov4ZzoOiIKIrj5D6vnj-Q1riaZNwtkVfiLMZW0hp6zt1jJR8BokSSS4cLJKQVrYsgZ-cjNyIhlYUUt2vAOfA7yeskqNE6nIQ9ZbpzQfIImX69twvzmKTfyTk7Yuj"
-                className="w-full h-full object-cover pointer-events-none"
+                className="w-full h-full object-fill pointer-events-none"
                 style={{ clipPath: 'inset(41% 61% 38% 21%)' }}
+                alt="Cushion Revealed"
               />
             </div>
           )}
           {isMemoryMode && isClockMemoryRevealed && (
-            <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 pointer-events-none z-20">
               <img 
                 src="https://lh3.googleusercontent.com/aida/AEtjO1XNXNv9TbaxpKe5qQGCgkuIS-4fwPa-rgKmPMOiI_V-jXqSkEMK5kNq7D757X6FehZfh5BtxK5ztXNaT1905-EhYSaGI3GeR2tTRtyoeu-NIbjdUTh0nEcJI7hbyjzmov4ZzoOiIKIrj5D6vnj-Q1riaZNwtkVfiLMZW0hp6zt1jJR8BokSSS4cLJKQVrYsgZ-cjNyIhlYUUt2vAOfA7yeskqNE6nIQ9ZbpzQfIImX69twvzmKTfyTk7Yuj"
-                className="w-full h-full object-cover pointer-events-none"
+                className="w-full h-full object-fill pointer-events-none"
                 style={{ clipPath: 'inset(6% 28% 75% 56%)' }}
+                alt="Clock Revealed"
               />
             </div>
           )}
+
           <div className="absolute inset-0 bg-gradient-to-t from-[#2d3b32]/10 via-transparent to-transparent pointer-events-none" />
           
-          {/* Hitboxes based on mode */}
+          {/* HITBOXES */}
           {!isMemoryMode ? (
             <>
-              {/* Misc targets (rendered first, lower stack) */}
+              {/* Misc ambient room targets */}
               <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-3xl z-10" style={{left:'0%', top:'38%', width:'45%', height:'47%'}} />
               <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-2xl z-10" style={{left:'56%', top:'37%', width:'27%', height:'39%'}} />
               <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-2xl z-10" style={{left:'28%', top:'62%', width:'45%', height:'33%'}} />
@@ -669,28 +736,57 @@ export function FindTheObjectGame() {
               <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-2xl z-10" style={{left:'83%', top:'29%', width:'17%', height:'46%'}} />
               <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-xl z-10" style={{left:'2%', top:'7%', width:'22%', height:'28%'}} />
 
-              {/* Find targets (rendered last, higher stack) */}
-              <button onClick={(e) => handleCorrectTap('blue_jar', e)} className={cn("touch-target rounded-full z-30", isJarFound && "found-highlight")} style={{left:'45%', top:'52%', width:'14%', height:'22%'}} />
-              <button onClick={(e) => handleCorrectTap('cushion', e)} className={cn("touch-target rounded-2xl z-30", isCushionFound && "found-cushion-highlight", animateCushionPop && "animate-cushion-pop")} style={{left:'21%', top:'41%', width:'18%', height:'21%'}} />
-              <button onClick={(e) => handleCorrectTap('clock', e)} className={cn("touch-target rounded-full z-30", isClockFound && "found-clock-highlight", animateClockPop && "animate-clock-pop")} style={{left:'56%', top:'6%', width:'16%', height:'19%'}} />
+              {/* Find target hitboxes (Step 2, 3, 4) */}
+              <button 
+                onClick={(e) => handleCorrectTap('blue_jar', e)} 
+                className={cn("touch-target rounded-full z-30", isJarFound && "found-highlight")} 
+                style={{left:'45%', top:'52%', width:'14%', height:'22%'}} 
+                aria-label="Blue Jar"
+              />
+              <button 
+                onClick={(e) => handleCorrectTap('cushion', e)} 
+                className={cn("touch-target rounded-2xl z-30", isCushionFound && "found-cushion-highlight", animateCushionPop && "animate-cushion-pop")} 
+                style={{left:'21%', top:'41%', width:'18%', height:'21%'}} 
+                aria-label="Cushion on sofa"
+              />
+              <button 
+                onClick={(e) => handleCorrectTap('clock', e)} 
+                className={cn("touch-target rounded-full z-30", isClockFound && "found-clock-highlight", animateClockPop && "animate-clock-pop")} 
+                style={{left:'56%', top:'6%', width:'16%', height:'19%'}} 
+                aria-label="Wall Clock"
+              />
             </>
           ) : (
             <>
-              {/* Misc targets (rendered first, lower stack) */}
-              <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-3xl z-10" style={{left:'0%', top:'40%', width:'28%', height:'45%'}} />
-              <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-2xl z-10" style={{left:'57%', top:'38%', width:'27%', height:'38%'}} />
+              {/* Misc ambient room targets */}
+              <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-xl z-10" style={{left:'2%', top:'7%', width:'23%', height:'25%'}} />
               <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-2xl z-10" style={{left:'35%', top:'16%', width:'15%', height:'36%'}} />
-              <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-xl z-10" style={{left:'2%', top:'7%', width:'23%', height:'28%'}} />
+              <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-2xl z-10" style={{left:'57%', top:'38%', width:'27%', height:'38%'}} />
               <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-2xl z-10" style={{left:'84%', top:'29%', width:'16%', height:'48%'}} />
-              <button onClick={(e) => {e.stopPropagation(); createRipple(e); handleWrongTap();}} className="touch-target rounded-2xl z-10" style={{left:'10%', top:'76%', width:'80%', height:'23%'}} />
 
-              {/* Memory targets (rendered last, higher stack) */}
-              <button onClick={(e) => handleCorrectTap('table', e)} className="touch-target rounded-3xl z-30" style={{left:'26%', top:'62%', width:'49%', height:'30%'}} />
-              <button onClick={(e) => handleCorrectTap('wall', e)} className="touch-target rounded-2xl z-30" style={{left:'54%', top:'10%', width:'14%', height:'18%'}} />
-              <button onClick={(e) => handleCorrectTap('sofa', e)} className="touch-target rounded-2xl z-30" style={{left:'28%', top:'38%', width:'20%', height:'27%'}} />
+              {/* Memory target locations (Step 6, 7, 8) */}
+              <button 
+                onClick={(e) => handleCorrectTap('table', e)} 
+                className="touch-target rounded-3xl z-30" 
+                style={{left:'24%', top:'58%', width:'52%', height:'36%'}} 
+                aria-label="Coffee Table location"
+              />
+              <button 
+                onClick={(e) => handleCorrectTap('wall', e)} 
+                className="touch-target rounded-2xl z-30" 
+                style={{left:'52%', top:'4%', width:'22%', height:'24%'}} 
+                aria-label="Wall Clock location"
+              />
+              <button 
+                onClick={(e) => handleCorrectTap('sofa', e)} 
+                className="touch-target rounded-2xl z-30" 
+                style={{left:'10%', top:'34%', width:'38%', height:'36%'}} 
+                aria-label="Sofa Cushion location"
+              />
             </>
           )}
           
+          {/* Visual Ripples */}
           <div className="absolute inset-0 pointer-events-none z-30">
             {ripples.map(r => (
               <div 
@@ -701,6 +797,7 @@ export function FindTheObjectGame() {
             ))}
           </div>
 
+          {/* Celebration Badge */}
           <div className={cn("absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500 z-40", showBadge ? "opacity-100" : "opacity-0")}>
             <div className="bg-white/95 backdrop-blur-md px-6 py-3 rounded-full border border-[#c2edd0] shadow-glow flex items-center gap-2.5">
               <span className="text-2xl">✨</span>
@@ -709,6 +806,7 @@ export function FindTheObjectGame() {
           </div>
         </section>
 
+        {/* Companion Dialogue & Bottom Controls */}
         <section className="w-full flex flex-col items-center my-4 z-20 flex-grow justify-end relative">
           <div className="relative w-full max-w-lg bg-white rounded-3xl p-4 sm:p-5 shadow-card border border-[#e0f7e6] flex items-center justify-between gap-3 transition-all duration-300">
             <div className="absolute -bottom-2.5 left-16 transform -translate-x-1/2 w-5 h-5 bg-white border-r border-b border-[#e0f7e6] rotate-45" />
@@ -719,6 +817,7 @@ export function FindTheObjectGame() {
             <button 
               onClick={replaySpokenVoice}
               className={cn("w-12 h-12 rounded-full bg-[#f1fcf4] hover:bg-[#e0f7e6] text-[#385342] border border-[#c2edd0]/80 flex items-center justify-center shadow-gentle transition-all flex-shrink-0 cursor-pointer", replayScale && "scale-90")}
+              title="Replay Voice"
             >
               <Volume2 className="w-6 h-6" />
             </button>
@@ -752,14 +851,16 @@ export function FindTheObjectGame() {
               </div>
             </div>
 
-            <div className="flex-shrink-0 ml-auto sm:ml-0 flex gap-3.5">
+            {/* Bottom Interactive Action Buttons */}
+            <div className="flex-shrink-0 ml-auto sm:ml-0 flex items-center gap-3">
               {step === 'completed' ? (
                 <>
                   <button 
                     onClick={handleStart}
-                    className="transition-all duration-500 ease-out inline-flex items-center justify-center gap-2.5 min-h-[52px] px-6 py-3 rounded-full bg-white hover:bg-[#fdfcf7] text-[#587c63] font-bold text-base shadow-button border-2 border-[#587c63] focus:outline-none focus:ring-4 focus:ring-[#587c63]/30 cursor-pointer active:scale-95"
+                    className="transition-all duration-300 inline-flex items-center justify-center gap-2 min-h-[52px] px-5 sm:px-6 py-3 rounded-full bg-white hover:bg-[#f1fcf4] text-[#587c63] font-bold text-sm sm:text-base shadow-button border-2 border-[#587c63] focus:outline-none focus:ring-4 focus:ring-[#587c63]/30 cursor-pointer active:scale-95"
                   >
-                    <span className="tracking-wide">Play Again</span>
+                    <RotateCcw className="w-4 h-4" />
+                    <span>Play Again</span>
                   </button>
                   <button 
                     onClick={() => {
@@ -768,12 +869,12 @@ export function FindTheObjectGame() {
                       speakMessage("Off we go to the sunny garden! Enjoy the flowers.");
                       setTimeout(() => {
                         router.push('/patient/activities');
-                      }, 2000);
+                      }, 1800);
                     }}
-                    className="transition-all duration-500 ease-out inline-flex items-center justify-center gap-2.5 min-h-[52px] px-6 py-3 rounded-full bg-[#587c63] hover:bg-[#466952] text-white font-bold text-base shadow-button border-2 border-[#587c63]/20 focus:outline-none focus:ring-4 focus:ring-[#587c63]/30 cursor-pointer active:scale-95"
+                    className="transition-all duration-300 inline-flex items-center justify-center gap-2 min-h-[52px] px-5 sm:px-6 py-3 rounded-full bg-[#587c63] hover:bg-[#466952] text-white font-bold text-sm sm:text-base shadow-button border-2 border-[#587c63]/20 focus:outline-none focus:ring-4 focus:ring-[#587c63]/30 cursor-pointer active:scale-95"
                   >
-                    <span className="tracking-wide">Go to Home</span>
-                    <ChevronRight className="w-5 h-5 text-white" strokeWidth={2.5} />
+                    <Home className="w-4 h-4" />
+                    <span>Go to Home</span>
                   </button>
                 </>
               ) : (
