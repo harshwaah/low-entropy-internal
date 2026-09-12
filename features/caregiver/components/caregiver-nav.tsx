@@ -154,10 +154,10 @@ export function CaregiverNav({ unresolvedAlertCount = 2 }: CaregiverNavProps) {
               className="flex items-center gap-2.5 border-l border-slate-200 pl-3 hover:opacity-80 transition-opacity"
             >
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-light border border-brand-primary/30 font-bold text-xs text-brand-dark shadow-xs">
-                PS
+                HS
               </div>
               <div className="hidden sm:block text-left">
-                <p className="text-xs font-bold text-brand-dark leading-tight">Priya Sharma</p>
+                <p className="text-xs font-bold text-brand-dark leading-tight">Heena Sharma</p>
                 <p className="text-[11px] text-brand-muted">Primary Daughter & Caregiver</p>
               </div>
             </Link>

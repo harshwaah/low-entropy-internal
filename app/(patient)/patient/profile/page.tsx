@@ -74,14 +74,18 @@ export default function PatientProfilePage() {
         
         <div className="bg-white p-6 rounded-3xl border border-brand-border/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-5">
           <div className="text-center sm:text-left">
-            <h4 className="text-2xl font-black text-brand-dark">Rohan Sharma</h4>
-            <p className="text-brand-muted font-medium text-base mt-0.5">{t('profile.alwaysAvailable')} • +91 98922 56502</p>
+            <h4 className="text-2xl font-black text-brand-dark">
+              Heena
+            </h4>
+            <p className="text-brand-muted font-medium text-base mt-0.5">
+              {t('profile.alwaysAvailable')} • {selectedPatient?.primaryCaregiverPhone || '+91 98922 56502'}
+            </p>
           </div>
           
-          <a href="tel:+919892256502" className="w-full sm:w-auto inline-block">
+          <a href={`tel:${(selectedPatient?.primaryCaregiverPhone || '+91 98922 56502').replace(/[^0-9+]/g, '')}`} className="w-full sm:w-auto inline-block">
             <Button size="lg" className="w-full sm:w-auto h-16 px-8 rounded-full bg-[#2C5545] hover:bg-[#1E3B30] text-white text-lg font-bold shadow-sm flex items-center justify-center gap-3 cursor-pointer">
               <Phone className="w-5 h-5" /> 
-              <span>Call Rohan (9892256502)</span>
+              <span>Call Heena ({selectedPatient?.primaryCaregiverPhone || '9892256502'})</span>
             </Button>
           </a>
         </div>

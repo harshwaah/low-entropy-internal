@@ -69,7 +69,7 @@ export default function CaregiverDashboardPage() {
     requiresCaregiverValidation: false,
     status: r.status,
     completedAt: r.completedAt,
-    assignedTo: r.assignedTo || 'Priya Sharma',
+    assignedTo: r.assignedTo || 'Heena Sharma',
     iconName: r.iconName,
     medicationDosageNote: r.medicationDosageNote || r.dosage,
   }));
@@ -118,7 +118,7 @@ export default function CaregiverDashboardPage() {
   const handleToggleReminder = (id: string) => {
     const rem = reminders.find((r) => r.id === id);
     const newStatus = rem?.status === 'completed' ? 'upcoming' : 'completed';
-    toggleReminderStatus(id, newStatus, 'Priya Sharma (Caregiver Portal)');
+    toggleReminderStatus(id, newStatus, 'Heena Sharma (Caregiver Portal)');
     showToast('Reminder status updated successfully');
   };
 
@@ -291,7 +291,7 @@ export default function CaregiverDashboardPage() {
             <div className="mt-4 space-y-3">
               <div className="flex items-center justify-between rounded-xl bg-brand-light-alt/80 p-3 text-xs">
                 <div>
-                  <p className="font-bold text-brand-dark">Priya Sharma</p>
+                  <p className="font-bold text-brand-dark">Heena Sharma</p>
                   <p className="text-[11px] text-brand-muted">Primary Daughter • In-home</p>
                 </div>
                 <div className="flex items-center gap-2">

@@ -125,7 +125,7 @@ export default function CaregiverSettingsPage() {
           <div className="space-y-3 pt-2 text-sm">
             <div className="flex items-center justify-between py-2 border-b border-slate-100">
               <span className="text-slate-500 font-medium">Name:</span>
-              <span className="font-bold text-brand-dark">Priya Sharma</span>
+              <span className="font-bold text-brand-dark">Heena Sharma</span>
             </div>
             <div className="flex items-center justify-between py-2 border-b border-slate-100">
               <span className="text-slate-500 font-medium">Role:</span>

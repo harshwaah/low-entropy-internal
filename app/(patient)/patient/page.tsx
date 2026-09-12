@@ -42,7 +42,7 @@ const JOURNEY_STEPS: { id: JourneyStep; label: string; icon: string; shortTitle:
 ];
 
 export default function PatientHomePage() {
-  const { selectedPatient, reminders, markReminderCompleted, memories } = useSharedData();
+  const { selectedPatient, reminders, markReminderCompleted, toggleReminderStatus, memories } = useSharedData();
   const { isCompleted, isLoading, data } = useOnboarding('patient');
   const onboardingData = data as PatientOnboardingData | null;
   const { t } = usePatientTranslation();
@@ -79,9 +79,12 @@ export default function PatientHomePage() {
     return <PatientOnboarding initialName={patientFirstName} />;
   }
 
-  const handleTakeMedication = () => {
-    if (activeReminder) {
-      markReminderCompleted(activeReminder.id, `${selectedPatient?.name || 'Patient'} (Patient App)`);
+  const handleToggleMedication = () => {
+    if (!activeReminder) return;
+    if (reminderTaken) {
+      toggleReminderStatus(activeReminder.id, 'pending');
+    } else {
+      markReminderCompleted(activeReminder.id, `${selectedPatient?.name || patientFirstName} (Patient App)`);
     }
   };
 
@@ -339,12 +342,20 @@ export default function PatientHomePage() {
           <Card className="bg-[#F0F7FF] border-2 border-blue-200 shadow-sm rounded-3xl overflow-hidden">
             <CardContent className="p-6 sm:p-8 space-y-6">
               <div className="flex items-center justify-between">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100 text-blue-900 text-xs font-bold">
+                <button
+                  type="button"
+                  onClick={handleToggleMedication}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-900 text-xs font-bold transition-all cursor-pointer shadow-xs active:scale-95"
+                  title="Click to toggle health routine status"
+                >
                   <Pill className="w-3.5 h-3.5 text-blue-700" />
                   <span>Gentle Daily Health</span>
-                </div>
+                  <span className="ml-1 text-[10px] px-1.5 py-0.2 bg-white/80 text-blue-800 rounded-full font-extrabold">
+                    {reminderTaken ? '✓ Taken' : 'Tap to toggle'}
+                  </span>
+                </button>
                 <span className="text-sm font-bold text-blue-800">
-                  {activeReminder?.time || '9:30 AM'}
+                  {activeReminder?.timeFormatted || activeReminder?.time || '9:30 AM'}
                 </span>
               </div>
 
@@ -357,21 +368,27 @@ export default function PatientHomePage() {
                     {activeReminder?.title || 'Morning Health Routine'}
                   </h2>
                   <p className="text-base sm:text-lg text-blue-800 font-medium mt-1 leading-relaxed">
-                    {activeReminder?.description || 'Take with a glass of warm water after breakfast.'}
+                    {activeReminder?.description || activeReminder?.instructions || 'Take with a glass of warm water after breakfast.'}
                   </p>
                 </div>
               </div>
 
-              {/* Action Button: I Have Taken It */}
+              {/* Action Button: Toggleable between I Have Taken It and Taken with love */}
               {reminderTaken ? (
-                <div className="w-full bg-emerald-50 border-2 border-emerald-300 text-emerald-900 text-lg h-16 rounded-2xl flex items-center justify-center font-bold gap-3 shadow-inner">
-                  <CheckCircle2 className="w-7 h-7 text-emerald-600" />
+                <button
+                  type="button"
+                  onClick={handleToggleMedication}
+                  className="w-full bg-emerald-50 hover:bg-emerald-100/90 border-2 border-emerald-300 text-emerald-900 text-lg h-16 rounded-2xl flex items-center justify-center font-bold gap-3 shadow-inner cursor-pointer hover:scale-[1.005] active:scale-[0.99] transition-all group"
+                  title="Click to toggle back to pending"
+                >
+                  <CheckCircle2 className="w-7 h-7 text-emerald-600 group-hover:scale-110 transition-transform" />
                   <span>Taken with love for {patientFirstName} ❤️</span>
-                </div>
+                  <span className="text-xs font-medium text-emerald-700 opacity-75 ml-1 hidden sm:inline">(tap to undo)</span>
+                </button>
               ) : (
                 <Button
                   size="lg"
-                  onClick={handleTakeMedication}
+                  onClick={handleToggleMedication}
                   className="w-full h-16 bg-blue-600 hover:bg-blue-700 text-white text-xl rounded-2xl shadow-sm font-bold cursor-pointer hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-3"
                 >
                   <CheckCircle2 className="w-7 h-7" />

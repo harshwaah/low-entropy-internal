@@ -35,7 +35,7 @@ export function AddReminderModal({ isOpen, onClose, onAddReminder }: AddReminder
       medicationDosageNote: category === 'medication' ? dosageNote.trim() : undefined,
       recurrence,
       requiresCaregiverValidation,
-      assignedTo: 'Priya Sharma',
+      assignedTo: 'Heena Sharma',
       iconName: category === 'medication' ? 'Pill' : 'Sun',
     });
 

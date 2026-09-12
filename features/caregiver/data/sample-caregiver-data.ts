@@ -51,7 +51,7 @@ export const INITIAL_CAREGIVER_REMINDERS: CaregiverReminder[] = [
     status: 'completed',
     completedAt: '8:12 AM',
     medicationDosageNote: '1 tablet with warm milk',
-    assignedTo: 'Priya Sharma',
+    assignedTo: 'Heena Sharma',
     iconName: 'Pill',
   },
   {
@@ -80,7 +80,7 @@ export const INITIAL_CAREGIVER_REMINDERS: CaregiverReminder[] = [
     status: 'completed',
     completedAt: '9:05 AM',
     medicationDosageNote: '5mg once daily',
-    assignedTo: 'Priya Sharma',
+    assignedTo: 'Heena Sharma',
     iconName: 'HeartPulse',
   },
   {
@@ -133,7 +133,7 @@ export const INITIAL_CAREGIVER_REMINDERS: CaregiverReminder[] = [
     requiresCaregiverValidation: true,
     status: 'upcoming',
     medicationDosageNote: '500mg tablet',
-    assignedTo: 'Priya Sharma',
+    assignedTo: 'Heena Sharma',
     iconName: 'Moon',
   },
 ];
@@ -276,7 +276,7 @@ export const INITIAL_CAREGIVER_ALERTS: CaregiverAlertItem[] = [
     severity: 'info',
     type: 'sos-beacon',
     title: 'Safety Beacon & Emergency Quick-Dial Verified',
-    message: 'Daily safety beacon check successfully confirmed. Direct 1-tap dial channels to Priya Sharma (+91 98922 56502) and Dr. Verma are armed and operational.',
+    message: 'Daily safety beacon check successfully confirmed. Direct 1-tap dial channels to Heena Sharma (+91 98922 56502) and Dr. Verma are armed and operational.',
     timestamp: 'Yesterday, 9:00 PM',
     acknowledged: true,
     contextNote: '0 distress or emergency triggers logged. All emergency contacts are synchronized.',
