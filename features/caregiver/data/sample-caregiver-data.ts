@@ -276,7 +276,7 @@ export const INITIAL_CAREGIVER_ALERTS: CaregiverAlertItem[] = [
     severity: 'info',
     type: 'sos-beacon',
     title: 'Safety Beacon & Emergency Quick-Dial Verified',
-    message: 'Daily safety beacon check successfully confirmed. Direct 1-tap dial channels to Priya Sharma (+91 98112 34567) and Dr. Verma are armed and operational.',
+    message: 'Daily safety beacon check successfully confirmed. Direct 1-tap dial channels to Priya Sharma (+91 98922 56502) and Dr. Verma are armed and operational.',
     timestamp: 'Yesterday, 9:00 PM',
     acknowledged: true,
     contextNote: '0 distress or emergency triggers logged. All emergency contacts are synchronized.',

@@ -75,6 +75,21 @@ class CognitiveServiceImpl implements ICognitiveService {
 
   private activities: CognitiveActivityMeta[] = [
     {
+      id: 'find-the-object',
+      categoryId: 'visual_recognition',
+      title: 'Find The Object',
+      subtitle: 'Spot comforting items in cozy rooms',
+      description: 'Take your time looking around the kitchen, veranda, and living room to find everyday favorites with gentle companion hints.',
+      href: '/patient/activities/find-the-object',
+      iconName: 'Eye',
+      estimatedMinutes: '5 minutes',
+      difficultyLabel: 'Relaxing & Scenic',
+      encouragementPrompt: 'Can you help me spot a few cozy items in this warm room?',
+      badgeLabel: 'Featured Game',
+      themeColor: '#2563EB',
+      isCompletedToday: false,
+    },
+    {
       id: 'quick-pick-trail',
       categoryId: 'visual_recognition',
       title: 'Quick Pick Trail',
@@ -85,7 +100,7 @@ class CognitiveServiceImpl implements ICognitiveService {
       estimatedMinutes: '4-6 minutes',
       difficultyLabel: 'Calm & Adaptive',
       encouragementPrompt: 'Let’s give your brain a little workout with your cute friend today!',
-      badgeLabel: 'New Game',
+      badgeLabel: 'Apple Trail',
       themeColor: '#2C5545',
       isCompletedToday: false,
     },
@@ -100,7 +115,7 @@ class CognitiveServiceImpl implements ICognitiveService {
       estimatedMinutes: '5-8 minutes',
       difficultyLabel: 'Warm & Autobiographical',
       encouragementPrompt: 'Let’s take a gentle walk through your cherished life memories today.',
-      badgeLabel: 'Featured',
+      badgeLabel: 'Life Memories',
       themeColor: '#2C5545',
       isCompletedToday: false,
     },
@@ -115,7 +130,7 @@ class CognitiveServiceImpl implements ICognitiveService {
       estimatedMinutes: '3-5 minutes',
       difficultyLabel: 'Calm & Easy',
       encouragementPrompt: 'Would you like to match some comforting pictures together today?',
-      badgeLabel: 'Most Loved',
+      badgeLabel: 'Floral Match',
       themeColor: '#4A8B71',
       isCompletedToday: false,
     },
@@ -130,23 +145,8 @@ class CognitiveServiceImpl implements ICognitiveService {
       estimatedMinutes: '4-6 minutes',
       difficultyLabel: 'Intuitive & Guided',
       encouragementPrompt: 'Let’s trace through a soothing daily routine together, step by step.',
-      badgeLabel: 'Reassuring',
+      badgeLabel: 'Daily Routine',
       themeColor: '#D97706',
-      isCompletedToday: false,
-    },
-    {
-      id: 'find-the-object',
-      categoryId: 'visual_recognition',
-      title: 'Find The Object',
-      subtitle: 'Spot comforting items in cozy rooms',
-      description: 'Take your time looking around the kitchen, veranda, and living room to find everyday favorites with gentle companion hints.',
-      href: '/patient/activities/find-the-object',
-      iconName: 'Eye',
-      estimatedMinutes: '5 minutes',
-      difficultyLabel: 'Relaxing & Scenic',
-      encouragementPrompt: 'Can you help me spot a few cozy items in this warm room?',
-      badgeLabel: 'Gentle Search',
-      themeColor: '#2563EB',
       isCompletedToday: false,
     },
   ];
@@ -160,7 +160,7 @@ class CognitiveServiceImpl implements ICognitiveService {
   }
 
   getRecommendedActivity(): CognitiveActivityMeta {
-    return this.activities[0]; // Memory Match as primary gentle recommendation
+    return this.activities[0]; // Find The Object as primary featured recommendation
   }
 
   getProgressSummary(): ActivityProgressSummary {

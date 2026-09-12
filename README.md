@@ -28,7 +28,7 @@ This repository contains the working SmritiSaathi MVP and its shared architectur
 
 | Experience | Route | Primary Persona | Layout Archetype | First-Time Onboarding Flow |
 | :--- | :--- | :--- | :--- | :--- |
-| **Patient Companion** | `/patient` | Patient living with mild-to-moderate dementia | **Mobile-First** (`max-w-2xl`) | Calming colors, high contrast, minimal clutter, large touch targets (≥48px), orientation anchors, memories, activities, and persistent music controls. |
+| **Patient Companion** | `/patient` | Patient living with mild-to-moderate dementia | **Journey-Based Flow** (`max-w-2xl`) | 5-step guided circadian daily journey (Orientation → Care Routine → Memory → Activity → Peace), ultra-large touch targets (≥64px), zero-scroll focus cards, and Companion Saathi guidance. |
 | **Caregiver Oversight** | `/caregiver` | Family member / Primary home caregiver | **Responsive** (Mobile & Desktop) | Real-time status, routine schedules, memory vault uploads, alert notifications, and caregiver respite check-ins. |
 | **Clinical Dashboard** | `/practitioner` | Neurologist, Geriatrician, Care Coordinator | **Desktop Dashboard** | Clinical density, patient cohort roster, longitudinal cognitive progression metrics, compliance audit trails. |
 

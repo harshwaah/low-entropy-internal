@@ -118,6 +118,43 @@ The mascot serves as an emotional anchor, not generic visual filler:
 - **Purposeful Contexts Only**:
   1. **Welcome Moments**: Onboarding, daily orientation greetings.
   2. **Encouragement & Reassurance**: Check-ins, medication acknowledgments.
+  3. **Cognitive Game Guidance**: Instructions, celebratory cues.
+  4. **Empathy & Reassurance**: Peaceful reflections, evening wind-down.
+
+---
+
+## 9. Patient Daily Journey Architecture (v1.0.0)
+
+In version 1.0.0, the patient interface transitions from static, page-based vertical scrolling to an interactive, **Journey-Based Guided Flow**.
+
+### 9.1 The 5 Guided Daily Steps
+1. **Step 1: Greeting & Orientation (`greeting`)**
+   - Circadian Stage Recognition ("Morning Awakening", "Afternoon Engagement", "Evening Wind-Down").
+   - Anchored Date & Time format ("Saturday, September 12 • 9:30 AM").
+   - Primary CTA: Ultra-large 64px `Continue My Day` button.
+2. **Step 2: Gentle Routine & Medicine (`reminder`)**
+   - High-focus single reminder presentation with dosage instructions.
+   - Primary Action: `I Have Taken This Medicine` (instant affirmative feedback).
+   - Seamless progression to memory step.
+3. **Step 3: Cherished Memory of the Day (`memory`)**
+   - Nostalgic Polaroid card featuring family moments, location tags, and love note snippets.
+   - Primary CTA: `Open This Memory Book` (routes to oral history and audio narration).
+4. **Step 4: Mindful Activity of the Day (`activity`)**
+   - Focus recommendation tailored to circadian phase (e.g., Autobiographical Memory Trail or Living Room Stroll).
+   - Zero timers, zero scores, pure comfort.
+5. **Step 5: Daily Peace & Reflection (`celebration`)**
+   - Positive daily celebration celebrating completed items.
+   - One-tap Indian Classical soothing music playback (`Play Calming Music for Rest`).
+
+### 9.2 Circadian Stage Themes & Palette Modifiers
+- **Morning Awakening** (`5:00 AM – 11:59 AM`): Warm golden dawn tones (`bg-amber-100`, `#FFF8F0`), morning chai & prayer grounding.
+- **Afternoon Engagement** (`12:00 PM – 4:59 PM`): Gentle emerald & sage tones (`bg-emerald-100`, `#E8F3EB`), mindful cognitive exploration.
+- **Evening Wind-Down** (`5:00 PM – 4:59 AM`): Soft twilight lavender & dusk tones (`bg-purple-100`, `#FAF5EE`), soothing raga therapy & rest.
+
+### 9.3 Touch Target & Ergonomic Standards
+- **Primary Actions**: Minimum **64px** height (`h-16` or `h-18`) with 24px–32px horizontal padding.
+- **Secondary Actions**: Minimum **56px** height with high-contrast text and tactile press feedback.
+- **Scroll Elimination**: Patient routes avoid deep stacked vertical feeds; focus cards provide immediate action before optional expansion.
   3. **Celebrations**: Completing daily routines or finishing games.
   4. **Memory Introductions**: Gentle framing before nostalgic storytelling.
 - **Avoid Over-Saturation**: Never place the mascot in every nested card or repetitive list item. One primary mascot presence per screen establishes calm focus.

@@ -7,282 +7,299 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Sparkles,
-  ListOrdered,
-  Eye,
   ArrowRight,
+  ArrowLeft,
   Heart,
-  ChevronRight,
-  Smile,
+  Eye,
   CheckCircle2,
-  Calendar,
+  Gamepad2,
+  ListOrdered
 } from 'lucide-react';
 import { cognitiveService } from '@/features/cognition/services';
 import { usePatientTranslation } from '@/features/patient-i18n';
 
+interface ActivityItemConfig {
+  id: string;
+  number: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  href: string;
+  emoji: string;
+  badge: string;
+  badgeBg: string;
+  badgeText: string;
+  accentBorder: string;
+  iconBg: string;
+  iconText: string;
+  estimatedMinutes: string;
+}
+
+const ALL_GAMES: ActivityItemConfig[] = [
+  {
+    id: 'find-the-object',
+    number: 1,
+    title: 'Find The Object',
+    subtitle: 'Spot comforting items in cozy rooms',
+    description: 'Look around the kitchen, veranda, and living room to find everyday favorites with gentle companion hints.',
+    href: '/patient/activities/find-the-object',
+    emoji: '🔍',
+    badge: 'Featured Game #1',
+    badgeBg: 'bg-blue-100',
+    badgeText: 'text-blue-900',
+    accentBorder: 'hover:border-blue-400',
+    iconBg: 'bg-blue-100',
+    iconText: 'text-blue-800',
+    estimatedMinutes: '5 mins',
+  },
+  {
+    id: 'quick-pick-trail',
+    number: 2,
+    title: 'Quick Pick Trail',
+    subtitle: 'Little questions. Big confidence.',
+    description: 'Guide your cute friend along a calm garden trail to collect delicious apples with reassuring questions.',
+    href: '/patient/activities/quick-pick-trail',
+    emoji: '🍎',
+    badge: 'Game #2',
+    badgeBg: 'bg-emerald-100',
+    badgeText: 'text-emerald-900',
+    accentBorder: 'hover:border-emerald-400',
+    iconBg: 'bg-emerald-100',
+    iconText: 'text-emerald-800',
+    estimatedMinutes: '4-6 mins',
+  },
+  {
+    id: 'memory-trail',
+    number: 3,
+    title: 'My Memory Trail',
+    subtitle: 'A gentle walk through your life memories',
+    description: 'Revisit childhood home, songs, and cherished family stories through photos, voice, and comforting reflections.',
+    href: '/patient/activities/memory-trail',
+    emoji: '🌱',
+    badge: 'Game #3',
+    badgeBg: 'bg-amber-100',
+    badgeText: 'text-amber-900',
+    accentBorder: 'hover:border-amber-400',
+    iconBg: 'bg-amber-100',
+    iconText: 'text-amber-800',
+    estimatedMinutes: '5-8 mins',
+  },
+  {
+    id: 'memory-match',
+    number: 4,
+    title: 'Memory Match',
+    subtitle: 'Gentle pair matching with familiar treasures',
+    description: 'Turn over cards to pair up fragrant marigolds, steaming chai, sweet mangoes, and brass bells. No rush.',
+    href: '/patient/activities/memory-match',
+    emoji: '🌸',
+    badge: 'Game #4',
+    badgeBg: 'bg-rose-100',
+    badgeText: 'text-rose-900',
+    accentBorder: 'hover:border-rose-400',
+    iconBg: 'bg-rose-100',
+    iconText: 'text-rose-800',
+    estimatedMinutes: '3-5 mins',
+  },
+  {
+    id: 'what-comes-next',
+    number: 5,
+    title: 'What Comes Next?',
+    subtitle: 'Follow soothing daily life rhythms',
+    description: 'From brewing morning chai to relaxing at sunset, pick the next natural step in a peaceful day.',
+    href: '/patient/activities/what-comes-next',
+    emoji: '☀️',
+    badge: 'Game #5',
+    badgeBg: 'bg-indigo-100',
+    badgeText: 'text-indigo-900',
+    accentBorder: 'hover:border-indigo-400',
+    iconBg: 'bg-indigo-100',
+    iconText: 'text-indigo-800',
+    estimatedMinutes: '4-6 mins',
+  },
+];
+
 export default function PatientActivitiesHubPage() {
   const { t } = usePatientTranslation();
-  const categories = cognitiveService.getCategories();
-  const activities = cognitiveService.getAllActivities();
-  const recommended = cognitiveService.getRecommendedActivity();
-  const progress = cognitiveService.getProgressSummary();
+  const recommended = ALL_GAMES[0]; // "Find The Object" is prioritized as #1
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 pb-28 sm:pb-32 space-y-8 animate-in fade-in duration-300">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-8 animate-in fade-in duration-300">
       
-      {/* 1. Companion Greeting Section */}
+      {/* 1. Header with Back to Patient Home */}
+      <header className="flex items-center justify-between gap-4 pt-1">
+        <div className="flex items-center gap-3">
+          <Link 
+            href="/patient" 
+            className="focus:outline-none focus:ring-4 focus:ring-brand-primary/30 rounded-full"
+          >
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="w-14 h-14 rounded-full bg-white shadow-xs border border-brand-border hover:bg-brand-light-alt cursor-pointer"
+            >
+              <ArrowLeft className="w-7 h-7 text-brand-dark" />
+            </Button>
+          </Link>
+          <div>
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-brand-primary">
+              <Gamepad2 className="w-3.5 h-3.5" />
+              <span>All 5 Mindful Activities</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-black text-brand-dark tracking-tight">
+              Mindful Games & Activities
+            </h1>
+          </div>
+        </div>
+
+        <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-900 shadow-xs">
+          <Heart className="w-4 h-4 fill-emerald-600 text-emerald-600" />
+          <span>Zero Timers • 100% Calm</span>
+        </div>
+      </header>
+
+      {/* 2. Companion Anchor */}
       <section
-        aria-label="Companion Greeting"
-        className="bg-brand-light-alt rounded-[3rem] p-6 sm:p-8 flex flex-col items-center text-center shadow-sm relative overflow-hidden"
+        aria-label="Companion Activity Guide"
+        className="bg-brand-light-alt rounded-[3rem] p-6 sm:p-8 flex flex-col items-center text-center shadow-xs border border-brand-border/60"
       >
-        <div className="pt-2 mb-3">
-          <Mascot
-            size="lg"
-            state="encouraging"
-            showSpeechBubble={true}
-            speechPosition="top-right"
-            speechText={t('activities.speechBubble')}
-            className="mb-2"
-          />
-        </div>
-
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-dark tracking-tight mb-2">
+        <Mascot
+          size="lg"
+          state="encouraging"
+          showSpeechBubble={true}
+          speechPosition="top-right"
+          speechText={
+            <>
+              Let&apos;s explore together! Our featured game today is <strong>Find The Object</strong>{' '}
+              <Sparkles className="inline w-3.5 h-3.5 text-brand-primary" />
+            </>
+          }
+        />
+        <h2 className="text-xl sm:text-2xl font-extrabold text-brand-dark mt-2">
           {t('activities.title')}
-        </h1>
-
-        <p className="text-lg sm:text-xl text-brand-muted font-medium max-w-md mx-auto leading-relaxed mb-6">
-          {t('activities.subtitle')}
-        </p>
-
-        {/* Reassuring Calm Tag */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 border border-brand-border rounded-full text-sm font-bold text-brand-dark shadow-xs">
-          <Heart className="w-4 h-4 text-brand-primary fill-brand-primary" />
-          <span>{t('activities.tag')}</span>
-        </div>
-      </section>
-
-      {/* 2. Today's Gentle Progress Overview */}
-      <section aria-label="Daily Progress Overview">
-        <div className="bg-white rounded-3xl p-5 sm:p-6 border-2 border-brand-light shadow-sm space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-brand-primary font-bold text-sm">
-              <Calendar className="w-4 h-4" />
-              <span>{t('activities.progressTitle')}</span>
-            </div>
-            <span className="text-xs font-bold text-emerald-700 bg-emerald-100/70 px-2.5 py-1 rounded-full">
-              {t('activities.peacefulPace')}
-            </span>
-          </div>
-
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-extrabold text-brand-dark">
-                {t('activities.progressCount', { completed: progress.activitiesCompletedToday, total: progress.totalAvailable })}
-              </h2>
-              <p className="text-sm sm:text-base text-brand-muted font-medium mt-1">
-                {progress.positiveAffirmation}
-              </p>
-            </div>
-
-            {/* Gentle Petal/Star Tokens */}
-            <div className="flex items-center gap-2 shrink-0">
-              {Array.from({ length: progress.totalAvailable }).map((_, idx) => {
-                const isCompleted = idx < progress.activitiesCompletedToday;
-                return (
-                  <div
-                    key={idx}
-                    className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all ${
-                      isCompleted
-                        ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-300 scale-105 shadow-xs'
-                        : 'bg-brand-light-alt text-brand-muted/40 border-2 border-dashed border-brand-border'
-                    }`}
-                  >
-                    {isCompleted ? (
-                      <CheckCircle2 className="w-6 h-6 stroke-[2.5]" />
-                    ) : (
-                      <Sparkles className="w-5 h-5" />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Quick Pick Trail Game Banner */}
-      <section aria-label="Quick Pick Trail Feature">
-        <Link
-          href="/patient/activities/quick-pick-trail"
-          className="block group focus:outline-none focus:ring-4 focus:ring-[#2C5545]/30 rounded-[2.5rem]"
-        >
-          <div className="bg-gradient-to-r from-[#FAF3EB] via-[#FFF9F2] to-[#FCE7F3] border-2 border-[#F2DFCD] group-hover:border-[#2C5545] transition-all p-6 sm:p-7 rounded-[2.5rem] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-            <div className="flex items-start sm:items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-white text-[#2C5545] border border-[#E8D7C3] flex items-center justify-center text-3xl shadow-xs shrink-0 group-hover:scale-105 transition-transform">
-                🐍
-              </div>
-              <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-[#8D4935] text-white rounded-full text-xs font-black uppercase tracking-wide">
-                  <Sparkles className="w-3.5 h-3.5 fill-white" />
-                  <span>{t('activities.quickPickTag')}</span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-black text-[#2C5545] group-hover:text-[#4A8B71] transition-colors">
-                  {t('activities.quickPickTitle')}
-                </h3>
-                <p className="text-sm sm:text-base text-[#5C7065] font-medium max-w-md">
-                  {t('activities.quickPickDesc')}
-                </p>
-              </div>
-            </div>
-
-            <Button
-              size="lg"
-              className="w-full sm:w-auto h-14 px-7 rounded-full text-base sm:text-lg font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md group-hover:scale-105 transition-all shrink-0 flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <span>{t('activities.quickPickPlay')}</span>
-              <ArrowRight className="w-5 h-5 stroke-[2.5]" />
-            </Button>
-          </div>
-        </Link>
-      </section>
-
-      {/* Featured My Memory Trail Feature Banner */}
-      <section aria-label="My Memory Trail Feature">
-        <Link
-          href="/patient/activities/memory-trail"
-          className="block group focus:outline-none focus:ring-4 focus:ring-[#2C5545]/30 rounded-[2.5rem]"
-        >
-          <div className="bg-gradient-to-r from-[#E8F3EB] via-[#F3F8F5] to-[#E2EFE6] border-2 border-[#4A8B71]/40 group-hover:border-[#2C5545] transition-all p-6 sm:p-7 rounded-[2.5rem] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-            <div className="flex items-start sm:items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl bg-white text-[#2C5545] border border-[#DCE5E0] flex items-center justify-center text-3xl shadow-xs shrink-0 group-hover:scale-105 transition-transform">
-                🌱
-              </div>
-              <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-[#4A8B71] text-white rounded-full text-xs font-black uppercase tracking-wide">
-                  <Sparkles className="w-3.5 h-3.5 fill-white" />
-                  <span>{t('activities.memoryTrailTag')}</span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-black text-[#2C5545] group-hover:text-[#4A8B71] transition-colors">
-                  {t('activities.memoryTrailTitle')}
-                </h3>
-                <p className="text-sm sm:text-base text-[#5C7065] font-medium max-w-md">
-                  {t('activities.memoryTrailDesc')}
-                </p>
-              </div>
-            </div>
-
-            <Button
-              size="lg"
-              className="w-full sm:w-auto h-14 px-7 rounded-full text-base sm:text-lg font-bold bg-[#2C5545] hover:bg-[#1E3B30] text-white shadow-md group-hover:scale-105 transition-all shrink-0 flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <span>{t('activities.memoryTrailStart')}</span>
-              <ArrowRight className="w-5 h-5 stroke-[2.5]" />
-            </Button>
-          </div>
-        </Link>
-      </section>
-
-      {/* 4. Activity Categories & All Games */}
-      <section aria-label="All Gentle Activities" className="space-y-4">
-        <h2 className="text-2xl font-extrabold text-brand-dark px-1">
-          {t('activities.exploreAll')}
         </h2>
-
-        <div className="grid grid-cols-1 gap-4 sm:gap-5">
-          {activities.map((activity) => {
-            const isMatch = activity.id === 'memory-match';
-            const isSequence = activity.id === 'what-comes-next';
-            const isFind = activity.id === 'find-the-object';
-
-            return (
-              <Link
-                key={activity.id}
-                href={activity.href}
-                className="block group focus:outline-none focus:ring-4 focus:ring-brand-primary/30 rounded-3xl"
-              >
-                <Card
-                  className={`border-2 transition-all group-hover:shadow-md active:scale-[0.99] rounded-3xl overflow-hidden ${
-                    isMatch
-                      ? 'bg-emerald-50/40 border-emerald-200/80 group-hover:border-emerald-400'
-                      : isSequence
-                      ? 'bg-amber-50/40 border-amber-200/80 group-hover:border-amber-400'
-                      : 'bg-blue-50/40 border-blue-200/80 group-hover:border-blue-400'
-                  }`}
-                >
-                  <CardContent className="p-5 sm:p-7 flex items-center gap-4 sm:gap-6">
-                    {/* Activity Big Icon */}
-                    <div
-                      className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl shadow-xs shrink-0 transition-transform group-hover:scale-105 ${
-                        isMatch
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : isSequence
-                          ? 'bg-amber-100 text-amber-800'
-                          : 'bg-blue-100 text-blue-800'
-                      }`}
-                    >
-                      {isMatch ? '🌸' : isSequence ? '☀️' : '🔍'}
-                    </div>
-
-                    {/* Details */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span
-                          className={`text-xs font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full ${
-                            isMatch
-                              ? 'bg-emerald-200/60 text-emerald-900'
-                              : isSequence
-                              ? 'bg-amber-200/60 text-amber-900'
-                              : 'bg-blue-200/60 text-blue-900'
-                          }`}
-                        >
-                          {activity.badgeLabel}
-                        </span>
-                        <span className="text-xs font-semibold text-brand-muted">
-                          {activity.estimatedMinutes}
-                        </span>
-                      </div>
-
-                      <h3 className="text-xl sm:text-2xl font-bold text-brand-dark leading-tight group-hover:text-brand-primary transition-colors">
-                        {activity.title}
-                      </h3>
-
-                      <p className="text-sm sm:text-base text-brand-muted font-medium mt-1 line-clamp-2 leading-relaxed">
-                        {activity.description}
-                      </p>
-                    </div>
-
-                    {/* Arrow CTA */}
-                    <div className="w-12 h-12 rounded-full bg-white border border-brand-border/80 flex items-center justify-center text-brand-dark group-hover:bg-brand-primary group-hover:text-white group-hover:border-brand-primary transition-all shrink-0 shadow-xs">
-                      <ChevronRight className="w-6 h-6 stroke-[2.5]" />
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            );
-          })}
-        </div>
+        <p className="text-base text-brand-muted font-medium max-w-md mt-1">
+          Enjoy any of the 5 gentle games below at your own pace. Every game is peaceful with zero timers.
+        </p>
       </section>
 
-      {/* 5. Gentle Category Explanations */}
-      <section aria-label="Activity Categories Guide" className="pt-2">
-        <h3 className="text-lg font-bold text-brand-dark mb-3 px-1">
-          {t('activities.whyFeelGood')}
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {categories.map(cat => (
-            <div
-              key={cat.id}
-              className={`${cat.colorTheme.bg} rounded-2xl p-4 border ${cat.colorTheme.border} space-y-1`}
-            >
-              <h4 className={`text-base font-bold ${cat.colorTheme.text}`}>
-                {cat.title}
-              </h4>
-              <p className="text-xs text-brand-muted font-medium leading-relaxed">
-                {cat.description}
-              </p>
+      {/* 3. Hero Recommended Focus Activity: Find The Object (Prioritized #1) */}
+      <section aria-label="Featured Activity: Find The Object" className="space-y-4">
+        <div className="flex items-center justify-between px-1">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">⭐</span>
+            <h2 className="text-2xl font-black text-brand-dark">
+              Featured Activity: Find The Object
+            </h2>
+          </div>
+          <span className="text-xs sm:text-sm font-bold text-blue-900 bg-blue-100 px-3 py-1 rounded-full border border-blue-200">
+            Top Recommendation
+          </span>
+        </div>
+
+        <Card className="bg-gradient-to-r from-[#EBF4EC] via-[#F3F8F5] to-[#E3EFF7] border-2 border-blue-300 shadow-sm rounded-3xl overflow-hidden">
+          <CardContent className="p-6 sm:p-8 space-y-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+              <div className="w-20 h-20 rounded-2xl bg-white border-2 border-blue-300 text-blue-800 flex items-center justify-center text-4xl shadow-xs shrink-0">
+                🔍
+              </div>
+              <div className="space-y-1">
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-[#2563EB] text-white rounded-full text-xs font-black uppercase tracking-wide">
+                  <Eye className="w-3.5 h-3.5 fill-white" />
+                  <span>Visual Recognition & Living Room Exploration</span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-brand-dark">
+                  {recommended.title}
+                </h3>
+                <p className="text-base text-brand-muted font-medium max-w-lg leading-relaxed">
+                  {recommended.description}
+                </p>
+              </div>
             </div>
+
+            <Link
+              href={recommended.href}
+              className="block focus:outline-none focus:ring-4 focus:ring-blue-600/30 rounded-full"
+            >
+              <Button
+                size="lg"
+                className="w-full h-18 text-xl font-extrabold bg-[#2C5545] hover:bg-[#1E3B30] text-white rounded-full shadow-md cursor-pointer hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-3"
+              >
+                <span>Play &quot;Find The Object&quot; Now</span>
+                <ArrowRight className="w-6 h-6 stroke-[2.5]" />
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* 4. Complete List of All 5 Available Games in Prioritized Order */}
+      <section aria-label="All 5 Available Games" className="space-y-4 pt-2 border-t border-brand-border/60">
+        <div className="flex items-center justify-between px-1">
+          <h2 className="text-2xl font-black text-brand-dark">
+            All 5 Mindful Games
+          </h2>
+          <span className="text-xs font-bold text-slate-500">
+            5 of 5 Available
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4">
+          {ALL_GAMES.map((game) => (
+            <Link
+              key={game.id}
+              href={game.href}
+              className="block group focus:outline-none focus:ring-4 focus:ring-brand-primary/30 rounded-3xl"
+            >
+              <div className={`bg-white border-2 border-brand-border ${game.accentBorder} p-5 sm:p-6 rounded-3xl shadow-xs group-hover:shadow-md transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4`}>
+                <div className="flex items-start sm:items-center gap-4 flex-1">
+                  <div className={`w-16 h-16 rounded-2xl ${game.iconBg} ${game.iconText} flex items-center justify-center text-3xl shrink-0 group-hover:scale-105 transition-transform shadow-xs`}>
+                    {game.emoji}
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs font-extrabold ${game.badgeBg} ${game.badgeText} px-2.5 py-0.5 rounded-full`}>
+                        {game.badge}
+                      </span>
+                      <span className="text-xs font-semibold text-slate-500">
+                        • {game.estimatedMinutes}
+                      </span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-black text-brand-dark group-hover:text-brand-primary transition-colors">
+                      {game.number}. {game.title}
+                    </h3>
+                    <p className="text-sm text-brand-muted font-medium leading-relaxed">
+                      {game.description}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="self-end sm:self-center shrink-0">
+                  <Button
+                    size="default"
+                    className="h-12 px-6 rounded-full font-bold bg-brand-light text-brand-dark group-hover:bg-brand-primary group-hover:text-white transition-all flex items-center gap-2"
+                  >
+                    <span>Play</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </Link>
           ))}
         </div>
       </section>
+
+      {/* 5. Return to Daily Journey Footer */}
+      <div className="pt-4 text-center">
+        <Link href="/patient" className="inline-block w-full sm:w-auto">
+          <Button
+            size="lg"
+            className="w-full sm:w-auto h-16 px-10 text-lg rounded-full font-extrabold bg-brand-dark hover:bg-brand-dark/90 text-white shadow-md flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Return to Daily Journey</span>
+          </Button>
+        </Link>
+      </div>
 
     </div>
   );

@@ -294,7 +294,16 @@ export default function CaregiverDashboardPage() {
                   <p className="font-bold text-brand-dark">Priya Sharma</p>
                   <p className="text-[11px] text-brand-muted">Primary Daughter • In-home</p>
                 </div>
-                <span className="font-semibold text-slate-700">+91 98112 34567</span>
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold text-slate-700">+91 98922 56502</span>
+                  <a
+                    href="tel:+919892256502"
+                    className="inline-flex items-center gap-1 font-bold text-brand-primary hover:underline bg-white px-2 py-0.5 rounded-full border border-emerald-200"
+                  >
+                    <PhoneCall className="h-3 w-3" />
+                    <span>Call</span>
+                  </a>
+                </div>
               </div>
 
               <div className="flex items-center justify-between rounded-xl bg-brand-light-alt/80 p-3 text-xs">

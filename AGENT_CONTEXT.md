@@ -9,10 +9,12 @@
 1. **Strict Scope Discipline**: Respect the assigned feature boundaries. If working on behalf of Contributor 1, do NOT edit files inside `features/routines/` or `app/(caregiver)/`.
 2. **Server-Side AI Rule**: All Google GenAI SDK (`@google/genai`) operations must execute strictly on the server (in App Router API routes or Server Actions). Never expose `process.env.GEMINI_API_KEY` to client components.
 3. **No Phantom Features**: Do not add unrequested games, voice synthesizers, or external database modules unless specified in the active sprint ticket.
-4. **Accessible Dementia UX**:
-   - Touch targets must be at least 48px (preferably 56px).
-   - High contrast text against warm backgrounds (avoid pure black or pure white glare).
-   - Never show negative error states or fail timers to the patient persona.
+4. **Accessible Dementia UX & Patient Journey Architecture (v1.0.0)**:
+   - **Journey-Based Flow**: The patient experience must follow a 5-step guided journey (Welcome/Orientation → Daily Care → Memory → Activity → Peace) rather than a confusing wall of choices.
+   - **Circadian Stage Layouts**: Dynamically orient patients to Morning Awakening, Afternoon Engagement, and Evening Wind-Down.
+   - **Ultra-Large Touch Targets**: All primary interactive buttons must be at least 64px height (`h-16` or `h-18`) with generous padding (≥24px).
+   - **Zero Cognitive Friction & Scroll Reduction**: Avoid long stacked sections; present 1 focus item first before optional exploration.
+   - **Errorless Learning**: Never show negative error states, countdown timers, or fail states to the patient persona.
 5. **Visual Identity Adherence**:
    - MUST use the defined brand tokens (`brand-dark`, `brand-primary`, `brand-light`, `brand-accent-orange`, `brand-accent-yellow`, `brand-accent-blue`).
    - MUST use `Quicksand` font (`font-sans`).

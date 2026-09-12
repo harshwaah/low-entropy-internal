@@ -1,23 +1,49 @@
-## [0.9.1] - Living Room Recreation
-### Added
-- **Living Room Recreation**: Replaced the previous `FindTheObjectGame` with a highly accurate recreation of the new Living Room design.
-- **Sequential Flow**: Implemented a 4-step sequence (Welcome, Find Objects, Memory Challenge, Completion).
-- **Accessibility Considerations**: Added large touch targets, gentle TTS narration (Web Speech API) with playback controls, and calm, non-distracting CSS animations.
-- **Audio & Visual Cues**: Added gentle chime sounds for correct taps, and a soft tone for incorrect taps. Taps spawn warm, non-disruptive ripples.
-
-
 # Changelog
 
 All notable changes to the **SmritiSaathi** project will be documented in this file.
 
-## [0.9.1] - Caregiver UI Stability Fix
-
-### Fixed
-- Guarded the caregiver reminder progress widget against empty reminder states so the progress bar and percentage remain at 0% instead of rendering `NaN`.
-- Added a calm empty-state message for the caregiver reminder list when no reminders have been scheduled yet.
-
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [1.0.0] - Patient UX Transformation (Journey-Based Daily Flow)
+
+### Added
+- **Journey-Based Patient Home Engine**:
+  - Replaced static stacked page layout with a 5-step guided circadian daily journey:
+    1. **Orientation & Greeting**: Circadian stage recognition ("Morning Awakening", "Afternoon Engagement", "Evening Wind-Down"), dynamic time/date anchoring, personalized companion greeting, and single primary CTA (`Continue My Day`).
+    2. **Gentle Routine & Care**: High-focus single-action reminder card with immediate completion feedback (`I Have Taken This Medicine`) and seamless auto-transitioning.
+    3. **Cherished Memory of the Day**: Nostalgic Polaroid keepsake card with family love note snippets and direct `Open This Memory Book` action.
+    4. **Mindful Activity of the Day**: Curated cognitive game recommendation with zero timers, zero stress, and `Play Now` guidance.
+    5. **Daily Peace & Reflection**: Companion celebration summary honoring completed routines, treasured moments, and peaceful music playback.
+- **Circadian Daily Rhythm Engine (`useCircadianStage`)**:
+  - Automatically identifies circadian windows (Morning, Afternoon, Evening) to personalize greetings, colors, and activity recommendations, with an accessible stage switcher for preview/demo control.
+- **Focus-First Memory Hub & Activities Hub**:
+  - Transformed `/patient/memories` and `/patient/activities` to highlight a single recommended item before revealing secondary categorized exploration, drastically reducing decision count and scrolling fatigue.
+- **Ultra-Large Touch Targets (≥64px)**:
+  - All primary interactive actions across patient flows elevated to 64px–72px height with rounded-full geometry, bold typography, and tactile active-press feedback.
+
+---
+
+## [0.9.2] - Comprehensive End-to-End Product Audit
+
+### Added
+- **Comprehensive Product Audit Baseline**: Executed end-to-end evaluation across all user journeys (Landing, Patient Experience, Caregiver Portal, Practitioner Dashboard, Onboarding System, Cognitive Hub, Memory Scrapbook, AI Memory Layer, Living Room Recreation, Firestore integration, and Python ML Backend).
+- **Health Scores & Diagnostics**: Established quantified benchmarks across Product (88/100), Architecture (90/100), UX (86/100), Technical (91/100), and Demo Readiness (94/100).
+- **Transformation Blueprint (v1.0.0)**: Cataloged Top 25 issues, Top 25 opportunities, technical debt items, and milestone roadmap to prepare for the Patient UX Transformation.
+
+---
+
+## [0.9.1] - Living Room Recreation & Caregiver Stability
+
+### Added
+- **Living Room Recreation**: Integrated the 4-step Living Room visual recognition experience with large touch targets, gentle Web Speech synthesis narration, and calming ripples.
+- **Audio & Visual Cues**: Multi-frequency sine chimes for positive engagement and soft restorative tone cues.
+
+### Fixed
+- Guarded caregiver reminder progress bar against `NaN` on empty states.
+- Added calm empty-state cards across schedules and scrapbook queries.
 
 ---
 

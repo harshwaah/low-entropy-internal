@@ -139,11 +139,11 @@ export default function CaregiverAlertsPage() {
               <span>Test Beacon Connection</span>
             </button>
             <a
-              href="tel:+919811234567"
+              href="tel:+919892256502"
               className="inline-flex items-center gap-1.5 rounded-full bg-brand-dark px-4 py-2 text-xs font-bold text-white hover:bg-brand-dark/90 transition-all shadow-xs"
             >
               <PhoneCall className="h-3.5 w-3.5" />
-              <span>Direct Family Line</span>
+              <span>Direct Family Line (+91 98922 56502)</span>
             </a>
           </div>
         </div>
