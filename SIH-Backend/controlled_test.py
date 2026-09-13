@@ -1,7 +1,8 @@
+import os
 import requests
 import random
 
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
 
 games = [
     "My Memory Trail",

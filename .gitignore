@@ -38,8 +38,31 @@ yarn-debug.log*
 yarn-error.log*
 
 # Environment files containing secrets
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env*.local
 .env*
 !.env.example
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+*.egg-info/
+dist-python/
+
+# Backup & scratch files
+*.bak
+*.backup
+*.swp
+*.swo
 
 # IDE / Editor metadata
 .idea/

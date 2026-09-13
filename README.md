@@ -170,13 +170,37 @@ clipping, distracting passages, and awkward loop seams.
 
 ---
 
-## 6. Quickstart & Local Development
+## 6. Environment Configuration & Variables
+
+SmritiSaathi uses a centralized, type-safe runtime configuration layer (`lib/config.ts`) and Firebase initialization layer (`lib/firebase.ts`). The legacy `firebase-applet-config.json` file is **fully deprecated and removed**; all Firebase parameters are dynamically resolved through client-safe environment variables (`NEXT_PUBLIC_FIREBASE_*`). Sensitive server-side keys (such as `GEMINI_API_KEY`) are isolated strictly to server environments and never bundled to the client.
+
+### Environment Variable Reference
+
+| Variable Name | Environment | Description | Required | Example / Default |
+| :--- | :--- | :--- | :--- | :--- |
+| `NEXT_PUBLIC_APP_ENV` | Client & Server | Runtime environment mode | No | `development` / `production` |
+| `NEXT_PUBLIC_APP_URL` | Client & Server | Canonical public URL of the application | No | `http://localhost:3000` |
+| `GEMINI_API_KEY` | Server Only | Google AI Studio Gemini API Key | Required for AI | `AIzaSy...` (Secret) |
+| `GEMINI_MODEL` | Server Only | Gemini foundation model selection | No | `gemini-2.5-flash` |
+| `NEXT_PUBLIC_FIREBASE_API_KEY` | Client & Server | Firebase Web App API Key | Yes | Firebase Web Client Key |
+| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | Client & Server | Firebase Authentication domain | Yes | `<project-id>.firebaseapp.com` |
+| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | Client & Server | Google Cloud / Firebase Project ID | Yes | `<project-id>` |
+| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | Client & Server | Cloud Storage bucket URL | Yes | `<project-id>.firebasestorage.app` |
+| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | Client & Server | Firebase Cloud Messaging sender ID | Yes | `541285952957` |
+| `NEXT_PUBLIC_FIREBASE_APP_ID` | Client & Server | Firebase Web Application ID | Yes | `1:541285952957:web:...` |
+| `NEXT_PUBLIC_FIREBASE_FIRESTORE_DATABASE_ID` | Client & Server | Named Firestore Database ID | No | `(default)` or custom ID |
+| `DATABASE_URL` | Server / Backend | Python ML Service MySQL connection string | Backend only | `mysql+pymysql://<user>:<pwd>@<host>:3306/<db>` |
+| `BACKEND_API_URL` | Backend Tests | Python FastAPI backend address | Backend only | `http://127.0.0.1:8000` |
+
+---
+
+## 7. Quickstart & Local Development
 
 ### Prerequisites
 - Node.js 20.x or higher
 - npm, yarn, or pnpm
 
-### Installation
+### Installation & Local Setup
 
 ```bash
 # 1. Clone repository
@@ -186,8 +210,9 @@ cd smriti-saathi
 # 2. Install dependencies
 npm install
 
-# 3. Configure environment variables
+# 3. Configure local environment variables
 cp .env.example .env.local
+# Edit .env.local and insert your Firebase and Gemini credentials
 
 # 4. Start local development server (runs on port 3000)
 npm run dev
@@ -199,7 +224,38 @@ patient experience and music controls.
 
 ---
 
-## 7. Verification & Quality Commands
+## 8. Deployment Guidelines (Vercel & Cloud Run)
+
+### Vercel Deployment
+
+1. **Import Project**: Connect the GitHub repository in the Vercel Dashboard.
+2. **Framework Preset**: Select **Next.js**.
+3. **Build & Output Settings**: Defaults (`npm run build`, output directory `.next`).
+4. **Environment Variables**: Add the following variables under **Project Settings → Environment Variables**:
+   - `GEMINI_API_KEY` (Production, Preview) — *Server-only secret*
+   - `GEMINI_MODEL` = `gemini-2.5-flash`
+   - `NEXT_PUBLIC_APP_ENV` = `production`
+   - `NEXT_PUBLIC_APP_URL` = `https://your-domain.vercel.app`
+   - `NEXT_PUBLIC_FIREBASE_API_KEY`
+   - `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
+   - `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
+   - `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
+   - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
+   - `NEXT_PUBLIC_FIREBASE_APP_ID`
+   - `NEXT_PUBLIC_FIREBASE_FIRESTORE_DATABASE_ID`
+5. **Deploy**: Click Deploy. Vercel builds the standalone distribution bundle.
+
+### Google Cloud Run Deployment
+
+The project is preconfigured with `output: 'standalone'` in `next.config.ts`. Run container builds with standard Docker packaging:
+```bash
+docker build -t smritisaathi:latest .
+docker run -p 3000:3000 --env-file .env.local smritisaathi:latest
+```
+
+---
+
+## 9. Verification & Quality Commands
 
 ```bash
 # Verify TypeScript compilation and Next.js build

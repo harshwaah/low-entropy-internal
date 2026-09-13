@@ -1,7 +1,7 @@
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { getAuth, Auth } from 'firebase/auth';
-import firebaseConfig from '@/firebase-applet-config.json';
+import { firebaseConfig, firestoreDatabaseId } from './config';
 
 // Ensure singleton Firebase App initialization
 let app: FirebaseApp;
@@ -12,8 +12,8 @@ if (!getApps().length) {
 }
 
 // Initialize Firestore with specific database ID or default
-const databaseId = firebaseConfig.firestoreDatabaseId && firebaseConfig.firestoreDatabaseId !== '(default)'
-  ? firebaseConfig.firestoreDatabaseId
+const databaseId = firestoreDatabaseId && firestoreDatabaseId !== '(default)'
+  ? firestoreDatabaseId
   : '(default)';
 
 let db: Firestore;

@@ -1,8 +1,8 @@
 # Agent Context & Engineering Rules for SmritiSaathi
 
 > **Attention AI Coding Assistants**: Read this file before making any suggestions, refactors, or code modifications to this repository.  
-> **Current Version**: `v1.0.1` (Security, Secrets & Configuration Audit)  
-> **Next Phase**: `v1.0.2` (Environment Migration & Secrets Hardening)
+> **Current Version**: `v1.0.3` (Firebase Config Deprecation & Consolidation)  
+> **Next Phase**: `v1.0.4` (Firestore Security Rules Lockdown & Cloud-First Persistence)
 
 ---
 
@@ -15,7 +15,9 @@
 | **Phase 9** | `v0.9.0` | Persona Onboarding System & Multi-Persona Intercept | **COMPLETED** | Accessible Onboarding Chassis |
 | **Release** | `v1.0.0` | Patient UX Transformation (5-Step Circadian Journey) | **COMPLETED** | Circadian Stages, Focus-First Hubs |
 | **Audit** | `v1.0.1` | Security, Secrets & Configuration Audit | **COMPLETED** | `SECURITY_AUDIT.md`, Secrets Inventory |
-| **Migration** | `v1.0.2` | Environment Migration & Secrets Hardening | **UPCOMING** | `.env` migration, Firestore rules lockdown |
+| **Migration** | `v1.0.2` | Environment Migration & Secrets Hardening | **COMPLETED** | Centralized `lib/config.ts`, `.env.example`, `.env.local` |
+| **Consolidation**| `v1.0.3` | Firebase Config Deprecation & Consolidation | **COMPLETED** | `firebase-applet-config.json` deleted; single source of truth |
+| **Hardening** | `v1.0.4` | Firestore Security Rules & Storage Hardening | **UPCOMING** | RBAC rules deployment, cloud storage bridge |
 
 ---
 
@@ -208,6 +210,14 @@ npm run build   # Must compile cleanly with 0 TypeScript/Next.js errors
 npm run lint    # Must pass ESLint
 ```
 
+---
+
+## 12. Centralized Configuration Architecture (v1.0.3)
+- **Single Source of Truth**: All application and Firebase client configuration MUST strictly be imported from `@/lib/config` (`config`, `firebaseConfig`, `firestoreDatabaseId`) and `@/lib/firebase` (`app`, `db`, `auth`).
+- **Fully Deprecated**: `firebase-applet-config.json` has been deleted and completely removed. Never recreate this file or re-introduce JSON bundle imports.
+- **Environment Driven**: Client variables must use the `NEXT_PUBLIC_` prefix, while backend/server secrets (e.g. `GEMINI_API_KEY`) must remain server-side only.
+
+---
 
 ## Memory Walk Expansion Notes (v0.9.1)
 - When expanding activities (e.g., adding "Garden"), follow the `FindTheObjectGame` component pattern: a single unified state machine managing visual finding, audio synthesis (Web Speech API), and spatial memory challenges in a continuous, un-interrupted flow.

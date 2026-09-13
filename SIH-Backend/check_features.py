@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -7,8 +8,11 @@ from sqlalchemy import create_engine, text
 from ml.feature_engineering import create_temporal_features
 
 
-# Same database connection as your project
-DATABASE_URL = "mysql+pymysql://root:root123@localhost:3306/sih_cognitive"
+# Database connection loaded from environment variable
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "mysql+pymysql://root@localhost:3306/sih_cognitive"
+)
 
 engine = create_engine(DATABASE_URL)
 

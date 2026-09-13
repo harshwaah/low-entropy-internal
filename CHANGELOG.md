@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.3] - Firebase Config Deprecation & Consolidation
+
+### Removed
+- **`firebase-applet-config.json` Deprecated & Deleted**:
+  - Permanently removed `firebase-applet-config.json` from the repository root.
+  - Eliminated all static JSON configuration coupling and prevented any future exposure of project configuration via committed bundle templates.
+
+### Changed
+- **Single Source of Truth (`lib/config.ts` & `lib/firebase.ts`)**:
+  - Fully consolidated all Firebase and Firestore client configuration through `lib/config.ts` (`firebaseConfig`, `firestoreDatabaseId`) and `lib/firebase.ts`.
+  - Enforced single-source runtime validation for project ID, auth domain, storage bucket, messaging sender ID, app ID, and named Firestore database ID.
+
+---
+
+## [1.0.2] - Environment Variable Migration & Secrets Hardening
+
+### Changed
+- **Centralized Configuration Layer (`lib/config.ts`)**:
+  - Implemented typed, unified runtime configuration layer for Next.js application, Firebase client SDK, and Gemini models.
+  - Dynamically extracts client-safe values using `NEXT_PUBLIC_FIREBASE_*` and `NEXT_PUBLIC_APP_*` environment variables.
+- **Firebase Initialization Migration (`lib/firebase.ts`)**:
+  - Migrated Firebase client SDK and Firestore named database resolution away from static hardcoded JSON bundle imports.
+  - Sourced all connection parameters (`apiKey`, `authDomain`, `projectId`, `storageBucket`, `messagingSenderId`, `appId`, `firestoreDatabaseId`) strictly from centralized configuration.
+- **Sanitized Backend Credentials (`SIH-Backend`)**:
+  - Parameterized database connections in `SIH-Backend/database/database.py` and `SIH-Backend/check_features.py` to read from `DATABASE_URL` with non-secret defaults.
+  - Replaced hardcoded `127.0.0.1:8000` URLs in `controlled_test.py` and `test_data.py` with `BACKEND_API_URL` environment variables.
+  - Sanitized database connection string in `SIH-Backend/Backend + ML.md` to reference `.env` instructions.
+- **Environment Templates & Secrets Hygiene**:
+  - Created `.env.local` for local execution and `.env.example` strictly populated with non-secret placeholders.
+  - Sanitized `firebase-applet-config.json` removing committed API key and OAuth Client ID.
+  - Updated `.gitignore` to explicitly ignore `.env`, `.env.local`, `.env.*`, Python bytecode/virtual environments, and backup artifacts.
+  - Purged untracked Python bytecode files (`__pycache__/*.pyc`) and obsolete scratch files (`build-game.js.bak`, `script.ts`).
+- **Gemini Model Configuration**:
+  - Added support for `GEMINI_MODEL` environment variable (defaulting to `gemini-2.5-flash`) within `lib/config.ts` and `services/gemini/index.ts`.
+
+---
+
 ## [1.0.1] - Security, Secrets & Configuration Audit
 
 ### Added

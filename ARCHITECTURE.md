@@ -806,37 +806,39 @@ The `FindTheObjectGame` component orchestrates a multi-step state machine (`welc
 
 ---
 
-## 16. Security Architecture, Secrets Inventory & Configuration Surface (v1.0.1 Audit Baseline)
+## 16. Security Architecture, Secrets Inventory & Configuration Surface
 
-### 16.1 Security Posture Overview
-Following the repository-wide audit conducted in Phase v1.0.1, the architectural security posture has been formally cataloged before the upcoming environment migration phase (v1.0.2). As a healthcare-adjacent platform handling dementia patient data, personal memory archives, caregiver communications, and clinical observations, the platform requires strict boundaries between client bundles, server runtimes, cloud databases, and external ML services.
+### 16.1 Security Posture Overview (v1.0.3 Baseline)
+In Phase v1.0.2 and v1.0.3, the platform completed a full environment variable migration, secrets hardening cycle, and configuration consolidation. The legacy `firebase-applet-config.json` configuration file has been completely deprecated and removed from the codebase. All credentials, database connection strings, and client-facing API keys are managed through typed runtime configurations (`lib/config.ts`) and client initialization singletons (`lib/firebase.ts`).
 
-### 16.2 Secrets Inventory & Exposure Surface
-| Identified Credential | Location | Storage Type | Exposure Status | Risk Tier | Remediation Strategy (v1.0.2) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **MySQL Root Password** | `SIH-Backend/database/database.py:4` | Plaintext string | Source code exposure | **CRITICAL** | Parameterize with `DATABASE_URL` env variable. |
-| **Feature Check DB URI** | `SIH-Backend/check_features.py:11` | Plaintext string | Source code exposure | **CRITICAL** | Parameterize with `DATABASE_URL` env variable. |
-| **Backend Setup Documentation** | `SIH-Backend/Backend + ML.md:394` | Plaintext string | Markdown exposure | **HIGH** | Replace with `.env.example` guidance. |
-| **Firebase Web API Key** | `firebase-applet-config.json:4` | JSON configuration | Client bundle exposure | **HIGH** | Lock down via strict Firestore Rules & HTTP referrer restrictions. |
-| **Google OAuth Client ID** | `firebase-applet-config.json:9` | JSON configuration | Client bundle exposure | **MEDIUM** | Restrict authorized origins in Google Cloud Console. |
-| **Gemini API Key** | `.env.example:1`, `lib/config.ts:26` | Environment variable | Server-side only | **SAFE** | Retain server-side isolation; route through `/api/companion/chat`. |
+### 16.2 Secrets Inventory & Migration Status (Post-v1.0.3)
+| Credential / Value | Historical Location | Environment Variable | Migration Status | Current Risk Tier |
+| :--- | :--- | :--- | :--- | :--- |
+| **MySQL Root Password** | `SIH-Backend/database/database.py` | `DATABASE_URL` | **Migrated** to `.env` | **SAFE** (Non-secret fallback) |
+| **Feature DB Connection** | `SIH-Backend/check_features.py` | `DATABASE_URL` | **Migrated** to `.env` | **SAFE** (Non-secret fallback) |
+| **Backend API Host** | `SIH-Backend/controlled_test.py` | `BACKEND_API_URL` | **Migrated** to `.env` | **SAFE** (Configurable host) |
+| **Firebase Web API Key** | `firebase-applet-config.json` (Deleted) | `NEXT_PUBLIC_FIREBASE_API_KEY` | **Migrated** to `.env` | **SAFE** (Dynamic env resolution) |
+| **Google OAuth Client ID** | `firebase-applet-config.json` (Deleted) | `NEXT_PUBLIC_FIREBASE_OAUTH_CLIENT_ID` | **Migrated** to `.env` | **SAFE** (Dynamic env resolution) |
+| **Firestore Database ID** | `firebase-applet-config.json` (Deleted) | `NEXT_PUBLIC_FIREBASE_FIRESTORE_DATABASE_ID`| **Migrated** to `.env` | **SAFE** (Client-configurable) |
+| **Gemini AI API Key** | Server-side API layer | `GEMINI_API_KEY` | **Enforced** (Server-only) | **SAFE** (Never sent to client) |
+| **Gemini AI Model** | Scaffolding / AI service | `GEMINI_MODEL` | **Configurable** (`gemini-2.5-flash`) | **SAFE** (Defaulted in config) |
 
-### 16.3 Firestore Security Rules & Data Boundary
-- **Current Baseline**: `firestore.rules` specifies `allow read, write: if true;` globally across all 10 collections (`patients`, `memories`, `narrations`, `reminders`, `activities`, `caregivers`, `practitioners`, `observations`, `loveNotes`, `alerts`).
-- **Vulnerability**: Unauthenticated clients can modify medication schedules, overwrite clinical observations, read private family letters, or wipe collections.
-- **Architectural Requirement for v1.0.2**: Deploy granular Firestore rules enforcing authentication checks, document ownership boundaries (`request.auth.uid == resource.data.authorId`), and field validation schemas aligned with `firebase-blueprint.json`.
+### 16.3 Centralized Runtime Configuration Layer (`lib/config.ts`)
+The application enforces `lib/config.ts` as the **single source of truth** for configuration:
+```typescript
+import { firebaseConfig, firestoreDatabaseId, config } from '@/lib/config';
+```
+- **Complete Deprecation**: `firebase-applet-config.json` is permanently deleted; no static JSON config bundle is imported anywhere in the project.
+- **Client Safety**: Only variables prefixed with `NEXT_PUBLIC_` are bundled to the client.
+- **Server Safety**: Sensitive keys like `GEMINI_API_KEY` remain strictly server-side and are never exported to client-side bundles.
+- **Resilience**: Sensible, non-secret default identifiers exist for offline compilation and CI testing.
 
-### 16.4 Storage & Split-Brain Persistence Model
-The platform currently utilizes a dual persistence architecture:
-1. **Cloud Persistence (Firestore)**: Used by `SharedDataProvider` to synchronize patients, reminders, activities, observations, and love notes across portals.
-2. **Local Persistence (`localStorage`)**: Used by `story-service`, `memory-trail`, `quick-pick-trail`, `music`, and `use-onboarding`.
-- **Architectural Risk**:
-  - Dementia patient oral histories, transcripts, and cognitive session scores are saved in unencrypted `localStorage`.
-  - Cognitive activities completed in `memory-trail` do not automatically dispatch to Firestore, resulting in desynchronized caregiver and practitioner analytics.
-  - In v1.0.2/v1.0.3, all clinical and reminiscence progress will route through `SharedDataProvider` with encrypted or cloud-first synchronization.
+### 16.4 Firestore Security Rules & Data Boundary
+- **Current Baseline**: `firestore.rules` currently specifies `allow read, write: if true;` across all collections.
+- **Target (Phase v1.0.4)**: Deploy granular, authenticated security rules requiring authenticated tokens and role-based author validation (`request.auth.uid != null`).
 
-### 16.5 Next.js Configuration & Network Attack Surface
-- **Image Optimization SSRF Vector**: `next.config.ts` currently permits wildcard remote hosts (`hostname: "**"`). In v1.0.2, this will be restricted to trusted image CDNs (`images.unsplash.com`, `lh3.googleusercontent.com`, `commons.wikimedia.org`, `firebasestorage.googleapis.com`).
-- **HTTP Security Headers**: Next.js configuration will incorporate baseline security headers (`Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, and `Permissions-Policy`).
-- **Python ML Decoupling**: The FastAPI backend (`SIH-Backend`) running on `127.0.0.1:8000` is currently disconnected from the Next.js frontend. Phase v1.0.2 will evaluate containerization or serverless bridging for longitudinal feature prediction.
+### 16.5 Storage & Split-Brain Persistence Model
+- **Cloud Persistence (Firestore)**: Used by `SharedDataProvider` to synchronize patients, reminders, activities, observations, and love notes across portals.
+- **Local Persistence (`localStorage`)**: Currently utilized by `story-service`, `memory-trail`, and `use-onboarding`.
+- **Target (Phase v1.0.4)**: Bridge client-side game and reminiscence progress to `SharedDataProvider` for unified cloud persistence.
 
