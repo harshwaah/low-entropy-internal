@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.1] - Security, Secrets & Configuration Audit
+
+### Added
+- **Repository-Wide Security & Configuration Audit (`SECURITY_AUDIT.md`)**:
+  - Conducted full discovery across all directories without modifying functional code or deployment settings.
+  - Documented 10 classified security vulnerabilities across Critical, High, Medium, and Low risk tiers.
+- **Secrets & Credentials Inventory**:
+  - Cataloged hardcoded MySQL root connection strings in `SIH-Backend/database/database.py`, `check_features.py`, and documentation.
+  - Identified public bundling of Firebase Web API keys, Cloud Project IDs, and OAuth Client IDs in `firebase-applet-config.json`.
+- **Database & Storage Posture Analysis**:
+  - Highlighted wide-open `firestore.rules` (`allow read, write: if true;`) across all patient clinical collections.
+  - Evaluated unencrypted dementia patient PII, transcripts, and cognitive telemetry in browser `localStorage`.
+- **Attack Surface & Hygiene Assessment**:
+  - Flagged wildcard `remotePatterns` (`hostname: "**"`) in `next.config.ts` presenting SSRF risks.
+  - Identified committed Python bytecode artifacts (`__pycache__`, `.pyc`), scratch scripts (`build-game.js.bak`, `script.ts`), dual lockfiles (`bun.lock` and `package-lock.json`), and ESLint flat config duplication.
+- **Migration Roadmap (v1.0.2)**: Established prioritized P0–P2 blueprint for environment variable migration and database security rule deployment.
+
+---
+
 ## [1.0.0] - Patient UX Transformation (Journey-Based Daily Flow)
 
 ### Added

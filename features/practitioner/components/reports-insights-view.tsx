@@ -69,15 +69,15 @@ export function ReportsInsightsView({ analytics }: ReportsInsightsViewProps) {
             <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 700 200">
               <defs>
                 <linearGradient id="repGrad" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0%" stop-color="#1e4d3a" stop-opacity="0.3"></stop>
-                  <stop offset="100%" stop-color="#bbeed3" stop-opacity="0.0"></stop>
+                  <stop offset="0%" stopColor="#1e4d3a" stopOpacity="0.3"></stop>
+                  <stop offset="100%" stopColor="#bbeed3" stopOpacity="0.0"></stop>
                 </linearGradient>
               </defs>
-              <line stroke="#e6f0e8" stroke-dasharray="4 4" x1="0" x2="700" y1="50" y2="50"></line>
-              <line stroke="#e6f0e8" stroke-dasharray="4 4" x1="0" x2="700" y1="100" y2="100"></line>
-              <line stroke="#e6f0e8" stroke-dasharray="4 4" x1="0" x2="700" y1="150" y2="150"></line>
+              <line stroke="#e6f0e8" strokeDasharray="4 4" x1="0" x2="700" y1="50" y2="50"></line>
+              <line stroke="#e6f0e8" strokeDasharray="4 4" x1="0" x2="700" y1="100" y2="100"></line>
+              <line stroke="#e6f0e8" strokeDasharray="4 4" x1="0" x2="700" y1="150" y2="150"></line>
               <path d="M 30,110 Q 130,80 230,95 T 430,65 T 550,50 T 670,40 L 670,180 L 30,180 Z" fill="url(#repGrad)"></path>
-              <path d="M 30,110 Q 130,80 230,95 T 430,65 T 550,50 T 670,40" fill="none" stroke="#013625" stroke-width="3"></path>
+              <path d="M 30,110 Q 130,80 230,95 T 430,65 T 550,50 T 670,40" fill="none" stroke="#013625" strokeWidth="3"></path>
             </svg>
             <div className="flex justify-between items-center text-[#717973] text-xs font-semibold pt-2">
               <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>

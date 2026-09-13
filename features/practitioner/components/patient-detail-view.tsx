@@ -147,72 +147,72 @@ export function PatientDetailView({
                 <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 700 220">
                   <defs>
                     <linearGradient id="mintAreaGrad" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stop-color="#1e4d3a" stop-opacity="0.22"></stop>
-                      <stop offset="70%" stop-color="#bbeed3" stop-opacity="0.12"></stop>
-                      <stop offset="100%" stop-color="#f2fcf4" stop-opacity="0.0"></stop>
+                      <stop offset="0%" stopColor="#1e4d3a" stopOpacity="0.22"></stop>
+                      <stop offset="70%" stopColor="#bbeed3" stopOpacity="0.12"></stop>
+                      <stop offset="100%" stopColor="#f2fcf4" stopOpacity="0.0"></stop>
                     </linearGradient>
                   </defs>
 
-                  <line stroke="#e1ebe3" stroke-width="1" x1="50" x2="680" y1="30" y2="30"></line>
-                  <text fill="#717973" font-family="Plus Jakarta Sans" font-size="11" font-weight="500" text-anchor="end" x="38" y="34">80%</text>
+                  <line stroke="#e1ebe3" strokeWidth="1" x1="50" x2="680" y1="30" y2="30"></line>
+                  <text fill="#717973" fontFamily="Plus Jakarta Sans" fontSize="11" fontWeight="500" textAnchor="end" x="38" y="34">80%</text>
 
-                  <line stroke="#8cbda4" stroke-dasharray="4 4" stroke-width="1.5" x1="50" x2="680" y1="90" y2="90"></line>
-                  <text fill="#426653" font-family="Plus Jakarta Sans" font-size="11" font-weight="600" text-anchor="end" x="38" y="94">70%</text>
-                  <text fill="#426653" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" opacity="0.85" text-anchor="end" x="675" y="84">Target Baseline (70%)</text>
+                  <line stroke="#8cbda4" strokeDasharray="4 4" strokeWidth="1.5" x1="50" x2="680" y1="90" y2="90"></line>
+                  <text fill="#426653" fontFamily="Plus Jakarta Sans" fontSize="11" fontWeight="600" textAnchor="end" x="38" y="94">70%</text>
+                  <text fill="#426653" fontFamily="Plus Jakarta Sans" fontSize="10" fontWeight="600" opacity="0.85" textAnchor="end" x="675" y="84">Target Baseline (70%)</text>
 
-                  <line stroke="#e1ebe3" stroke-width="1" x1="50" x2="680" y1="150" y2="150"></line>
-                  <text fill="#717973" font-family="Plus Jakarta Sans" font-size="11" font-weight="500" text-anchor="end" x="38" y="154">60%</text>
+                  <line stroke="#e1ebe3" strokeWidth="1" x1="50" x2="680" y1="150" y2="150"></line>
+                  <text fill="#717973" fontFamily="Plus Jakarta Sans" fontSize="11" fontWeight="500" textAnchor="end" x="38" y="154">60%</text>
 
                   <polygon fill="url(#mintAreaGrad)" points="80,180 80,78 170,66 260,84 350,96 440,102 530,114 620,102 620,180"></polygon>
 
-                  <polyline fill="none" points="80,78 170,66 260,84 350,96 440,102 530,114 620,102" stroke="#1e4d3a" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></polyline>
+                  <polyline fill="none" points="80,78 170,66 260,84 350,96 440,102 530,114 620,102" stroke="#1e4d3a" strokeLinecap="round" strokeLinejoin="round" strokeWidth="3"></polyline>
 
                   {/* Points */}
                   <g className="cursor-pointer">
-                    <circle cx="80" cy="78" fill="#ffffff" r="5" stroke="#1e4d3a" stroke-width="2.5"></circle>
+                    <circle cx="80" cy="78" fill="#ffffff" r="5" stroke="#1e4d3a" strokeWidth="2.5"></circle>
                     <rect fill="#1e4d3a" height="18" rx="4" width="28" x="66" y="52"></rect>
-                    <text fill="#ffffff" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" text-anchor="middle" x="80" y="65">72%</text>
+                    <text fill="#ffffff" fontFamily="Plus Jakarta Sans" fontSize="10" fontWeight="600" textAnchor="middle" x="80" y="65">72%</text>
                   </g>
                   <g className="cursor-pointer">
-                    <circle cx="170" cy="66" fill="#ffffff" r="5" stroke="#1e4d3a" stroke-width="2.5"></circle>
+                    <circle cx="170" cy="66" fill="#ffffff" r="5" stroke="#1e4d3a" strokeWidth="2.5"></circle>
                     <rect fill="#1e4d3a" height="18" rx="4" width="28" x="156" y="40"></rect>
-                    <text fill="#ffffff" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" text-anchor="middle" x="170" y="53">74%</text>
+                    <text fill="#ffffff" fontFamily="Plus Jakarta Sans" fontSize="10" fontWeight="600" textAnchor="middle" x="170" y="53">74%</text>
                   </g>
                   <g className="cursor-pointer">
-                    <circle cx="260" cy="84" fill="#ffffff" r="5" stroke="#1e4d3a" stroke-width="2.5"></circle>
+                    <circle cx="260" cy="84" fill="#ffffff" r="5" stroke="#1e4d3a" strokeWidth="2.5"></circle>
                     <rect fill="#1e4d3a" height="18" rx="4" width="28" x="246" y="58"></rect>
-                    <text fill="#ffffff" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" text-anchor="middle" x="260" y="71">71%</text>
+                    <text fill="#ffffff" fontFamily="Plus Jakarta Sans" fontSize="10" fontWeight="600" textAnchor="middle" x="260" y="71">71%</text>
                   </g>
                   <g className="cursor-pointer">
-                    <circle cx="350" cy="96" fill="#ffffff" r="5" stroke="#1e4d3a" stroke-width="2.5"></circle>
+                    <circle cx="350" cy="96" fill="#ffffff" r="5" stroke="#1e4d3a" strokeWidth="2.5"></circle>
                     <rect fill="#1e4d3a" height="18" rx="4" width="28" x="336" y="70"></rect>
-                    <text fill="#ffffff" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" text-anchor="middle" x="350" y="83">69%</text>
+                    <text fill="#ffffff" fontFamily="Plus Jakarta Sans" fontSize="10" fontWeight="600" textAnchor="middle" x="350" y="83">69%</text>
                   </g>
                   <g className="cursor-pointer">
-                    <circle cx="440" cy="102" fill="#ffffff" r="5" stroke="#1e4d3a" stroke-width="2.5"></circle>
+                    <circle cx="440" cy="102" fill="#ffffff" r="5" stroke="#1e4d3a" strokeWidth="2.5"></circle>
                     <rect fill="#1e4d3a" height="18" rx="4" width="28" x="426" y="76"></rect>
-                    <text fill="#ffffff" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" text-anchor="middle" x="440" y="89">68%</text>
+                    <text fill="#ffffff" fontFamily="Plus Jakarta Sans" fontSize="10" fontWeight="600" textAnchor="middle" x="440" y="89">68%</text>
                   </g>
                   <g className="cursor-pointer">
                     <circle cx="530" cy="114" fill="#ffdad6" opacity="0.75" r="9"></circle>
-                    <circle cx="530" cy="114" fill="#ba1a1a" r="5" stroke="#ffffff" stroke-width="2"></circle>
+                    <circle cx="530" cy="114" fill="#ba1a1a" r="5" stroke="#ffffff" strokeWidth="2"></circle>
                     <rect fill="#ba1a1a" height="20" rx="4" width="30" x="516" y="86"></rect>
-                    <text fill="#ffffff" font-family="Plus Jakarta Sans" font-size="10" font-weight="700" text-anchor="middle" x="531" y="100">66%</text>
+                    <text fill="#ffffff" fontFamily="Plus Jakarta Sans" fontSize="10" fontWeight="700" textAnchor="middle" x="531" y="100">66%</text>
                   </g>
                   <g className="cursor-pointer">
-                    <circle cx="620" cy="102" fill="#ffffff" r="5" stroke="#1e4d3a" stroke-width="2.5"></circle>
+                    <circle cx="620" cy="102" fill="#ffffff" r="5" stroke="#1e4d3a" strokeWidth="2.5"></circle>
                     <rect fill="#1e4d3a" height="18" rx="4" width="28" x="606" y="76"></rect>
-                    <text fill="#ffffff" font-family="Plus Jakarta Sans" font-size="10" font-weight="600" text-anchor="middle" x="620" y="89">68%</text>
+                    <text fill="#ffffff" fontFamily="Plus Jakarta Sans" fontSize="10" fontWeight="600" textAnchor="middle" x="620" y="89">68%</text>
                   </g>
 
-                  <line stroke="#c0c9c2" stroke-width="1" x1="50" x2="680" y1="180" y2="180"></line>
-                  <text fill="#414944" font-family="Plus Jakarta Sans" font-size="12" font-weight="500" text-anchor="middle" x="80" y="200">Mon</text>
-                  <text fill="#414944" font-family="Plus Jakarta Sans" font-size="12" font-weight="500" text-anchor="middle" x="170" y="200">Tue</text>
-                  <text fill="#414944" font-family="Plus Jakarta Sans" font-size="12" font-weight="500" text-anchor="middle" x="260" y="200">Wed</text>
-                  <text fill="#414944" font-family="Plus Jakarta Sans" font-size="12" font-weight="500" text-anchor="middle" x="350" y="200">Thu</text>
-                  <text fill="#414944" font-family="Plus Jakarta Sans" font-size="12" font-weight="500" text-anchor="middle" x="440" y="200">Fri</text>
-                  <text fill="#ba1a1a" font-family="Plus Jakarta Sans" font-size="12" font-weight="700" text-anchor="middle" x="530" y="200">Sat</text>
-                  <text fill="#414944" font-family="Plus Jakarta Sans" font-size="12" font-weight="500" text-anchor="middle" x="620" y="200">Sun</text>
+                  <line stroke="#c0c9c2" strokeWidth="1" x1="50" x2="680" y1="180" y2="180"></line>
+                  <text fill="#414944" fontFamily="Plus Jakarta Sans" fontSize="12" fontWeight="500" textAnchor="middle" x="80" y="200">Mon</text>
+                  <text fill="#414944" fontFamily="Plus Jakarta Sans" fontSize="12" fontWeight="500" textAnchor="middle" x="170" y="200">Tue</text>
+                  <text fill="#414944" fontFamily="Plus Jakarta Sans" fontSize="12" fontWeight="500" textAnchor="middle" x="260" y="200">Wed</text>
+                  <text fill="#414944" fontFamily="Plus Jakarta Sans" fontSize="12" fontWeight="500" textAnchor="middle" x="350" y="200">Thu</text>
+                  <text fill="#414944" fontFamily="Plus Jakarta Sans" fontSize="12" fontWeight="500" textAnchor="middle" x="440" y="200">Fri</text>
+                  <text fill="#ba1a1a" fontFamily="Plus Jakarta Sans" fontSize="12" fontWeight="700" textAnchor="middle" x="530" y="200">Sat</text>
+                  <text fill="#414944" fontFamily="Plus Jakarta Sans" fontSize="12" fontWeight="500" textAnchor="middle" x="620" y="200">Sun</text>
                 </svg>
               </div>
             </div>

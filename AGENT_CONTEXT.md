@@ -1,6 +1,21 @@
 # Agent Context & Engineering Rules for SmritiSaathi
 
-> **Attention AI Coding Assistants**: Read this file before making any suggestions, refactors, or code modifications to this repository.
+> **Attention AI Coding Assistants**: Read this file before making any suggestions, refactors, or code modifications to this repository.  
+> **Current Version**: `v1.0.1` (Security, Secrets & Configuration Audit)  
+> **Next Phase**: `v1.0.2` (Environment Migration & Secrets Hardening)
+
+---
+
+## Phase Lifecycle & Status Tracking
+
+| Phase | Version | Description | Status | Key Deliverable |
+| :--- | :--- | :--- | :--- | :--- |
+| **Phases 1–7** | `v0.1–v0.7` | Foundation, Tri-Persona Portals, Firestore Integration | **COMPLETED** | Shared contexts, Firestore services |
+| **Phase 8** | `v0.8.0` | AI Memory Layer & Reminiscence Story Weaver | **COMPLETED** | Scrapbook Keepsake & Oral History |
+| **Phase 9** | `v0.9.0` | Persona Onboarding System & Multi-Persona Intercept | **COMPLETED** | Accessible Onboarding Chassis |
+| **Release** | `v1.0.0` | Patient UX Transformation (5-Step Circadian Journey) | **COMPLETED** | Circadian Stages, Focus-First Hubs |
+| **Audit** | `v1.0.1` | Security, Secrets & Configuration Audit | **COMPLETED** | `SECURITY_AUDIT.md`, Secrets Inventory |
+| **Migration** | `v1.0.2` | Environment Migration & Secrets Hardening | **UPCOMING** | `.env` migration, Firestore rules lockdown |
 
 ---
 

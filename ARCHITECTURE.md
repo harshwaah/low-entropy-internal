@@ -803,3 +803,40 @@ The `FindTheObjectGame` component orchestrates a multi-step state machine (`welc
 - **State Machine**: React `useState` drives the progression, replacing route-based navigation to maintain audio context and prevent jarring page reloads.
 - **Audio Synthesis**: The `Web Speech API` (`window.speechSynthesis`) is wrapped in React `useEffect` for cleanup, utilizing `SpeechSynthesisUtterance` for programmatic, sequenced dialogue with event listeners (`onstart`, `onend`) driving UI speaking indicators.
 - **Hitbox Implementation**: Absolute-positioned `<button>` elements function as accessible touch targets mapped to image coordinates, with dynamic CSS application (`found-highlight`, `tap-ripple`) handled via utility classes (`cn`) and injected `<style>` tags.
+
+---
+
+## 16. Security Architecture, Secrets Inventory & Configuration Surface (v1.0.1 Audit Baseline)
+
+### 16.1 Security Posture Overview
+Following the repository-wide audit conducted in Phase v1.0.1, the architectural security posture has been formally cataloged before the upcoming environment migration phase (v1.0.2). As a healthcare-adjacent platform handling dementia patient data, personal memory archives, caregiver communications, and clinical observations, the platform requires strict boundaries between client bundles, server runtimes, cloud databases, and external ML services.
+
+### 16.2 Secrets Inventory & Exposure Surface
+| Identified Credential | Location | Storage Type | Exposure Status | Risk Tier | Remediation Strategy (v1.0.2) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **MySQL Root Password** | `SIH-Backend/database/database.py:4` | Plaintext string | Source code exposure | **CRITICAL** | Parameterize with `DATABASE_URL` env variable. |
+| **Feature Check DB URI** | `SIH-Backend/check_features.py:11` | Plaintext string | Source code exposure | **CRITICAL** | Parameterize with `DATABASE_URL` env variable. |
+| **Backend Setup Documentation** | `SIH-Backend/Backend + ML.md:394` | Plaintext string | Markdown exposure | **HIGH** | Replace with `.env.example` guidance. |
+| **Firebase Web API Key** | `firebase-applet-config.json:4` | JSON configuration | Client bundle exposure | **HIGH** | Lock down via strict Firestore Rules & HTTP referrer restrictions. |
+| **Google OAuth Client ID** | `firebase-applet-config.json:9` | JSON configuration | Client bundle exposure | **MEDIUM** | Restrict authorized origins in Google Cloud Console. |
+| **Gemini API Key** | `.env.example:1`, `lib/config.ts:26` | Environment variable | Server-side only | **SAFE** | Retain server-side isolation; route through `/api/companion/chat`. |
+
+### 16.3 Firestore Security Rules & Data Boundary
+- **Current Baseline**: `firestore.rules` specifies `allow read, write: if true;` globally across all 10 collections (`patients`, `memories`, `narrations`, `reminders`, `activities`, `caregivers`, `practitioners`, `observations`, `loveNotes`, `alerts`).
+- **Vulnerability**: Unauthenticated clients can modify medication schedules, overwrite clinical observations, read private family letters, or wipe collections.
+- **Architectural Requirement for v1.0.2**: Deploy granular Firestore rules enforcing authentication checks, document ownership boundaries (`request.auth.uid == resource.data.authorId`), and field validation schemas aligned with `firebase-blueprint.json`.
+
+### 16.4 Storage & Split-Brain Persistence Model
+The platform currently utilizes a dual persistence architecture:
+1. **Cloud Persistence (Firestore)**: Used by `SharedDataProvider` to synchronize patients, reminders, activities, observations, and love notes across portals.
+2. **Local Persistence (`localStorage`)**: Used by `story-service`, `memory-trail`, `quick-pick-trail`, `music`, and `use-onboarding`.
+- **Architectural Risk**:
+  - Dementia patient oral histories, transcripts, and cognitive session scores are saved in unencrypted `localStorage`.
+  - Cognitive activities completed in `memory-trail` do not automatically dispatch to Firestore, resulting in desynchronized caregiver and practitioner analytics.
+  - In v1.0.2/v1.0.3, all clinical and reminiscence progress will route through `SharedDataProvider` with encrypted or cloud-first synchronization.
+
+### 16.5 Next.js Configuration & Network Attack Surface
+- **Image Optimization SSRF Vector**: `next.config.ts` currently permits wildcard remote hosts (`hostname: "**"`). In v1.0.2, this will be restricted to trusted image CDNs (`images.unsplash.com`, `lh3.googleusercontent.com`, `commons.wikimedia.org`, `firebasestorage.googleapis.com`).
+- **HTTP Security Headers**: Next.js configuration will incorporate baseline security headers (`Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, and `Permissions-Policy`).
+- **Python ML Decoupling**: The FastAPI backend (`SIH-Backend`) running on `127.0.0.1:8000` is currently disconnected from the Next.js frontend. Phase v1.0.2 will evaluate containerization or serverless bridging for longitudinal feature prediction.
+
