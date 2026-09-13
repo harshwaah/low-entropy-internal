@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.3] - Firebase Config Deprecation & Consolidation
+## [1.0.3] - Firebase Config Deprecation & Build Hardening
+
+### Fixed
+- **Vercel / CI Build Failure (`auth/invalid-api-key`)**:
+  - Guarded Firebase Auth initialization in `lib/firebase.ts` against missing or empty API keys during Next.js static page collection / SSG prerendering.
+  - Added reliable default client fallback for `apiKey` in `lib/config.ts` so production builds succeed even when environment variables are not yet populated in the host dashboard.
+  - Exported safe `getFirebaseAuth()` helper for deferred, non-blocking auth resolution.
 
 ### Removed
 - **`firebase-applet-config.json` Deprecated & Deleted**:

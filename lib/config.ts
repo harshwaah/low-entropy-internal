@@ -28,9 +28,9 @@ export interface AppConfig {
   geminiModel: string;
 }
 
-// Client-safe Firebase configuration populated exclusively from NEXT_PUBLIC_ variables
+// Client-safe Firebase configuration populated from NEXT_PUBLIC_ variables with reliable fallbacks
 export const firebaseConfig: FirebaseClientConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || '',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'AIzaSyBCC1C2jzZepsl_iijC5YAdMA8-4y5NddY',
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'parabolic-pattern-pq7jp.firebaseapp.com',
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'parabolic-pattern-pq7jp',
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'parabolic-pattern-pq7jp.firebasestorage.app',

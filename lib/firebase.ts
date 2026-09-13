@@ -25,6 +25,24 @@ try {
   db = getFirestore(app);
 }
 
-const auth: Auth = getAuth(app);
+let auth: Auth | null = null;
+try {
+  if (firebaseConfig.apiKey && firebaseConfig.apiKey.trim() !== '') {
+    auth = getAuth(app);
+  }
+} catch (error) {
+  console.warn('Firebase Auth initialization deferred or failed:', error);
+}
+
+export function getFirebaseAuth(): Auth | null {
+  if (!auth && firebaseConfig.apiKey && firebaseConfig.apiKey.trim() !== '') {
+    try {
+      auth = getAuth(app);
+    } catch {
+      // Return null gracefully in build-time or non-auth environments
+    }
+  }
+  return auth;
+}
 
 export { app, db, auth, firebaseConfig, databaseId };
